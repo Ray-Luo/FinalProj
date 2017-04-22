@@ -1,6 +1,6 @@
 ﻿namespace Client_T10_B
 {
-    partial class User
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
