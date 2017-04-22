@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Client_T10_B
 {
-    class Message
+    class ChatRoom_m
     {
-        string content;
-        string sender;
-        DateTime time;
+        List<User_m> users;
         int roomNumber;
     }
 }
