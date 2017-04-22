@@ -8,7 +8,7 @@ namespace Client_T10_B
 {
     class ChatRoom
     {
-        List<User> users;
+        List<User_v> users;
         int roomNumber;
     }
 }
