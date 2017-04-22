@@ -39,7 +39,7 @@
             // 
             // uxUserName
             // 
-            this.uxUserName.BackColor = System.Drawing.SystemColors.Info;
+            this.uxUserName.BackColor = System.Drawing.Color.Beige;
             this.uxUserName.Location = new System.Drawing.Point(98, 34);
             this.uxUserName.Name = "uxUserName";
             this.uxUserName.Size = new System.Drawing.Size(107, 20);
@@ -47,7 +47,7 @@
             // 
             // uxPassword
             // 
-            this.uxPassword.BackColor = System.Drawing.SystemColors.Info;
+            this.uxPassword.BackColor = System.Drawing.Color.Beige;
             this.uxPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.uxPassword.Location = new System.Drawing.Point(98, 64);
             this.uxPassword.Name = "uxPassword";
