@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Client_T10_B
 {
-    public partial class login : Form
+    public partial class LogIn : Form
     {
-        public login()
+        public LogIn()
         {
             InitializeComponent();
         }
