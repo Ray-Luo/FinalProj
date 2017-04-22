@@ -28,53 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.uxContactList = new System.Windows.Forms.ListView();
+            this.uxLogout = new System.Windows.Forms.Button();
+            this.uxChat = new System.Windows.Forms.Button();
+            this.uxUnfriend = new System.Windows.Forms.Button();
             this.uxUserName = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
+            this.uxPersonName = new System.Windows.Forms.TextBox();
+            this.usAddContact = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // listView1
+            // uxContactList
             // 
-            this.listView1.BackColor = System.Drawing.Color.Beige;
-            this.listView1.Location = new System.Drawing.Point(12, 101);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(161, 297);
-            this.listView1.TabIndex = 1;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.uxContactList.BackColor = System.Drawing.Color.Beige;
+            this.uxContactList.Location = new System.Drawing.Point(12, 101);
+            this.uxContactList.Name = "uxContactList";
+            this.uxContactList.Size = new System.Drawing.Size(161, 297);
+            this.uxContactList.TabIndex = 1;
+            this.uxContactList.UseCompatibleStateImageBehavior = false;
             // 
-            // button1
+            // uxLogout
             // 
-            this.button1.BackColor = System.Drawing.Color.LightCyan;
-            this.button1.Location = new System.Drawing.Point(12, 433);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Logout";
-            this.button1.UseVisualStyleBackColor = false;
+            this.uxLogout.BackColor = System.Drawing.Color.LightCyan;
+            this.uxLogout.Location = new System.Drawing.Point(12, 433);
+            this.uxLogout.Name = "uxLogout";
+            this.uxLogout.Size = new System.Drawing.Size(75, 23);
+            this.uxLogout.TabIndex = 2;
+            this.uxLogout.Text = "Logout";
+            this.uxLogout.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // uxChat
             // 
-            this.button2.BackColor = System.Drawing.Color.LightCyan;
-            this.button2.Location = new System.Drawing.Point(12, 404);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Chat";
-            this.button2.UseVisualStyleBackColor = false;
+            this.uxChat.BackColor = System.Drawing.Color.LightCyan;
+            this.uxChat.Location = new System.Drawing.Point(12, 404);
+            this.uxChat.Name = "uxChat";
+            this.uxChat.Size = new System.Drawing.Size(75, 23);
+            this.uxChat.TabIndex = 3;
+            this.uxChat.Text = "Chat";
+            this.uxChat.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // uxUnfriend
             // 
-            this.button3.BackColor = System.Drawing.Color.LightCyan;
-            this.button3.Location = new System.Drawing.Point(98, 404);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Unfriend";
-            this.button3.UseVisualStyleBackColor = false;
+            this.uxUnfriend.BackColor = System.Drawing.Color.LightCyan;
+            this.uxUnfriend.Location = new System.Drawing.Point(98, 404);
+            this.uxUnfriend.Name = "uxUnfriend";
+            this.uxUnfriend.Size = new System.Drawing.Size(75, 23);
+            this.uxUnfriend.TabIndex = 4;
+            this.uxUnfriend.Text = "Unfriend";
+            this.uxUnfriend.UseVisualStyleBackColor = false;
             // 
             // uxUserName
             // 
@@ -85,39 +85,39 @@
             this.uxUserName.TabIndex = 5;
             this.uxUserName.Text = "userName";
             // 
-            // textBox1
+            // uxPersonName
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Info;
-            this.textBox1.Location = new System.Drawing.Point(15, 60);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(99, 20);
-            this.textBox1.TabIndex = 6;
+            this.uxPersonName.BackColor = System.Drawing.SystemColors.Info;
+            this.uxPersonName.Location = new System.Drawing.Point(15, 60);
+            this.uxPersonName.Name = "uxPersonName";
+            this.uxPersonName.Size = new System.Drawing.Size(99, 20);
+            this.uxPersonName.TabIndex = 6;
             // 
-            // button4
+            // usAddContact
             // 
-            this.button4.BackColor = System.Drawing.Color.LightCyan;
-            this.button4.Location = new System.Drawing.Point(120, 57);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(53, 23);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Add";
-            this.button4.UseVisualStyleBackColor = false;
+            this.usAddContact.BackColor = System.Drawing.Color.LightCyan;
+            this.usAddContact.Location = new System.Drawing.Point(120, 57);
+            this.usAddContact.Name = "usAddContact";
+            this.usAddContact.Size = new System.Drawing.Size(53, 23);
+            this.usAddContact.TabIndex = 7;
+            this.usAddContact.Text = "Add";
+            this.usAddContact.UseVisualStyleBackColor = false;
             // 
-            // User
+            // User_v
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.ClientSize = new System.Drawing.Size(185, 481);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.usAddContact);
+            this.Controls.Add(this.uxPersonName);
             this.Controls.Add(this.uxUserName);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.listView1);
-            this.Name = "User";
-            this.Text = "User";
+            this.Controls.Add(this.uxUnfriend);
+            this.Controls.Add(this.uxChat);
+            this.Controls.Add(this.uxLogout);
+            this.Controls.Add(this.uxContactList);
+            this.Name = "User_v";
+            this.Text = "IM App";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,12 +125,12 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ListView uxContactList;
+        private System.Windows.Forms.Button uxLogout;
+        private System.Windows.Forms.Button uxChat;
+        private System.Windows.Forms.Button uxUnfriend;
         private System.Windows.Forms.Label uxUserName;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox uxPersonName;
+        private System.Windows.Forms.Button usAddContact;
     }
 }
