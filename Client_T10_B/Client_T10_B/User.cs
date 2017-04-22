@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Client_T10_B
 {
-    public partial class User : Form
+    class User
     {
-        public User()
+        string userName;
+        string password;
+        List<User> contactList;
+
+        public User(string u, string p)
         {
-            InitializeComponent();
+            this.userName = u;
+            this.password = p;
+            contactList = new List<User>();
         }
-
-
     }
 }
