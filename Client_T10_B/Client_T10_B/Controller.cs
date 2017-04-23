@@ -2,11 +2,13 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Client_T10_B.Program;
+
 
 namespace Client_T10_B
 {
@@ -32,17 +34,31 @@ namespace Client_T10_B
             jo.Add("messageType", "login");
             string json = jo.ToString();
             //Console.Write(json);
+            Console.Write(json);
             string response = dummy.login(json);
             JObject rss = JObject.Parse(response);
+            int error;
+            List<string> contactList = new List<string>();
             foreach(var pair in rss)
             {
-                Console.Write(pair.Key);
-                Console.Write(",");
-                Console.Write(pair.Value);
-                Console.Write("\n");
-            }
-                
+                if(pair.Key == "messageType")
+                {
+                    Debug.Assert((string)pair.Value == "login");
 
+                    if (pair.Key == "error")
+                    {
+                        error = (int)pair.Value;
+                    }
+                    else if (pair.Key == "contactList")
+                    {
+                        contactList = pair.Value.ToObject<List<string>>();
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("Invalid Message type");
+                }
+            }
 
         }
         // handles request by dealing TWO cards at a time:
