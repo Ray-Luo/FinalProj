@@ -7,17 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Client_T10_B.Program;
 
 namespace Client_T10_B
 {
     public partial class LogIn : Form
     {
-        public LogIn()
+        InputHandler f1;
+        User_m u;
+
+
+        public LogIn(InputHandler f1)
         {
+            this.f1 = f1;
             InitializeComponent();
         }
 
         private void password_label_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void login_button_Click(object sender, EventArgs e)
         {
 
         }
