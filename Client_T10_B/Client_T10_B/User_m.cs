@@ -10,13 +10,15 @@ namespace Client_T10_B
     {
         string userName;
         string password;
-        List<User_v> contactList;
+        List<User_m> contactList;
+        List<int> roomNumbers;
 
-        public User(string u, string p)
+        public User_m(string u, string p)
         {
             this.userName = u;
             this.password = p;
-            contactList = new List<User_v>();
+            contactList = new List<User_m>();
+            roomNumbers = new List<int>();
         }
     }
 }
