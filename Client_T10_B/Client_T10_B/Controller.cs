@@ -21,7 +21,7 @@ namespace Client_T10_B
         public void register(Observer f) { observers.Add(f); }
 
         // handles request by dealing a card from the deck to the hand:
-        public void handle(object sender, EventArgs e)
+        public void loginHandle(object sender, EventArgs e)
         {
             //TODO
             signalObservers();
