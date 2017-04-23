@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-
+using Newtonsoft.Json.Linq;
+using System.Dynamic;
 
 namespace Client_T10_B
 {
@@ -15,10 +16,21 @@ namespace Client_T10_B
 
         }
 
+        /* message type(login),
+            error type,
+            username(string),
+            contactList(string array)*/
         public string login(string json)
         {
-
-            return null;
+           // List<string> contactList = new List<string>(new string[] { "John", "1", "Sarah", "0" } );
+            dynamic o = new ExpandoObject();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "login");
+            jo.Add("username", "vira");
+            jo.Add("error",0);
+            jo.Add("contactList", JToken.FromObject(new string[] { "John", "1", "Sarah", "0" }));
+            string output = jo.ToString();
+            return output;
 
         }
 

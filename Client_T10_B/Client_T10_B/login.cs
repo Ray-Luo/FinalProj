@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,9 @@ namespace Client_T10_B
         InputHandler f1;
         User_m u;
         Controller c;
+        dynamic MyDynamic = new ExpandoObject();
 
-        public LogIn(InputHandler f1,User_m u,Controller c)
+        public LogIn(InputHandler f1, User_m u, Controller c)
         {
             this.f1 = f1;
             this.u = u;
@@ -30,16 +32,20 @@ namespace Client_T10_B
 
         }
 
-        private void login_button_Click(object sender, EventArgs e )
+        private void login_button_Click(object sender, EventArgs e)
         {
             try
             {
+                dynamic o = new ExpandoObject();
+                o.username = uxUserName.Text.ToString();
+                o.password = uxPassword.Text.ToString();
                 f1 = c.loginHandle;
-                f1(sender, e);
+                f1(sender, e, o);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
     }
 }

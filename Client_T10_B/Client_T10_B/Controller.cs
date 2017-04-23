@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +14,7 @@ namespace Client_T10_B
     {
         private List<Observer> observers = new List<Observer>();  // registry of event handlers
         private User_m user;  // handles to Model objects
+        private Dummy_API dummy = new Dummy_API();
 
         public Controller(User_m u)
         {
@@ -21,10 +25,18 @@ namespace Client_T10_B
         public void register(Observer f) { observers.Add(f); }
 
         // handles request by dealing a card from the deck to the hand:
-        public void loginHandle(object sender, EventArgs e)
+        public void loginHandle(object sender, EventArgs e, ExpandoObject o)
         {
             //TODO
-            signalObservers();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "login");
+            string json = jo.ToString();
+            Console.Write(json);
+            string response = dummy.login(json);
+            JObject rss = JObject.Parse(response);
+            string error = (string)rss["error"];
+            string[] contactList = rss["contactList"];
+
 
         }
         // handles request by dealing TWO cards at a time:

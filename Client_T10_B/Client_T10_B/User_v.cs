@@ -27,8 +27,8 @@ namespace Client_T10_B
 
         private void uxLogout_Click(object sender, EventArgs e)
         {
-            handler = controller.logoutHandle;
-            handler(sender, e);
+            //handler = controller.logoutHandle;
+            //handler(sender, e);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,7 +12,7 @@ namespace Client_T10_B
         // defines the type of method that observes model updates:
         public delegate void Observer();
         // defines the type of method that handles an input event (button press):
-        public delegate void InputHandler(object sender, EventArgs e);
+        public delegate void InputHandler(object sender, EventArgs e, ExpandoObject o);
         
         // message types for the server client sync 
         public enum messageType { login, logOut, statusChange, roomStatusChange, createChat, addChatMember, leaveChat, chatMessage, contactAdded, contactRemoved };
