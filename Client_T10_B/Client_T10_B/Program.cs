@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Client_T10_B
 {
-    static class Program
+    public static class Program
     {
         // defines the type of method that observes model updates:
         public delegate void Observer();
