@@ -15,6 +15,7 @@ namespace Client_T10_B
 
         public User_m()
         {
+
         }
     }
 }

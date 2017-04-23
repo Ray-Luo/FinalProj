@@ -34,6 +34,6 @@ namespace Client_T10_B
             signalObservers();
         }
 
-        private void signalObservers() { foreach (Observer m in observers) { m(); } }
+        public void signalObservers() { foreach (Observer m in observers) { m(); } }
     }
 }

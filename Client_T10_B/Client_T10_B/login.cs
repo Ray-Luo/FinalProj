@@ -15,11 +15,13 @@ namespace Client_T10_B
     {
         InputHandler f1;
         User_m u;
+        Controller c;
 
-
-        public LogIn(InputHandler f1)
+        public LogIn(InputHandler f1,User_m u,Controller c)
         {
             this.f1 = f1;
+            this.u = u;
+            this.c = c;
             InitializeComponent();
         }
 
@@ -28,9 +30,16 @@ namespace Client_T10_B
 
         }
 
-        private void login_button_Click(object sender, EventArgs e)
+        private void login_button_Click(object sender, EventArgs e )
         {
-
-        }
+            try
+            {
+                f1 = c.loginHandle;
+                f1(sender, e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
     }
 }
