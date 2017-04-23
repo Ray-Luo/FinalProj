@@ -31,11 +31,17 @@ namespace Client_T10_B
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "login");
             string json = jo.ToString();
-            Console.Write(json);
+            //Console.Write(json);
             string response = dummy.login(json);
             JObject rss = JObject.Parse(response);
-            string error = (string)rss["error"];
-            string[] contactList = rss["contactList"];
+            foreach(var pair in rss)
+            {
+                Console.Write(pair.Key);
+                Console.Write(",");
+                Console.Write(pair.Value);
+                Console.Write("\n");
+            }
+                
 
 
         }
