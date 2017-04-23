@@ -7,7 +7,7 @@ using static Client_T10_B.Program;
 
 namespace Client_T10_B
 {
-    class Controller
+    public class Controller
     {
         private List<Observer> observers = new List<Observer>();  // registry of event handlers
         private User_m user;  // handles to Model objects
@@ -28,7 +28,7 @@ namespace Client_T10_B
 
         }
         // handles request by dealing TWO cards at a time:
-        public void handle2(object sender, EventArgs e)
+        public void logoutHandle(object sender, EventArgs e)
         {
             // TODO
             signalObservers();

@@ -15,17 +15,20 @@ namespace Client_T10_B
     {
         InputHandler handler;
         User_m user;
+        Controller controller;
 
-        public User_v(User_m u, InputHandler h)
+        public User_v(User_m u, InputHandler h, Controller controller)
         {
             this.handler = h;
             this.user = u;
+            this.controller = controller;
             InitializeComponent();
         }
 
         private void uxLogout_Click(object sender, EventArgs e)
         {
-
+            handler = controller.logoutHandle;
+            handler(sender, e);
         }
     }
 }
