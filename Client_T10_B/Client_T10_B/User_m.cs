@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 
 namespace Client_T10_B
 {
-    class User_m
+    public class User_m
     {
-        string userName;
-        string password;
-        List<User_m> contactList;
-        List<int> roomNumbers;
+        public string userName;
+        public string password;
+        public List<User_m> contactList = new List<User_m>();
+        public List<int> roomNumbers = new List<int>();
 
-        public User_m(string u, string p)
+        public User_m()
         {
-            this.userName = u;
-            this.password = p;
-            contactList = new List<User_m>();
-            roomNumbers = new List<int>();
         }
     }
 }

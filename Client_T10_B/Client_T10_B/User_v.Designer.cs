@@ -55,6 +55,7 @@
             this.uxLogout.TabIndex = 2;
             this.uxLogout.Text = "Logout";
             this.uxLogout.UseVisualStyleBackColor = false;
+            this.uxLogout.Click += new System.EventHandler(this.uxLogout_Click);
             // 
             // uxChat
             // 
