@@ -10,7 +10,7 @@ namespace Client_T10_B
     {
         public string userName;
         public string password;
-        public List<User_m> contactList = new List<User_m>();
+        public List<string> contactList = new List<string>();
         public List<int> roomNumbers = new List<int>();
 
         public User_m()

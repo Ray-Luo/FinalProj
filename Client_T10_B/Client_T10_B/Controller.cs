@@ -29,7 +29,9 @@ namespace Client_T10_B
         // handles request by dealing a card from the deck to the hand:
         public void loginHandle(object sender, EventArgs e, ExpandoObject o)
         {
-            //TODO
+            //TODO : do check for the valid user name 
+            int error;
+            List<string> contactList = new List<string>();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "login");
             string json = jo.ToString();
@@ -37,14 +39,17 @@ namespace Client_T10_B
             Console.Write(json);
             string response = dummy.login(json);
             JObject rss = JObject.Parse(response);
-            int error;
-            List<string> contactList = new List<string>();
+          
             foreach(var pair in rss)
             {
                 if(pair.Key == "messageType")
                 {
                     Debug.Assert((string)pair.Value == "login");
 
+                    if(pair.Key == "username")
+                    {
+                        user.userName = (string)pair.Value;
+                    }
                     if (pair.Key == "error")
                     {
                         error = (int)pair.Value;
@@ -52,6 +57,7 @@ namespace Client_T10_B
                     else if (pair.Key == "contactList")
                     {
                         contactList = pair.Value.ToObject<List<string>>();
+                        user.contactList = contactList;
                     }
                 }
                 else
