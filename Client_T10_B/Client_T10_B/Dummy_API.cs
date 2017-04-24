@@ -53,7 +53,15 @@ namespace Client_T10_B
 
         public string createChat(string json)
         {
-            return null;
+            dynamic o = new ExpandoObject();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "createChat");
+            jo.Add("username_1", "Ray");
+            jo.Add("username_2", "John");
+            jo.Add("roomNumber", "0");
+            jo.Add("error", 0);
+            string output = jo.ToString();
+            return output;
 
         }
 

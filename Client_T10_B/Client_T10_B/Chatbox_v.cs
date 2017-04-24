@@ -12,14 +12,22 @@ namespace Client_T10_B
 {
     public partial class Chatbox_v : Form
     {
-        public Chatbox_v(ChatRoom_m room)
+        public Chatbox_v(ChatRoom_m room, Program.Message newMessageHandler)
         {
             InitializeComponent();
+
+            uxTextbox.KeyDown += (o, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    string message = uxTextbox.Text;
+                    if (newMessageHandler(message))
+                    {
+                        uxTextbox.Text = "";
+                    }
+                }
+            };
         }
 
-        private void uxSend_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

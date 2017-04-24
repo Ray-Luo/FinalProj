@@ -27,7 +27,7 @@ namespace Client_T10_B
             this.user = u;
 
             // Connects to the server
-            ws = new WebSocket("ws://127.0.0.1:8001/chat");
+            ws = new WebSocket("ws://127.0.0.1:8111/chat");
             ws.OnMessage += (sender, e) => { if (MessageReceived != null) MessageReceived(e.Data); };
             ws.Connect();
         }
@@ -168,7 +168,7 @@ namespace Client_T10_B
             string username_2 = "";
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
-            string response = dummy.contactAdded(json);
+            string response = dummy.createChat(json);
             JObject rss = JObject.Parse(response);
 
             foreach (var pair in rss)
@@ -205,8 +205,10 @@ namespace Client_T10_B
             }
             if (error == 0)
             {
-                new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber)).ShowDialog();
+                new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber),null ).ShowDialog();
             }
+            else
+                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
 
             signalObservers(sender, error);
         }
