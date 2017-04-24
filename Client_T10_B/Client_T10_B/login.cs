@@ -47,5 +47,25 @@ namespace Client_T10_B
                 MessageBox.Show(ex.ToString());
             }
         }
+
+        public void login(object sender, int error)
+        {
+            Button clickedButton = sender as Button;
+            if(clickedButton == uxLogin)
+            {
+                if (error == 0)
+                {
+                    User_v userProfile = new User_v(u, f1, c);
+                    this.Hide();
+                    userProfile.ShowDialog();
+
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Somthing went wrong!");
+                }
+            }
+        }
     }
 }

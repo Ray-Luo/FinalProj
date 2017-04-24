@@ -30,5 +30,30 @@ namespace Client_T10_B
             //handler = controller.logoutHandle;
             //handler(sender, e);
         }
+
+        private void uxContactList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void User_v_Load(object sender, EventArgs e)
+        {
+            uxUserName.Text = user.userName;
+            Dictionary<string, int> contacts = user.getContactList();
+            foreach (KeyValuePair<string, int> c in contacts)
+            {
+                ListViewItem li = new ListViewItem();
+                if (c.Value == 0) //logged in 
+                {
+                    li.ForeColor = Color.Green;
+                }
+                else //logged out 
+                {
+                    li.ForeColor = Color.Red;
+                }
+                li.Text = c.Key;
+                uxContactList.Items.Add(li);
+            }
+        }
     }
 }

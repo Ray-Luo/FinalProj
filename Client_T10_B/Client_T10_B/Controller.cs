@@ -30,7 +30,7 @@ namespace Client_T10_B
         public void loginHandle(object sender, EventArgs e, ExpandoObject o)
         {
             //TODO : do check for the valid user name 
-            int error;
+            int error = 0;
             List<string> contactList = new List<string>();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "login");
@@ -42,38 +42,38 @@ namespace Client_T10_B
           
             foreach(var pair in rss)
             {
-                if(pair.Key == "messageType")
+                if (pair.Key == "messageType")
                 {
                     Debug.Assert((string)pair.Value == "login");
+                }
 
-                    if(pair.Key == "username")
-                    {
-                        user.userName = (string)pair.Value;
-                    }
-                    if (pair.Key == "error")
-                    {
-                        error = (int)pair.Value;
-                    }
-                    else if (pair.Key == "contactList")
-                    {
-                        contactList = pair.Value.ToObject<List<string>>();
-                        user.contactList = contactList;
-                    }
-                }
-                else
+                else if (pair.Key == "username")
                 {
-                    throw new InvalidOperationException("Invalid Message type");
+                    user.userName = (string)pair.Value;
+                    Console.Write(user.userName);
                 }
+
+                else if (pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
+
+                else if (pair.Key == "contactList")
+                {
+                    contactList = pair.Value.ToObject<List<string>>();
+                    user.contactList = contactList;
+                } 
             }
+            signalObservers(sender, error);
 
         }
         // handles request by dealing TWO cards at a time:
         public void logoutHandle(object sender, EventArgs e)
         {
             // TODO
-            signalObservers();
+            //signalObservers();
         }
 
-        public void signalObservers() { foreach (Observer m in observers) { m(); } }
+        public void signalObservers(object sender,int e) { foreach (Observer m in observers) { m(sender,e); } }
     }
 }

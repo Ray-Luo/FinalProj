@@ -30,7 +30,7 @@
         {
             this.uxUserName = new System.Windows.Forms.TextBox();
             this.uxPassword = new System.Windows.Forms.TextBox();
-            this.login_button = new System.Windows.Forms.Button();
+            this.uxLogin = new System.Windows.Forms.Button();
             this.username_label = new System.Windows.Forms.Label();
             this.password_label = new System.Windows.Forms.Label();
             this.status_label = new System.Windows.Forms.Label();
@@ -55,16 +55,17 @@
             this.uxPassword.Size = new System.Drawing.Size(107, 20);
             this.uxPassword.TabIndex = 1;
             // 
-            // login_button
+            // uxLogin
             // 
-            this.login_button.BackColor = System.Drawing.Color.LightCyan;
-            this.login_button.Location = new System.Drawing.Point(98, 112);
-            this.login_button.Name = "login_button";
-            this.login_button.Size = new System.Drawing.Size(75, 23);
-            this.login_button.TabIndex = 2;
-            this.login_button.Text = "Login";
-            this.login_button.UseVisualStyleBackColor = false;
-            this.login_button.Click += new System.EventHandler(this.login_button_Click);
+            this.uxLogin.BackColor = System.Drawing.Color.LightCyan;
+            this.uxLogin.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.uxLogin.Location = new System.Drawing.Point(98, 112);
+            this.uxLogin.Name = "uxLogin";
+            this.uxLogin.Size = new System.Drawing.Size(75, 23);
+            this.uxLogin.TabIndex = 2;
+            this.uxLogin.Text = "Login";
+            this.uxLogin.UseVisualStyleBackColor = false;
+            this.uxLogin.Click += new System.EventHandler(this.login_button_Click);
             // 
             // username_label
             // 
@@ -109,6 +110,7 @@
             // 
             // LogIn
             // 
+            this.AcceptButton = this.uxLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DeepSkyBlue;
@@ -117,7 +119,7 @@
             this.Controls.Add(this.status_label);
             this.Controls.Add(this.password_label);
             this.Controls.Add(this.username_label);
-            this.Controls.Add(this.login_button);
+            this.Controls.Add(this.uxLogin);
             this.Controls.Add(this.uxPassword);
             this.Controls.Add(this.uxUserName);
             this.MaximizeBox = false;
@@ -133,7 +135,7 @@
 
         private System.Windows.Forms.TextBox uxUserName;
         private System.Windows.Forms.TextBox uxPassword;
-        private System.Windows.Forms.Button login_button;
+        private System.Windows.Forms.Button uxLogin;
         private System.Windows.Forms.Label username_label;
         private System.Windows.Forms.Label password_label;
         private System.Windows.Forms.Label status_label;

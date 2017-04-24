@@ -10,7 +10,7 @@ namespace Client_T10_B
     public static class Program
     {
         // defines the type of method that observes model updates:
-        public delegate void Observer();
+        public delegate void Observer(object sender, int e);
         // defines the type of method that handles an input event (button press):
         public delegate void InputHandler(object sender, EventArgs e, ExpandoObject o);
         
@@ -27,7 +27,9 @@ namespace Client_T10_B
             Application.SetCompatibleTextRenderingDefault(false);
             User_m u = new User_m();
             Controller c = new Controller(u);
-            Application.Run(new LogIn(c.loginHandle,u,c));
+            LogIn l = new LogIn(c.loginHandle, u, c);
+            c.register(l.login);
+            Application.Run(l);
         }
     }
 }
