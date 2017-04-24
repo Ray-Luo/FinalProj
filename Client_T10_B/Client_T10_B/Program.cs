@@ -15,7 +15,9 @@ namespace Client_T10_B
 
         // defines the type of method that handles an input event (button press):
         public delegate void InputHandler(object sender, EventArgs e, ExpandoObject o);
-        
+
+        public delegate bool Message(string message);
+
         // message types for the server client sync 
         public enum messageType { login, logout, statusChange, roomStatusChange, createChat, addChatMember, leaveChat, chatMessage, contactAdded, contactRemoved };
 

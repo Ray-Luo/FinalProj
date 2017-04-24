@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Client_T10_B.Program;
-
+using WebSocketSharp;
 
 namespace Client_T10_B
 {
@@ -17,10 +17,40 @@ namespace Client_T10_B
         private List<Observer> observers = new List<Observer>();  // registry of event handlers
         private User_m user;  // handles to Model objects
         private Dummy_API dummy = new Dummy_API();
+        private WebSocket ws;
+
+        // Event for when a message is received from the server
+        public event Message MessageReceived;
 
         public Controller(User_m u)
         {
             this.user = u;
+
+            // Connects to the server
+            ws = new WebSocket("ws://127.0.0.1:8001/chat");
+            ws.OnMessage += (sender, e) => { if (MessageReceived != null) MessageReceived(e.Data); };
+            ws.Connect();
+        }
+
+        // Handles when a new message is entered by the user
+        public bool MessageEntered(string message)
+        {
+            // Send the message to the server if connection is alive
+            if (ws.IsAlive)
+            {
+                ws.Send(user.userName + ": " + message);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Makes sure to close the websocket when the controller is destructed
+        ~Controller()
+        {
+            ws.Close();
         }
 
         // register(f) adds event-handler method  f  to the registry:
