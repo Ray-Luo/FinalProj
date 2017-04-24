@@ -21,7 +21,7 @@ namespace Client_T10_B
         public Dictionary<string,int> getContactList()
         {
             int c = 1;
-            Dictionary<string, int> contacts = new Dictionary<string, int>();
+            Dictionary<string, int> contacts = new Dictionary<string, int>(); //key name , value status 
             List<string> friends = new List<string>();
             List<int> status = new List<int>();
             foreach(string s in this.contactList)
