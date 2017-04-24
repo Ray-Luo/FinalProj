@@ -33,7 +33,7 @@
             this.uxUnfriend = new System.Windows.Forms.Button();
             this.uxUserName = new System.Windows.Forms.Label();
             this.uxPersonName = new System.Windows.Forms.TextBox();
-            this.usAddContact = new System.Windows.Forms.Button();
+            this.uxAddContact = new System.Windows.Forms.Button();
             this.uxContactList = new System.Windows.Forms.ListView();
             this.Freinds = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
@@ -58,7 +58,6 @@
             this.uxChat.TabIndex = 3;
             this.uxChat.Text = "Chat";
             this.uxChat.UseVisualStyleBackColor = false;
-            this.uxChat.Click += new System.EventHandler(this.uxChat_Click);
             // 
             // uxUnfriend
             // 
@@ -88,16 +87,16 @@
             this.uxPersonName.Size = new System.Drawing.Size(99, 20);
             this.uxPersonName.TabIndex = 6;
             // 
-            // usAddContact
+            // uxAddContact
             // 
-            this.usAddContact.BackColor = System.Drawing.Color.LightCyan;
-            this.usAddContact.Location = new System.Drawing.Point(120, 57);
-            this.usAddContact.Name = "usAddContact";
-            this.usAddContact.Size = new System.Drawing.Size(53, 23);
-            this.usAddContact.TabIndex = 7;
-            this.usAddContact.Text = "Add";
-            this.usAddContact.UseVisualStyleBackColor = false;
-            this.usAddContact.Click += new System.EventHandler(this.usAddContact_Click);
+            this.uxAddContact.BackColor = System.Drawing.Color.LightCyan;
+            this.uxAddContact.Location = new System.Drawing.Point(120, 57);
+            this.uxAddContact.Name = "uxAddContact";
+            this.uxAddContact.Size = new System.Drawing.Size(53, 23);
+            this.uxAddContact.TabIndex = 7;
+            this.uxAddContact.Text = "Add";
+            this.uxAddContact.UseVisualStyleBackColor = false;
+            this.uxAddContact.Click += new System.EventHandler(this.uxAddContact_Click);
             // 
             // uxContactList
             // 
@@ -128,7 +127,7 @@
             this.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.ClientSize = new System.Drawing.Size(185, 481);
             this.Controls.Add(this.uxContactList);
-            this.Controls.Add(this.usAddContact);
+            this.Controls.Add(this.uxAddContact);
             this.Controls.Add(this.uxPersonName);
             this.Controls.Add(this.uxUserName);
             this.Controls.Add(this.uxUnfriend);
@@ -148,7 +147,7 @@
         private System.Windows.Forms.Button uxUnfriend;
         public System.Windows.Forms.Label uxUserName;
         private System.Windows.Forms.TextBox uxPersonName;
-        private System.Windows.Forms.Button usAddContact;
+        private System.Windows.Forms.Button uxAddContact;
         private System.Windows.Forms.ListView uxContactList;
         private System.Windows.Forms.ColumnHeader Freinds;
     }

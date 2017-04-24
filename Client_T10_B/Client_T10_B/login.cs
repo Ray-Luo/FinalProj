@@ -15,11 +15,12 @@ namespace Client_T10_B
     public partial class LogIn : Form
     {
         InputHandler f1;
+        InputHandler1 f2;
         User_m u;
         Controller c;
         dynamic MyDynamic = new ExpandoObject();
 
-        public LogIn(InputHandler f1, User_m u, Controller c)
+        public LogIn(InputHandler f1, InputHandler1 f2,User_m u, Controller c)
         {
             this.f1 = f1;
             this.u = u;
@@ -56,7 +57,7 @@ namespace Client_T10_B
             {
                 if (error == 0)
                 {
-                    User_v userProfile = new User_v(u, f1, c);
+                    User_v userProfile = new User_v(u, f1,f2, c);
                     this.Hide();
                     userProfile.ShowDialog();
                 }

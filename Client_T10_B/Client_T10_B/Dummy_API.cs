@@ -80,7 +80,6 @@ namespace Client_T10_B
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "contactAdded");
-            jo.Add("usernameAdd", "Ray");            
             jo.Add("status", "0");
             jo.Add("error", 0);
             string output = jo.ToString();

@@ -29,13 +29,13 @@ namespace Client_T10_B
             {
                 if(c%2 != 0)
                 {
-                    Console.Write(s);
+                    //Console.Write(s);
                     friends.Add(s);
                     c++;
                 }
                 else
                 {
-                    Console.Write(s);
+                   // Console.Write(s);
                     status.Add(Convert.ToInt32(s));
                     c++;
                 }

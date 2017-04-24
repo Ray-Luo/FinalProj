@@ -125,11 +125,10 @@ namespace Client_T10_B
             signalObservers(sender, error);
         }
 
-        public void addContactHandle(object sender, EventArgs e, ExpandoObject o)
+        public void addContactHandle(object sender, EventArgs e, ExpandoObject o, string friend)
         {
             int error = 0;
             int status = 0;
-            string usernameAdd="";
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
             string response = dummy.contactAdded(json);
@@ -150,18 +149,13 @@ namespace Client_T10_B
                 {
                     status = (int)pair.Value;
                 }
-
-                else if (pair.Key == "usernameAdd")
-                {
-                    usernameAdd = (string)pair.Value;
-                }
+             
             }
             if (error == 0)
             {
-                user.contactList.Add(usernameAdd);
+                user.contactList.Add(friend);
                 user.contactList.Add(status.ToString());
             }
-
             signalObservers(sender, error);
         }
 
