@@ -119,5 +119,19 @@ namespace Client_T10_B
             handler = controller.createChatHandle;
             handler(sender, e, o);
         }
+
+        public void showChatbox(object sender, int error)
+        {
+            Button clickedButton = sender as Button;
+            if (clickedButton.Text == "Chat")
+            {
+                if (error == 0)
+                {
+                    Application.Exit();
+                }
+                else
+                    MessageBox.Show("Logout failed");
+            }
+        }
     }
 }
