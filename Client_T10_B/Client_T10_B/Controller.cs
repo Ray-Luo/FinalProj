@@ -165,6 +165,61 @@ namespace Client_T10_B
             signalObservers(sender, error);
         }
 
+        public void createChatHandle(object sender, EventArgs e, ExpandoObject o)
+        {
+            int error = 0;
+            int status = 0;
+            int roomNumber = 0;
+            string username_1 = "";
+            string username_2 = "";
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            string response = dummy.contactAdded(json);
+            JObject rss = JObject.Parse(response);
+
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "messageType")
+                {
+                    Debug.Assert((string)pair.Value == "createChat");
+                }
+
+                else if (pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
+
+                else if (pair.Key == "status")
+                {
+                    status = (int)pair.Value;
+                }
+
+                else if (pair.Key == "username_1")
+                {
+                    username_1 = (string)pair.Value;
+                }
+
+                else if (pair.Key == "username_2")
+                {
+                    username_2 = (string)pair.Value;
+                }
+
+                else if (pair.Key == "roomNumber")
+                {
+                    roomNumber = (string)pair.Value;
+                }
+            }
+            if (error == 0)
+            {
+                List<string> a = { }
+                new Chatbox_v(new ChatRoom_m([username_1,username_2], roomNumber)).ShowDialog();
+                user.contactList.Add(usernameAdd);
+                user.contactList.Add(status.ToString());
+            }
+
+            signalObservers(sender, error);
+        }
+
         public void signalObservers(object sender,int e) { foreach (Observer m in observers) { m(sender,e); } }
     }
 }

@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace Client_T10_B
 {
-    class ChatRoom_m
+    public class ChatRoom_m
     {
-        List<User_m> users;
+        List<string> users;
         int roomNumber;
+
+        public ChatRoom_m(List<string> users, int roomNumber)
+        {
+            this.users = users;
+            this.roomNumber = roomNumber;
+        }
     }
 }

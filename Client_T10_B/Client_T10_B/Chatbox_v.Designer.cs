@@ -134,6 +134,7 @@
             this.uxSend.TabIndex = 1;
             this.uxSend.Text = "Send";
             this.uxSend.UseVisualStyleBackColor = true;
+            this.uxSend.Click += new System.EventHandler(this.uxSend_Click);
             // 
             // Chatbox_v
             // 

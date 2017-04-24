@@ -58,6 +58,7 @@
             this.uxChat.TabIndex = 3;
             this.uxChat.Text = "Chat";
             this.uxChat.UseVisualStyleBackColor = false;
+            this.uxChat.Click += new System.EventHandler(this.uxChat_Click);
             // 
             // uxUnfriend
             // 

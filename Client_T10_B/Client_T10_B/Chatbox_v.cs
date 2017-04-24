@@ -12,9 +12,14 @@ namespace Client_T10_B
 {
     public partial class Chatbox_v : Form
     {
-        public Chatbox_v()
+        public Chatbox_v(ChatRoom_m room)
         {
             InitializeComponent();
+        }
+
+        private void uxSend_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
