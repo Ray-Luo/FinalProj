@@ -174,7 +174,7 @@ namespace Client_T10_B
             string username_2 = "";
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
-            string response = dummy.contactAdded(json);
+            string response = dummy.createChat(json);
             JObject rss = JObject.Parse(response);
 
             foreach (var pair in rss)
@@ -213,6 +213,8 @@ namespace Client_T10_B
             {
                 new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber)).ShowDialog();
             }
+            else
+                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
 
             signalObservers(sender, error);
         }

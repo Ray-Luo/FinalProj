@@ -115,8 +115,8 @@ namespace Client_T10_B
                 return;
             }
             o.usernameAdd = uxContactList.SelectedItems[0].Text.ToString();
-            o.messageType = messageType.contactAdded;
-            handler = controller.addContactHandle;
+            o.messageType = messageType.createChat;
+            handler = controller.createChatHandle;
             handler(sender, e, o);
         }
     }
