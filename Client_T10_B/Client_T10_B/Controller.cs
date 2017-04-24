@@ -206,15 +206,12 @@ namespace Client_T10_B
 
                 else if (pair.Key == "roomNumber")
                 {
-                    roomNumber = (string)pair.Value;
+                    roomNumber = (int)pair.Value;
                 }
             }
             if (error == 0)
             {
-                List<string> a = { }
-                new Chatbox_v(new ChatRoom_m([username_1,username_2], roomNumber)).ShowDialog();
-                user.contactList.Add(usernameAdd);
-                user.contactList.Add(status.ToString());
+                new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber)).ShowDialog();
             }
 
             signalObservers(sender, error);
