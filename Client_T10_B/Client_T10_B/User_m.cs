@@ -10,6 +10,7 @@ namespace Client_T10_B
     {
         public string userName;
         public string password;
+        public int status; // online (0) or offline (1)
         public List<string> contactList = new List<string>();
         public List<int> roomNumbers = new List<int>();
 

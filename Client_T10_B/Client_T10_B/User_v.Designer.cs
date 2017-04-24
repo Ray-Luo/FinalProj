@@ -96,6 +96,7 @@
             this.usAddContact.TabIndex = 7;
             this.usAddContact.Text = "Add";
             this.usAddContact.UseVisualStyleBackColor = false;
+            this.usAddContact.Click += new System.EventHandler(this.usAddContact_Click);
             // 
             // uxContactList
             // 

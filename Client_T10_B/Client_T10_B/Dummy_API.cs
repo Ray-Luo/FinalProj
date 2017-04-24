@@ -36,8 +36,13 @@ namespace Client_T10_B
 
         public string logout(string json)
         {
-            return null;
-
+            dynamic o = new ExpandoObject();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "logout");
+            jo.Add("username", "vira");
+            jo.Add("error", 0);
+            string output = jo.ToString();
+            return output;
         }
 
         public string createUser(string json)
@@ -72,7 +77,14 @@ namespace Client_T10_B
 
         public string contactAdded(string json)
         {
-            return null;
+            dynamic o = new ExpandoObject();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "contactAdded");
+            jo.Add("usernameAdd", "Ray");            
+            jo.Add("status", "0");
+            jo.Add("error", 0);
+            string output = jo.ToString();
+            return output;
 
         }
 

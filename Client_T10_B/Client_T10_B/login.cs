@@ -39,6 +39,7 @@ namespace Client_T10_B
                 dynamic o = new ExpandoObject();
                 o.username = uxUserName.Text.ToString();
                 o.password = uxPassword.Text.ToString();
+                o.messageType = messageType.login;
                 f1 = c.loginHandle;
                 f1(sender, e, o);
             }
@@ -51,15 +52,13 @@ namespace Client_T10_B
         public void login(object sender, int error)
         {
             Button clickedButton = sender as Button;
-            if(clickedButton == uxLogin)
+            if (clickedButton == uxLogin)
             {
                 if (error == 0)
                 {
                     User_v userProfile = new User_v(u, f1, c);
                     this.Hide();
                     userProfile.ShowDialog();
-
-                    
                 }
                 else
                 {
