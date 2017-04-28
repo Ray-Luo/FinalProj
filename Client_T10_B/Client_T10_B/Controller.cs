@@ -53,11 +53,48 @@ namespace Client_T10_B
             ws.Close();
         }
 
+        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        {
+            switch (handle)
+            {
+                case messageType.login:
+                    loginHandle(sender, e, handle, o, temp);
+                    break;
+                //case messageType.chatMessage:
+                //    chatMessageHandle(sender, e, handle, o, temp);
+                //    break;
+                //case messageType.contactAdded:
+                //    contactAddedHandle(sender, e, handle, o, temp);
+                //    break;
+                //case messageType.addChatMember:
+                //    addChatMemberHandle(sender, e, handle, o, temp);
+                //    break;
+                //case messageType.contactRemoved:
+                //    contactRemovedHandle(sender, e, handle, o, temp);
+                //    break;
+                //case messageType.createChat:
+                //    createChatHandle(sender, e, handle, o, temp);
+                //    break;
+                //case messageType.leaveChat:
+                //    leaveChatHandle(sender, e, handle, o, temp);
+                //    break;
+                //case messageType.logout:
+                //    logoutHandle(sender, e, handle, o, temp);
+                //    break;
+                //case messageType.roomStatusChange:
+                //    roomStatusChangeHandle(sender, e, handle, o, temp);
+                //    break;
+                //case messageType.statusChange:
+                //    statusChangeHandle(sender, e, handle, o, temp);
+                //    break;
+
+            }
+        }
         // register(f) adds event-handler method  f  to the registry:
         public void register(Observer f) { observers.Add(f); }
 
         // handles request by dealing a card from the deck to the hand:
-        public void loginHandle(object sender, EventArgs e, ExpandoObject o)
+        private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
             //TODO : do check for the valid user name 
             int error = 0;

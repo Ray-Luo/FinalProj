@@ -47,7 +47,6 @@
             this.uxLogout.TabIndex = 2;
             this.uxLogout.Text = "Logout";
             this.uxLogout.UseVisualStyleBackColor = false;
-            this.uxLogout.Click += new System.EventHandler(this.uxLogout_Click);
             // 
             // uxChat
             // 
@@ -96,7 +95,6 @@
             this.uxAddContact.TabIndex = 7;
             this.uxAddContact.Text = "Add";
             this.uxAddContact.UseVisualStyleBackColor = false;
-            this.uxAddContact.Click += new System.EventHandler(this.uxAddContact_Click);
             // 
             // uxContactList
             // 
@@ -135,7 +133,6 @@
             this.Controls.Add(this.uxLogout);
             this.Name = "User_v";
             this.Text = "IM App";
-            this.Load += new System.EventHandler(this.User_v_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

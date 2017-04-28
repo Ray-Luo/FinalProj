@@ -15,16 +15,13 @@ namespace Client_T10_B
     public partial class LogIn : Form
     {
         InputHandler f1;
-        InputHandler1 f2;
         User_m u;
         Controller c;
         dynamic MyDynamic = new ExpandoObject();
 
-        public LogIn(InputHandler f1, InputHandler1 f2,User_m u, Controller c)
+        public LogIn(InputHandler f1,User_m u)
         {
             this.f1 = f1;
-            this.u = u;
-            this.c = c;
             InitializeComponent();
         }
 
@@ -41,8 +38,8 @@ namespace Client_T10_B
                 o.username = uxUserName.Text.ToString();
                 o.password = uxPassword.Text.ToString();
                 o.messageType = messageType.login;
-                f1 = c.loginHandle;
-                f1(sender, e, o);
+                messageType handle = messageType.login;
+                f1(sender, e, handle, o , null);
             }
             catch (Exception ex)
             {
@@ -57,7 +54,7 @@ namespace Client_T10_B
             {
                 if (error == 0)
                 {
-                    User_v userProfile = new User_v(u, f1,f2, c);
+                    User_v userProfile = new User_v();//; u, f1,f2, c);
                     this.Hide();
                     userProfile.ShowDialog();
                 }

@@ -18,120 +18,119 @@ namespace Client_T10_B
         User_m user;
         Controller controller;
 
-        public User_v(User_m u, InputHandler h, Controller controller)
+        public User_v()//User_m u, InputHandler h, Controller controller)
         {
-            this.handler = h;
-            this.user = u;
-            this.controller = controller;
+            //this.handler = h;
+            //this.user = u;
+            //this.controller = controller;
             InitializeComponent();
         }
 
-        private void uxLogout_Click(object sender, EventArgs e)
-        {
-            dynamic o = new ExpandoObject();
-            o.username = uxUserName.Text.ToString();
-            o.messageType = messageType.logout;
-            handler = controller.logoutHandle;
-            handler(sender, e, o);
-        }
+        //private void uxLogout_Click(object sender, EventArgs e)
+        //{
+        //    dynamic o = new ExpandoObject();
+        //    o.username = uxUserName.Text.ToString();
+        //    o.messageType = messageType.logout;
+        //    handler = controller.logoutHandle;
+        //    handler(sender, e, o);
+        //}
 
         private void uxContactList_SelectedIndexChanged(object sender, EventArgs e)
         {
           
         }
 
-        private void User_v_Load(object sender, EventArgs e)
-        {
-            uxUserName.Text = user.userName;
-            Dictionary<string, int> contacts = user.getContactList();
-            foreach (KeyValuePair<string, int> c in contacts)
-            {
-                ListViewItem li = new ListViewItem();
-                if (c.Value == 0) //logged in 
-                {
-                    li.ForeColor = Color.Green;
-                }
-                else //logged out 
-                {
-                    li.ForeColor = Color.Red;
-                }
-                li.Text = c.Key;
-                uxContactList.Items.Add(li);
-            }
-        }
+        //private void User_v_Load(object sender, EventArgs e)
+        //{
+        //    uxUserName.Text = user.userName;
+        //    Dictionary<string, int> contacts = user.getContactList();
+        //    foreach (KeyValuePair<string, int> c in contacts)
+        //    {
+        //        ListViewItem li = new ListViewItem();
+        //        if (c.Value == 0) //logged in 
+        //        {
+        //            li.ForeColor = Color.Green;
+        //        }
+        //        else //logged out 
+        //        {
+        //            li.ForeColor = Color.Red;
+        //        }
+        //        li.Text = c.Key;
+        //        uxContactList.Items.Add(li);
+        //    }
+        //}
 
+        //public void logout(object sender, int error)
+        //{
+        //    Button clickedButton = sender as Button;
+        //    if (clickedButton.Text == "Logout")
+        //    {
+        //        if (error == 0)
+        //        {
+        //            Application.Exit();
+        //        }
+        //        else
+        //            MessageBox.Show("Logout failed");
+        //    }
+        //}
 
-        public void logout(object sender, int error)
-        {
-            Button clickedButton = sender as Button;
-            if (clickedButton.Text == "Logout")
-            {
-                if (error == 0)
-                {
-                    Application.Exit();
-                }
-                else
-                    MessageBox.Show("Logout failed");
-            }
-        }
+        //private void usAddContact_Click(object sender, EventArgs e)
+        //{
+        //    dynamic o = new ExpandoObject();
+        //    o.username = uxUserName.Text.ToString();
+        //    o.usernameAdd = uxPersonName.Text.ToString();
+        //    o.messageType = messageType.contactAdded;
+        //    handler = controller.addContactHandle;
+        //    handler(sender, e, o);
+        //}
 
-        private void usAddContact_Click(object sender, EventArgs e)
-        {
-            dynamic o = new ExpandoObject();
-            o.username = uxUserName.Text.ToString();
-            o.usernameAdd = uxPersonName.Text.ToString();
-            o.messageType = messageType.contactAdded;
-            handler = controller.addContactHandle;
-            handler(sender, e, o);
-        }
+        //public void refreshContactList(object sender, int error)
+        //{
+        //    // uxContactList.DataBindings.Clear();
+        //    Dictionary<string, int> contacts = user.getContactList();
+        //    foreach (KeyValuePair<string, int> c in contacts)
+        //    {
+        //        ListViewItem li = new ListViewItem();
+        //        if (c.Value == 0) //logged in 
+        //        {
+        //            li.ForeColor = Color.Green;
+        //        }
+        //        else //logged out 
+        //        {
+        //            li.ForeColor = Color.Red;
+        //        }
+        //        li.Text = c.Key;
+        //        uxContactList.Items.Add(li);
+        //    }
+        //}
 
-        public void refreshContactList(object sender, int error)
-        {
-            // uxContactList.DataBindings.Clear();
-            Dictionary<string, int> contacts = user.getContactList();
-            foreach (KeyValuePair<string, int> c in contacts)
-            {
-                ListViewItem li = new ListViewItem();
-                if (c.Value == 0) //logged in 
-                {
-                    li.ForeColor = Color.Green;
-                }
-                else //logged out 
-                {
-                    li.ForeColor = Color.Red;
-                }
-                li.Text = c.Key;
-                uxContactList.Items.Add(li);
-            }
-        }
+        //private void uxChat_Click(object sender, EventArgs e)
+        //{
+        //    dynamic o = new ExpandoObject();
+        //    o.username = uxUserName.Text.ToString();
+        //    if (uxContactList.SelectedItems.Count == 0)
+        //    {
+        //        MessageBox.Show("Please select a contact to chat");
+        //        return;
+        //    }
+        //    o.usernameAdd = uxContactList.SelectedItems[0].Text.ToString();
+        //    o.messageType = messageType.createChat;
+        //    handler = controller.createChatHandle;
+        //    handler(sender, e, o);
+        //}
 
-        private void uxChat_Click(object sender, EventArgs e)
-        {
-            dynamic o = new ExpandoObject();
-            o.username = uxUserName.Text.ToString();
-            if (uxContactList.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Please select a contact to chat");
-                return;
-            }
-            o.usernameAdd = uxContactList.SelectedItems[0].Text.ToString();
-            o.messageType = messageType.createChat;
-            handler = controller.createChatHandle;
-            handler(sender, e, o);
-        }
-
-        public void showChatbox(object sender, int error)
-        {
-            Button clickedButton = sender as Button;
-            if (clickedButton.Text == "Chat")
-            {
-                if (error == 0)
-                {
-                    Application.Exit();
-                }
-                else
-                    MessageBox.Show("Logout failed");
-            }
-        }
+        //public void showChatbox(object sender, int error)
+        //{
+        //    Button clickedButton = sender as Button;
+        //    if (clickedButton.Text == "Chat")
+        //    {
+        //        if (error == 0)
+        //        {
+        //            Application.Exit();
+        //        }
+        //        else
+        //            MessageBox.Show("Logout failed");
+        //    }
+        //}
     }
 }
