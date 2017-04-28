@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Dynamic;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Client_T10_B.Program;
 using WebSocketSharp;
+using System.Drawing;
 
 namespace Client_T10_B
 {
@@ -52,19 +54,30 @@ namespace Client_T10_B
         {
             ws.Close();
         }
+        public void updatelist(IList list)
+        {
+            if (list != null)
+            {
+                foreach (KeyValuePair<string, int> c in u.getContactList())
+                {
+                    list.Add(c.Key);
+                }
+            }
+        }
 
-        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        
+        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp , IList list)
         {
             switch (handle)
             {
                 case messageType.login:
-                    loginHandle(sender, e, handle, o, temp);
+                    loginHandle(sender, e, handle, o, temp , list);
                     break;
                 //case messageType.chatMessage:
                 //    chatMessageHandle(sender, e, handle, o, temp);
                 //    break;
                 case messageType.contactAdded:
-                    contactAddedHandle(sender, e, handle, o, temp);
+                    contactAddedHandle(sender, e, handle, o, temp, list);
                     break;
                 //case messageType.addChatMember:
                 //    addChatMemberHandle(sender, e, handle, o, temp);
@@ -79,7 +92,7 @@ namespace Client_T10_B
                 //    leaveChatHandle(sender, e, handle, o, temp);
                 //    break;
                 case messageType.logout:
-                    logoutHandle(sender, e, handle, o, temp);
+                    logoutHandle(sender, e, handle, o, temp, list);
                     break;
                     //case messageType.roomStatusChange:
                     //    roomStatusChangeHandle(sender, e, handle, o, temp);
@@ -94,7 +107,7 @@ namespace Client_T10_B
         public void register(Observer f) { observers.Add(f); }
 
         // handles request by dealing a card from the deck to the hand:
-        private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
+        private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username, IList list)
         {
             //TODO : do check for the valid user name 
             int error = 0;
@@ -136,8 +149,10 @@ namespace Client_T10_B
             signalObservers(sender, error , null);
 
         }
+
+
         // handles request by dealing TWO cards at a time:
-        public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
+        public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username, IList list)
         {
             int error = 0;
             JObject jo = JObject.FromObject(o);
@@ -172,7 +187,7 @@ namespace Client_T10_B
             signalObservers(sender, error, user_name);
         }
 
-        public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
+        public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username, IList list)
         {
             int error = 0;
             int status = 0;
@@ -203,6 +218,7 @@ namespace Client_T10_B
             {
                 u.contactList.Add(username);
                 u.contactList.Add(status.ToString());
+                updatelist(list);
             }
             signalObservers(sender, error, null);
         }

@@ -135,6 +135,7 @@
             this.Controls.Add(this.uxLogout);
             this.Name = "User_v";
             this.Text = "IM App";
+            this.Load += new System.EventHandler(this.User_v_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -147,7 +148,7 @@
         public System.Windows.Forms.Label uxUserName;
         private System.Windows.Forms.TextBox uxPersonName;
         private System.Windows.Forms.Button uxAddContact;
-        private System.Windows.Forms.ListView uxContactList;
+        public System.Windows.Forms.ListView uxContactList;
         private System.Windows.Forms.ColumnHeader Freinds;
     }
 }

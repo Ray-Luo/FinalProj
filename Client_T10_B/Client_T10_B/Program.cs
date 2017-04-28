@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Client_T10_B
         public delegate void Observer(object sender, int e, string str);
 
         // defines the type of method that handles an input event (button press):
-        public delegate void InputHandler(object sender, EventArgs e, messageType handle, ExpandoObject o, string name);
+        public delegate void InputHandler(object sender, EventArgs e, messageType handle, ExpandoObject o, string name , IList list);
        
 
         public delegate bool Message(string message);
@@ -35,7 +36,7 @@ namespace Client_T10_B
             User_v user_main = new User_v(c.handle,u);//u, c.logoutHandle,c.addContactHandle, c);
             c.register(l.login);
             c.register(user_main.logout);
-            c.register(user_main.refreshContactList);
+          //  c.register(user_main.refreshContactList);
             Application.Run(l);
         }
     }

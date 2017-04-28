@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,26 +31,6 @@ namespace Client_T10_B
           
         }
 
-        //private void User_v_Load(object sender, EventArgs e)
-        //{
-        //    uxUserName.Text = user.userName;
-        //    Dictionary<string, int> contacts = user.getContactList();
-        //    foreach (KeyValuePair<string, int> c in contacts)
-        //    {
-        //        ListViewItem li = new ListViewItem();
-        //        if (c.Value == 0) //logged in 
-        //        {
-        //            li.ForeColor = Color.Green;
-        //        }
-        //        else //logged out 
-        //        {
-        //            li.ForeColor = Color.Red;
-        //        }
-        //        li.Text = c.Key;
-        //        uxContactList.Items.Add(li);
-        //    }
-        //}
-
         public void logout(object sender, int error, string username)
         {
             Button clickedButton = sender as Button;
@@ -74,36 +55,40 @@ namespace Client_T10_B
             o.username = uxUserName.Text.ToString();
             o.messageType = messageType.logout;
             messageType handle = messageType.logout;
-            f(sender, e, handle, o, uxUserName.Text.ToString());
+            f(sender, e, handle, o, uxUserName.Text.ToString() , null);
+          //  refreshContactList(sender, 0, null);
         }
 
 
-        public void refreshContactList(object sender, int e, string temp)
-        {
-            // uxContactList.DataBindings.Clear();
-            if (e == 0)
-            {
-                Dictionary<string, int> contacts = u.getContactList();
-                foreach (KeyValuePair<string, int> c in contacts)
-                {
-                    ListViewItem li = new ListViewItem();
-                    li.Text = c.Key;
-                    if (c.Value == 0) //logged in 
-                    {
-                        li.ForeColor = Color.Green;
-                    }
-                    else //logged out 
-                    {
-                        li.ForeColor = Color.Red;
-                    }
-                    uxContactList.Items.Add(li);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Something went wrong!");
-            }
-        }
+        //public void refreshContactList(object sender, int e, string temp)
+        //{
+        //    if (e == 0)
+        //    {
+        //        Dictionary<string, int> contacts = u.getContactList();
+        //        uxContactList.BeginUpdate();
+        //        foreach (KeyValuePair<string, int> c in contacts)
+        //        {
+        //            ListViewItem li = new ListViewItem();
+        //            li.Text = c.Key;
+        //            if (c.Value == 0) //logged in 
+        //            {
+        //                li.ForeColor = Color.Green;
+        //            }
+        //            else //logged out 
+        //            {
+        //                li.ForeColor = Color.Red;
+        //            }
+
+        //            uxContactList.Items.Add(li);
+        //        }
+
+        //        uxContactList.EndUpdate();
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Something went wrong!");
+        //    }
+        //}
 
         public void uxAddContact_Click(object sender, EventArgs e)
         {
@@ -112,7 +97,31 @@ namespace Client_T10_B
             o.friend = uxPersonName.Text.ToString();
             o.messageType = messageType.contactAdded;
             messageType handle = messageType.contactAdded;
-            f(sender, e, handle, o, uxPersonName.Text.ToString());
+            IList list = uxContactList.Items;
+            uxContactList.BeginUpdate();
+            f(sender, e, handle, o, uxPersonName.Text.ToString() , list);
+            uxContactList.EndUpdate();
+        }
+
+        private void User_v_Load(object sender, EventArgs e)
+        {
+            uxUserName.Text = u.userName;
+            Dictionary<string, int> contacts = u.getContactList();
+            foreach (KeyValuePair<string, int> c in contacts)
+            {
+                ListViewItem li = new ListViewItem();
+                li.Text = c.Key;
+                if (c.Value == 0) //logged in 
+                {
+                    li.ForeColor = Color.Green;
+                }
+                else //logged out 
+                {
+                    li.ForeColor = Color.Red;
+                }
+
+                uxContactList.Items.Add(li);
+            }
         }
 
         //private void uxChat_Click(object sender, EventArgs e)
