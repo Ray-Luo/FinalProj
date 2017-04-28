@@ -137,7 +137,7 @@
             this.ClientSize = new System.Drawing.Size(735, 548);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Chatbox_v";
-            this.Text = "Chatbox_v";
+            this.Text = "ChatRoom";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
