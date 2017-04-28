@@ -15,7 +15,7 @@ namespace Client_T10_B
     public class Controller
     {
         private List<Observer> observers = new List<Observer>();  // registry of event handlers
-        private User_m user;  // handles to Model objects
+        private User_m u;  // handles to Model objects
         private Dummy_API dummy = new Dummy_API();
         private WebSocket ws;
 
@@ -24,7 +24,7 @@ namespace Client_T10_B
 
         public Controller(User_m u)
         {
-            this.user = u;
+            this.u = u;
 
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:8111/chat");
@@ -38,7 +38,7 @@ namespace Client_T10_B
             // Send the message to the server if connection is alive
             if (ws.IsAlive)
             {
-                ws.Send(user.userName + ": " + message);
+                ws.Send(u.userName + ": " + message);
                 return true;
             }
             else
@@ -113,26 +113,26 @@ namespace Client_T10_B
 
                 else if (pair.Key == "username")
                 {
-                    user.userName = (string)pair.Value;
-                    Console.Write(user.userName);
+                    u.userName = (string)pair.Value;
+                    Console.Write(u.userName);
                 }
 
                 else if (pair.Key == "error")
                 {
                     error = (int)pair.Value;
                     if (error == 0)
-                        user.status = 0;
+                        u.status = 0;
                     else
-                        user.status = 1;
+                        u.status = 1;
                 }
 
                 else if (pair.Key == "contactList")
                 {
                     contactList = pair.Value.ToObject<List<string>>();
-                    user.contactList = contactList;
+                    u.contactList = contactList;
                 } 
             }
-            signalObservers(sender, error);
+            signalObservers(sender, error , "");
 
         }
         // handles request by dealing TWO cards at a time:
@@ -156,13 +156,13 @@ namespace Client_T10_B
                     error = (int)pair.Value;
                     if (error == 0)
                         // user.status = 1 means it is offline
-                        user.status = 1;
+                        u.status = 1;
                 }
 
                 else if (pair.Key == "username")
                 {
                     user_name = (string)pair.Value;
-                    if (!user.contactList.Contains(user_name))
+                    if (!u.contactList.Contains(user_name))
                     {
                         user_name = null ;
                     }
@@ -199,10 +199,10 @@ namespace Client_T10_B
             }
             if (error == 0)
             {
-                user.contactList.Add(friend);
-                user.contactList.Add(status.ToString());
+                u.contactList.Add(friend);
+                u.contactList.Add(status.ToString());
             }
-            signalObservers(sender, error,null);
+            signalObservers(sender, error,"");
         }
 
         public void createChatHandle(object sender, EventArgs e, ExpandoObject o)
@@ -256,7 +256,7 @@ namespace Client_T10_B
             else
                 System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
 
-            signalObservers(sender, error);
+            signalObservers(sender, error, "");
         }
 
         public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }

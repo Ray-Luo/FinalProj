@@ -39,7 +39,7 @@ namespace Client_T10_B
                 o.password = uxPassword.Text.ToString();
                 o.messageType = messageType.login;
                 messageType handle = messageType.login;
-                f1(sender, e, handle, o , null);
+                f1(sender, e, handle, o , "");
             }
             catch (Exception ex)
             {
@@ -47,14 +47,14 @@ namespace Client_T10_B
             }
         }
 
-        public void login(object sender, int error)
+        public void login(object sender, int error, string temp)
         {
             Button clickedButton = sender as Button;
             if (clickedButton == uxLogin)
             {
                 if (error == 0)
                 {
-                    User_v userProfile = new User_v();//; u, f1,f2, c);
+                    User_v userProfile = new User_v(c.handle,u);//; u, f1,f2, c);
                     this.Hide();
                     userProfile.ShowDialog();
                 }

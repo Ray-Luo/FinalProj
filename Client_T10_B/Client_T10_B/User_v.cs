@@ -14,26 +14,24 @@ namespace Client_T10_B
 {
     public partial class User_v : Form
     {
-        InputHandler handler;
-        User_m user;
-        Controller controller;
+        InputHandler f;
+        User_m u;
 
-        public User_v()//User_m u, InputHandler h, Controller controller)
+        public User_v(InputHandler f, User_m u)//User_m u, InputHandler h, Controller controller)
         {
-            //this.handler = h;
-            //this.user = u;
-            //this.controller = controller;
+            this.f = f;
+            this.u = u;
             InitializeComponent();
         }
 
-        //private void uxLogout_Click(object sender, EventArgs e)
-        //{
-        //    dynamic o = new ExpandoObject();
-        //    o.username = uxUserName.Text.ToString();
-        //    o.messageType = messageType.logout;
-        //    handler = controller.logoutHandle;
-        //    handler(sender, e, o);
-        //}
+        private void uxLogout_Click(object sender, EventArgs e)
+        {
+            dynamic o = new ExpandoObject();
+            o.username = uxUserName.Text.ToString();
+            o.messageType = messageType.logout;
+            messageType handle = messageType.logout;
+            f(sender, e, handle, o, uxUserName.Text.ToString());
+        }
 
         private void uxContactList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -60,13 +58,17 @@ namespace Client_T10_B
         //    }
         //}
 
-        public void logout(object sender, int error)
+        public void logout(object sender, int error, string username)
         {
             Button clickedButton = sender as Button;
             if (clickedButton.Text == "Logout")
             {
                 if (error == 0)
                 {
+                    if (username != null)
+                    {
+                        MessageBox.Show(username + " loggout");
+                    }
                     Application.Exit();
                 }
                 else
