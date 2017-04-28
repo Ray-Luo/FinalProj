@@ -22,6 +22,7 @@ namespace Client_T10_B
         public LogIn(InputHandler f1,User_m u)
         {
             this.f1 = f1;
+            this.u = u;
             InitializeComponent();
         }
 
@@ -54,8 +55,8 @@ namespace Client_T10_B
             {
                 if (error == 0)
                 {
-                    User_v userProfile = new User_v(c.handle,u);//; u, f1,f2, c);
-                    this.Hide();
+                    User_v userProfile = new User_v(f1,u);//; u, f1,f2, c);
+                    Hide();
                     userProfile.ShowDialog();
                 }
                 else

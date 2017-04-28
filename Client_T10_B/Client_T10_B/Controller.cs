@@ -133,7 +133,7 @@ namespace Client_T10_B
                     u.contactList = contactList;
                 } 
             }
-            signalObservers(sender, error , "");
+            signalObservers(sender, error , null);
 
         }
         // handles request by dealing TWO cards at a time:
@@ -203,7 +203,7 @@ namespace Client_T10_B
                 u.contactList.Add(friend);
                 u.contactList.Add(status.ToString());
             }
-            signalObservers(sender, error,"");
+            signalObservers(sender, error, null);
         }
 
         public void createChatHandle(object sender, EventArgs e, ExpandoObject o)
@@ -257,7 +257,7 @@ namespace Client_T10_B
             else
                 System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
 
-            signalObservers(sender, error, "");
+            signalObservers(sender, error, null);
         }
 
         public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }
