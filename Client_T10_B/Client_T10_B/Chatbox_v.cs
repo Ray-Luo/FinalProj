@@ -28,16 +28,7 @@ namespace Client_T10_B
                 }
             };
 
-            uxlistBox.Select();
-        }
-
-        public bool MessageReceived(string message)
-        {
-            // Add message to messageListBox and scroll to bottom
-            // Invoke is used to make sure that this is done in the GUI thread
-            Invoke(new Action(() => uxlistBox.TopIndex = uxlistBox.Items.Add(message)));
-
-            return true;
+            uxmessageBox.Select();
         }
 
         public bool MessageReceived(string message)
@@ -48,6 +39,8 @@ namespace Client_T10_B
 
             return true;
         }
+
+        
 
     }
 }
