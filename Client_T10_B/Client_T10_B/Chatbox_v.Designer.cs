@@ -33,7 +33,7 @@
             this.uxLeave = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.uxmessageBox = new System.Windows.Forms.ListBox();
             this.uxTextbox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -102,7 +102,7 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.listBox1);
+            this.splitContainer2.Panel1.Controls.Add(this.uxmessageBox);
             // 
             // splitContainer2.Panel2
             // 
@@ -111,14 +111,14 @@
             this.splitContainer2.SplitterDistance = 471;
             this.splitContainer2.TabIndex = 0;
             // 
-            // listBox1
+            // uxmessageBox
             // 
-            this.listBox1.BackColor = System.Drawing.Color.Beige;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(3, 2);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(517, 472);
-            this.listBox1.TabIndex = 0;
+            this.uxmessageBox.BackColor = System.Drawing.Color.Beige;
+            this.uxmessageBox.FormattingEnabled = true;
+            this.uxmessageBox.Location = new System.Drawing.Point(3, 2);
+            this.uxmessageBox.Name = "uxmessageBox";
+            this.uxmessageBox.Size = new System.Drawing.Size(517, 472);
+            this.uxmessageBox.TabIndex = 0;
             // 
             // uxTextbox
             // 
@@ -158,7 +158,7 @@
         private System.Windows.Forms.Button uxLeave;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox uxmessageBox;
         private System.Windows.Forms.TextBox uxTextbox;
     }
 }

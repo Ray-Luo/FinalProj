@@ -13,10 +13,9 @@ namespace Client_T10_B
         // defines the type of method that observes model updates:
         public delegate void Observer(object sender, int e, string str);
 
+
         // defines the type of method that handles an input event (button press):
         public delegate void InputHandler(object sender, EventArgs e, messageType handle, ExpandoObject o, string name , IList list);
-       
-
         public delegate bool Message(string message);
 
         // message types for the server client sync 
