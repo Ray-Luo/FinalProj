@@ -77,34 +77,42 @@ namespace Client_T10_B
             f(sender, e, handle, o, uxUserName.Text.ToString());
         }
 
-        private void usAddContact_Click(object sender, EventArgs e)
+
+        public void refreshContactList(object sender, int e, string temp)
+        {
+            // uxContactList.DataBindings.Clear();
+            if (e == 0)
+            {
+                Dictionary<string, int> contacts = u.getContactList();
+                foreach (KeyValuePair<string, int> c in contacts)
+                {
+                    ListViewItem li = new ListViewItem();
+                    if (c.Value == 0) //logged in 
+                    {
+                        li.ForeColor = Color.Green;
+                    }
+                    else //logged out 
+                    {
+                        li.ForeColor = Color.Red;
+                    }
+                    li.Text = c.Key;
+                    uxContactList.Items.Add(li);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong!");
+            }
+        }
+
+        private void uxAddContact_Click(object sender, EventArgs e)
         {
             dynamic o = new ExpandoObject();
             o.username = uxUserName.Text.ToString();
-            o.usernameAdd = uxPersonName.Text.ToString();
+            o.friend = uxPersonName.Text.ToString();
             o.messageType = messageType.contactAdded;
-            handler = controller.addContactHandle;
-            handler(sender, e, o);
-        }
-
-        public void refreshContactList(object sender, int error)
-        {
-            // uxContactList.DataBindings.Clear();
-            Dictionary<string, int> contacts = user.getContactList();
-            foreach (KeyValuePair<string, int> c in contacts)
-            {
-                ListViewItem li = new ListViewItem();
-                if (c.Value == 0) //logged in 
-                {
-                    li.ForeColor = Color.Green;
-                }
-                else //logged out 
-                {
-                    li.ForeColor = Color.Red;
-                }
-                li.Text = c.Key;
-                uxContactList.Items.Add(li);
-            }
+            messageType handle = messageType.contactAdded;
+            f(sender, e, handle, o, uxPersonName.Text.ToString());
         }
 
         //private void uxChat_Click(object sender, EventArgs e)
