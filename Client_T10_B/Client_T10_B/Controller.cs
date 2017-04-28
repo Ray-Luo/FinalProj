@@ -94,7 +94,7 @@ namespace Client_T10_B
         public void register(Observer f) { observers.Add(f); }
 
         // handles request by dealing a card from the deck to the hand:
-        private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
             //TODO : do check for the valid user name 
             int error = 0;
@@ -114,6 +114,7 @@ namespace Client_T10_B
                 else if (pair.Key == "username")
                 {
                     u.userName = (string)pair.Value;
+                    Debug.Assert(u.userName == username);
                     Console.Write(u.userName);
                 }
 
