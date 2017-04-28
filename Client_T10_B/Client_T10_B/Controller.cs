@@ -136,11 +136,12 @@ namespace Client_T10_B
 
         }
         // handles request by dealing TWO cards at a time:
-        public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
             int error = 0;
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
+            string user_name = "";
             string response = dummy.logout(json);
             JObject rss = JObject.Parse(response);
             foreach (var pair in rss)
@@ -157,8 +158,17 @@ namespace Client_T10_B
                         // user.status = 1 means it is offline
                         user.status = 1;
                 }
+
+                else if (pair.Key == "username")
+                {
+                    user_name = (string)pair.Value;
+                    if (!user.contactList.Contains(user_name))
+                    {
+                        user_name = null ;
+                    }
+                }
             }
-            signalObservers(sender, error);
+            signalObservers(sender, error, user_name);
         }
 
         public void addContactHandle(object sender, EventArgs e, ExpandoObject o, string friend)
@@ -192,7 +202,7 @@ namespace Client_T10_B
                 user.contactList.Add(friend);
                 user.contactList.Add(status.ToString());
             }
-            signalObservers(sender, error);
+            signalObservers(sender, error,null);
         }
 
         public void createChatHandle(object sender, EventArgs e, ExpandoObject o)
@@ -249,6 +259,6 @@ namespace Client_T10_B
             signalObservers(sender, error);
         }
 
-        public void signalObservers(object sender,int e) { foreach (Observer m in observers) { m(sender,e); } }
+        public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }
     }
 }
