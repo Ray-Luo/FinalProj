@@ -11,10 +11,9 @@ namespace Client_T10_B
         public List<string> users;
         public int roomNumber;
 
-        public ChatRoom_m(List<string> users, int roomNumber)
+        public ChatRoom_m()
         {
-            this.users = users;
-            this.roomNumber = roomNumber;
+          
         }
     }
 }

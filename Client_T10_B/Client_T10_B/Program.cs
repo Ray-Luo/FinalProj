@@ -32,9 +32,13 @@ namespace Client_T10_B
             User_m u = new User_m();
             Controller c = new Controller(u);
             LogIn l = new LogIn(c.handle, u);
-            User_v user_main = new User_v(c.handle,u);//u, c.logoutHandle,c.addContactHandle, c);
+            User_v user_main = new User_v(c.handle,u);//u, c.logoutHandle,c.addContactHandle, c);\
+            ChatRoom_m chat_m = new ChatRoom_m();
+            Chatbox_v chat = new Chatbox_v(chat_m,c.handle2);
+
             c.register(l.login);
             c.register(user_main.logout);
+            c.register(chat.MessageReceived);
           //  c.register(user_main.refreshContactList);
             Application.Run(l);
         }
