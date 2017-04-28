@@ -78,15 +78,15 @@ namespace Client_T10_B
                 //case messageType.leaveChat:
                 //    leaveChatHandle(sender, e, handle, o, temp);
                 //    break;
-                //case messageType.logout:
-                //    logoutHandle(sender, e, handle, o, temp);
-                //    break;
-                //case messageType.roomStatusChange:
-                //    roomStatusChangeHandle(sender, e, handle, o, temp);
-                //    break;
-                //case messageType.statusChange:
-                //    statusChangeHandle(sender, e, handle, o, temp);
-                //    break;
+                case messageType.logout:
+                    logoutHandle(sender, e, handle, o, temp);
+                    break;
+                    //case messageType.roomStatusChange:
+                    //    roomStatusChangeHandle(sender, e, handle, o, temp);
+                    //    break;
+                    //case messageType.statusChange:
+                    //    statusChangeHandle(sender, e, handle, o, temp);
+                    //    break;
 
             }
         }
@@ -136,9 +136,8 @@ namespace Client_T10_B
 
         }
         // handles request by dealing TWO cards at a time:
-        public void logoutHandle(object sender, EventArgs e, ExpandoObject o)
+        public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
-            // 
             int error = 0;
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
