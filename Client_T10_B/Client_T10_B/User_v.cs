@@ -87,6 +87,7 @@ namespace Client_T10_B
                 foreach (KeyValuePair<string, int> c in contacts)
                 {
                     ListViewItem li = new ListViewItem();
+                    li.Text = c.Key;
                     if (c.Value == 0) //logged in 
                     {
                         li.ForeColor = Color.Green;
@@ -95,7 +96,6 @@ namespace Client_T10_B
                     {
                         li.ForeColor = Color.Red;
                     }
-                    li.Text = c.Key;
                     uxContactList.Items.Add(li);
                 }
                 this.uxContactList.View = View.Details;
@@ -106,7 +106,7 @@ namespace Client_T10_B
             }
         }
 
-        private void uxAddContact_Click(object sender, EventArgs e)
+        public void uxAddContact_Click(object sender, EventArgs e)
         {
             dynamic o = new ExpandoObject();
             o.username = uxUserName.Text.ToString();
