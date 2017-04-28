@@ -85,9 +85,9 @@ namespace Client_T10_B
                 //case messageType.contactRemoved:
                 //    contactRemovedHandle(sender, e, handle, o, temp);
                 //    break;
-                //case messageType.createChat:
-                //    createChatHandle(sender, e, handle, o, temp);
-                //    break;
+                case messageType.createChat:
+                    createChatHandle(sender, e, handle, o, temp);
+                    break;
                 //case messageType.leaveChat:
                 //    leaveChatHandle(sender, e, handle, o, temp);
                 //    break;
@@ -223,7 +223,7 @@ namespace Client_T10_B
             signalObservers(sender, error, null);
         }
 
-        public void createChatHandle(object sender, EventArgs e, ExpandoObject o)
+        public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
         {
             int error = 0;
             int status = 0;
