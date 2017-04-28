@@ -198,15 +198,10 @@ namespace Client_T10_B
                     status = (int)pair.Value;
                 }
 
-                else if (pair.Key == "friend")
-                {
-                    friend = (string)pair.Value;
-                }
-
             }
             if (error == 0)
             {
-                u.contactList.Add(friend);
+                u.contactList.Add(username);
                 u.contactList.Add(status.ToString());
             }
             signalObservers(sender, error, null);
