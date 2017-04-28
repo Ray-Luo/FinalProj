@@ -36,10 +36,6 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SlackAPI, Version=1.0.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SlackAPI.WebSocketSharp.1.0.5.4\lib\net45\SlackAPI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,8 +43,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="websocket-sharp">
-      <HintPath>..\..\Lib\websocket-sharp.dll</HintPath>
+    <Reference Include="websocket-sharp, Version=1.0.4.0, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebSocketSharpFork.1.0.4.0\lib\net35\websocket-sharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
