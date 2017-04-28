@@ -269,7 +269,7 @@ namespace Client_T10_B
             }
             if (error == 0)
             {
-                new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber),null ).ShowDialog();
+                new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber), MessageEntered).ShowDialog();
             }
             else
                 System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
