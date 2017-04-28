@@ -63,9 +63,9 @@ namespace Client_T10_B
                 //case messageType.chatMessage:
                 //    chatMessageHandle(sender, e, handle, o, temp);
                 //    break;
-                //case messageType.contactAdded:
-                //    contactAddedHandle(sender, e, handle, o, temp);
-                //    break;
+                case messageType.contactAdded:
+                    contactAddedHandle(sender, e, handle, o, temp);
+                    break;
                 //case messageType.addChatMember:
                 //    addChatMemberHandle(sender, e, handle, o, temp);
                 //    break;
@@ -172,13 +172,14 @@ namespace Client_T10_B
             signalObservers(sender, error, user_name);
         }
 
-        public void addContactHandle(object sender, EventArgs e, ExpandoObject o, string friend)
+        public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
             int error = 0;
             int status = 0;
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
             string response = dummy.contactAdded(json);
+            string friend = "";
             JObject rss = JObject.Parse(response);
             foreach (var pair in rss)
             {
@@ -196,7 +197,12 @@ namespace Client_T10_B
                 {
                     status = (int)pair.Value;
                 }
-             
+
+                else if (pair.Key == "friend")
+                {
+                    friend = (string)pair.Value;
+                }
+
             }
             if (error == 0)
             {
