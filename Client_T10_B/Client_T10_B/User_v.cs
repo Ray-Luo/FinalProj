@@ -30,25 +30,25 @@ namespace Client_T10_B
           
         }
 
-        //private void User_v_Load(object sender, EventArgs e)
-        //{
-        //    uxUserName.Text = user.userName;
-        //    Dictionary<string, int> contacts = user.getContactList();
-        //    foreach (KeyValuePair<string, int> c in contacts)
-        //    {
-        //        ListViewItem li = new ListViewItem();
-        //        if (c.Value == 0) //logged in 
-        //        {
-        //            li.ForeColor = Color.Green;
-        //        }
-        //        else //logged out 
-        //        {
-        //            li.ForeColor = Color.Red;
-        //        }
-        //        li.Text = c.Key;
-        //        uxContactList.Items.Add(li);
-        //    }
-        //}
+        private void User_v_Load(object sender, EventArgs e)
+        {
+            uxUserName.Text = u.userName;
+            Dictionary<string, int> contacts = u.getContactList();
+            foreach (KeyValuePair<string, int> c in contacts)
+            {
+                ListViewItem li = new ListViewItem();
+                if (c.Value == 0) //logged in 
+                {
+                    li.ForeColor = Color.Green;
+                }
+                else //logged out 
+                {
+                    li.ForeColor = Color.Red;
+                }
+                li.Text = c.Key;
+                uxContactList.Items.Add(li);
+            }
+        }
 
         public void logout(object sender, int error, string username)
         {
@@ -98,6 +98,7 @@ namespace Client_T10_B
                     li.Text = c.Key;
                     uxContactList.Items.Add(li);
                 }
+                this.uxContactList.View = View.Details;
             }
             else
             {
