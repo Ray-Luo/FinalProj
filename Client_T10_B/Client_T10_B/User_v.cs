@@ -60,19 +60,19 @@ namespace Client_T10_B
         //    }
         //}
 
-        //public void logout(object sender, int error)
-        //{
-        //    Button clickedButton = sender as Button;
-        //    if (clickedButton.Text == "Logout")
-        //    {
-        //        if (error == 0)
-        //        {
-        //            Application.Exit();
-        //        }
-        //        else
-        //            MessageBox.Show("Logout failed");
-        //    }
-        //}
+        public void logout(object sender, int error)
+        {
+            Button clickedButton = sender as Button;
+            if (clickedButton.Text == "Logout")
+            {
+                if (error == 0)
+                {
+                    Application.Exit();
+                }
+                else
+                    MessageBox.Show("Logout failed");
+            }
+        }
 
         //private void usAddContact_Click(object sender, EventArgs e)
         //{

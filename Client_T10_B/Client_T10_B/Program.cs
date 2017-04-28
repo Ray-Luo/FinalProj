@@ -34,7 +34,7 @@ namespace Client_T10_B
             LogIn l = new LogIn(c.handle, u);
             User_v user_main = new User_v();//u, c.logoutHandle,c.addContactHandle, c);
             c.register(l.login);
-            //c.register(user_main.logout);
+            c.register(user_main.logout);
             //c.register(user_main.refreshContactList);
             Application.Run(l);
         }
