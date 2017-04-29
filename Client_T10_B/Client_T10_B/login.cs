@@ -40,7 +40,7 @@ namespace Client_T10_B
                 o.password = uxPassword.Text.ToString();
                 o.messageType = messageType.login;
                 messageType handle = messageType.login;
-                f1(sender, e, handle, o , uxUserName.Text.ToString() , null);
+                f1(sender, e, handle, o , uxUserName.Text.ToString());
             }
             catch (Exception ex)
             {
