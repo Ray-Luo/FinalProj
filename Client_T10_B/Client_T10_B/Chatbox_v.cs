@@ -15,12 +15,13 @@ namespace Client_T10_B
         public Chatbox_v(ChatRoom_m room, Program.Message newMessageHandler)
         {
             InitializeComponent();
-
+            Text = "Chat:";
             uxTextbox.KeyDown += (o, e) =>
             {
                 if (e.KeyCode == Keys.Enter)
                 {
                     string message = uxTextbox.Text;
+
                     if (newMessageHandler(message))
                     {
                         uxTextbox.Text = "";
@@ -35,6 +36,10 @@ namespace Client_T10_B
         {
             // Add message to messageListBox and scroll to bottom
             // Invoke is used to make sure that this is done in the GUI thread
+            if (!this.IsHandleCreated)
+            {
+                this.CreateHandle();
+            }
             Invoke(new Action(() => uxmessageBox.TopIndex = uxmessageBox.Items.Add(message)));
 
             return true;
