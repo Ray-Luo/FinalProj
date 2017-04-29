@@ -29,7 +29,7 @@ namespace Client_T10_B
             this.u = u;
 
             // Connects to the server
-            ws = new WebSocket("ws://127.0.0.1:1333/chat");
+            ws = new WebSocket("ws://127.0.0.1:8111/chat");
             ws.OnMessage += (sender, e) => { if (MessageReceived != null) MessageReceived(e.Data); };
             ws.Connect();
         }
@@ -274,7 +274,7 @@ namespace Client_T10_B
             }
             if (error == 0)
             {
-                Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1, username_2 }), roomNumber), MessageEntered);
+                Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(), MessageEntered);
 
                 chatbox.ShowDialog();
                 //new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber), MessageEntered).ShowDialog();
