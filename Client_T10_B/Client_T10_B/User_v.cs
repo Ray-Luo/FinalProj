@@ -55,7 +55,7 @@ namespace Client_T10_B
             o.username = uxUserName.Text.ToString();
             o.messageType = messageType.logout;
             messageType handle = messageType.logout;
-            f(sender, e, handle, o, uxUserName.Text.ToString() , null);
+            f(sender, e, handle, o, uxUserName.Text.ToString());
           //  refreshContactList(sender, 0, null);
         }
 
@@ -97,9 +97,8 @@ namespace Client_T10_B
             o.friend = uxPersonName.Text.ToString();
             o.messageType = messageType.contactAdded;
             messageType handle = messageType.contactAdded;
-            IList list = uxContactList.Items;
             uxContactList.BeginUpdate();
-            f(sender, e, handle, o, uxPersonName.Text.ToString() , list);
+            f(sender, e, handle, o, uxPersonName.Text.ToString() );
             uxContactList.EndUpdate();
         }
 
@@ -150,7 +149,7 @@ namespace Client_T10_B
             o.usernameAdd = uxContactList.SelectedItems[0].Text.ToString();
             o.messageType = messageType.createChat;
             messageType handle = messageType.createChat;
-            f(sender, e, handle, o, null, null);
+            f(sender, e, handle, o, null);
         }
     }
 }

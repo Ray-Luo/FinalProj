@@ -45,7 +45,5 @@ namespace Client_T10_B
             return true;
         }
 
-        
-
     }
 }

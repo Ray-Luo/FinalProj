@@ -15,7 +15,7 @@ namespace Client_T10_B
 
 
         // defines the type of method that handles an input event (button press):
-        public delegate void InputHandler(object sender, EventArgs e, messageType handle, ExpandoObject o, string name , IList list);
+        public delegate void InputHandler(object sender, EventArgs e, messageType handle, ExpandoObject o, string name);
         public delegate bool Message(string message);
 
         // message types for the server client sync 

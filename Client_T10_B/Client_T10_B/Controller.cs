@@ -66,18 +66,18 @@ namespace Client_T10_B
         }
 
         
-        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp , IList list)
+        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp )
         {
             switch (handle)
             {
                 case messageType.login:
-                    loginHandle(sender, e, handle, o, temp , list);
+                    loginHandle(sender, e, handle, o, temp );
                     break;
                 //case messageType.chatMessage:
                 //    chatMessageHandle(sender, e, handle, o, temp);
                 //    break;
                 case messageType.contactAdded:
-                    contactAddedHandle(sender, e, handle, o, temp, list);
+                    contactAddedHandle(sender, e, handle, o, temp);
                     break;
                 //case messageType.addChatMember:
                 //    addChatMemberHandle(sender, e, handle, o, temp);
@@ -92,7 +92,7 @@ namespace Client_T10_B
                 //    leaveChatHandle(sender, e, handle, o, temp);
                 //    break;
                 case messageType.logout:
-                    logoutHandle(sender, e, handle, o, temp, list);
+                    logoutHandle(sender, e, handle, o, temp);
                     break;
                     //case messageType.roomStatusChange:
                     //    roomStatusChangeHandle(sender, e, handle, o, temp);
@@ -103,6 +103,7 @@ namespace Client_T10_B
 
             }
         }
+
         public bool handle2(string message)
         {
             return true;
@@ -112,7 +113,7 @@ namespace Client_T10_B
         public void register(Observer f) { observers.Add(f); }
 
         // handles request by dealing a card from the deck to the hand:
-        private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username, IList list)
+        private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
             //TODO : do check for the valid user name 
             int error = 0;
@@ -157,7 +158,7 @@ namespace Client_T10_B
 
 
         // handles request by dealing TWO cards at a time:
-        public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username, IList list)
+        public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
             int error = 0;
             JObject jo = JObject.FromObject(o);
@@ -192,7 +193,7 @@ namespace Client_T10_B
             signalObservers(sender, error, user_name);
         }
 
-        public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username, IList list)
+        public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
             int error = 0;
             int status = 0;
@@ -223,7 +224,6 @@ namespace Client_T10_B
             {
                 u.contactList.Add(username);
                 u.contactList.Add(status.ToString());
-                updatelist(list);
             }
             signalObservers(sender, error, null);
         }
