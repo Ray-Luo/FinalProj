@@ -31,9 +31,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.uxAdd = new System.Windows.Forms.Button();
             this.uxLeave = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            listView1 = new System.Windows.Forms.ListView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.uxmessageBox = new System.Windows.Forms.ListBox();
+            uxmessageBox = new System.Windows.Forms.ListBox();
             this.uxTextbox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -55,7 +55,7 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.uxAdd);
             this.splitContainer1.Panel1.Controls.Add(this.uxLeave);
-            this.splitContainer1.Panel1.Controls.Add(this.listView1);
+            this.splitContainer1.Panel1.Controls.Add(listView1);
             // 
             // splitContainer1.Panel2
             // 
@@ -86,12 +86,12 @@
             // 
             // listView1
             // 
-            this.listView1.BackColor = System.Drawing.Color.Beige;
-            this.listView1.Location = new System.Drawing.Point(3, 3);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(202, 500);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            listView1.BackColor = System.Drawing.Color.Beige;
+            listView1.Location = new System.Drawing.Point(3, 3);
+            listView1.Name = "listView1";
+            listView1.Size = new System.Drawing.Size(202, 500);
+            listView1.TabIndex = 0;
+            listView1.UseCompatibleStateImageBehavior = false;
             // 
             // splitContainer2
             // 
@@ -102,7 +102,7 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.uxmessageBox);
+            this.splitContainer2.Panel1.Controls.Add(uxmessageBox);
             // 
             // splitContainer2.Panel2
             // 
@@ -113,12 +113,12 @@
             // 
             // uxmessageBox
             // 
-            this.uxmessageBox.BackColor = System.Drawing.Color.Beige;
-            this.uxmessageBox.FormattingEnabled = true;
-            this.uxmessageBox.Location = new System.Drawing.Point(3, 2);
-            this.uxmessageBox.Name = "uxmessageBox";
-            this.uxmessageBox.Size = new System.Drawing.Size(517, 472);
-            this.uxmessageBox.TabIndex = 0;
+            uxmessageBox.BackColor = System.Drawing.Color.Beige;
+            uxmessageBox.FormattingEnabled = true;
+            uxmessageBox.Location = new System.Drawing.Point(3, 2);
+            uxmessageBox.Name = "uxmessageBox";
+            uxmessageBox.Size = new System.Drawing.Size(517, 472);
+            uxmessageBox.TabIndex = 0;
             // 
             // uxTextbox
             // 
@@ -156,9 +156,9 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button uxAdd;
         private System.Windows.Forms.Button uxLeave;
-        private System.Windows.Forms.ListView listView1;
+        public static System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.ListBox uxmessageBox;
+        public static System.Windows.Forms.ListBox uxmessageBox;
         private System.Windows.Forms.TextBox uxTextbox;
     }
 }

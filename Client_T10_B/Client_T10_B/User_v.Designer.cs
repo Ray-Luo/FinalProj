@@ -34,7 +34,7 @@
             this.uxUserName = new System.Windows.Forms.Label();
             this.uxPersonName = new System.Windows.Forms.TextBox();
             this.uxAddContact = new System.Windows.Forms.Button();
-            this.uxContactList = new System.Windows.Forms.ListView();
+            uxContactList = new System.Windows.Forms.ListView();
             this.Freinds = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
@@ -101,20 +101,20 @@
             // 
             // uxContactList
             // 
-            this.uxContactList.BackColor = System.Drawing.Color.Beige;
-            this.uxContactList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            uxContactList.BackColor = System.Drawing.Color.Beige;
+            uxContactList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Freinds});
-            this.uxContactList.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uxContactList.FullRowSelect = true;
-            this.uxContactList.GridLines = true;
-            this.uxContactList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.uxContactList.HideSelection = false;
-            this.uxContactList.Location = new System.Drawing.Point(15, 86);
-            this.uxContactList.Name = "uxContactList";
-            this.uxContactList.Size = new System.Drawing.Size(158, 312);
-            this.uxContactList.TabIndex = 8;
-            this.uxContactList.UseCompatibleStateImageBehavior = false;
-            this.uxContactList.View = System.Windows.Forms.View.Details;
+            uxContactList.Font = new System.Drawing.Font("Trebuchet MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            uxContactList.FullRowSelect = true;
+            uxContactList.GridLines = true;
+            uxContactList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            uxContactList.HideSelection = false;
+            uxContactList.Location = new System.Drawing.Point(15, 86);
+            uxContactList.Name = "uxContactList";
+            uxContactList.Size = new System.Drawing.Size(158, 312);
+            uxContactList.TabIndex = 8;
+            uxContactList.UseCompatibleStateImageBehavior = false;
+            uxContactList.View = System.Windows.Forms.View.Details;
             // 
             // Freinds
             // 
@@ -127,7 +127,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.ClientSize = new System.Drawing.Size(185, 481);
-            this.Controls.Add(this.uxContactList);
+            this.Controls.Add(uxContactList);
             this.Controls.Add(this.uxAddContact);
             this.Controls.Add(this.uxPersonName);
             this.Controls.Add(this.uxUserName);
@@ -149,7 +149,7 @@
         public System.Windows.Forms.Label uxUserName;
         private System.Windows.Forms.TextBox uxPersonName;
         private System.Windows.Forms.Button uxAddContact;
-        public System.Windows.Forms.ListView uxContactList;
+        public static System.Windows.Forms.ListView uxContactList;
         private System.Windows.Forms.ColumnHeader Freinds;
     }
 }
