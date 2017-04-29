@@ -30,7 +30,7 @@ namespace Client_T10_B
 
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:8001/chat");
-            ws.OnMessage += (sender, e) => { if (MessageReceived != null) MessageReceived("xyz"); };
+            ws.OnMessage += (sender, e) => { if (MessageReceived != null) MessageReceived(e.Data); };
             ws.Connect();
         }
 
@@ -276,7 +276,9 @@ namespace Client_T10_B
             {
                 Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(), MessageEntered);
 
-                chatbox.ShowDialog();
+                Task.Factory.StartNew(()=>chatbox.ShowDialog(),TaskCreationOptions.LongRunning);
+
+                //chatbox.ShowDialog();
                 //new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber), MessageEntered).ShowDialog();
 
                 MessageReceived = chatbox.MessageReceived;

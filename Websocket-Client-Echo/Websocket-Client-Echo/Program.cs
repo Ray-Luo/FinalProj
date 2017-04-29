@@ -15,7 +15,6 @@ namespace Websocket_Client_Echo
             // the local machine (127.0.0.1) at port 8001 
             using (var ws = new WebSocket("ws://127.0.0.1:8001/echo"))
             {
-
                 // Set the client to print messages from the server
                 ws.OnMessage += (sender, e) => Console.WriteLine(e.Data);
 
