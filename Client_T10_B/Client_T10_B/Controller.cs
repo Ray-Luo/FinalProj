@@ -51,7 +51,7 @@ namespace Client_T10_B
         // Makes sure to close the websocket when the controller is destructed
         ~Controller()
         {
-            ws.Close();
+            //ws.Close();
         }
         public void updatelist(IList list)
         {
@@ -312,8 +312,7 @@ namespace Client_T10_B
             // Send the message to the server if connection is alive
             if (ws.IsAlive)
             {
-                string response = u.userName + ": " + message;
-                ws.Send(response);
+                ws.Send(message);
                 return true;
             }
             else
@@ -325,10 +324,8 @@ namespace Client_T10_B
         public string messageResponse()
         {
             string response = "";
-            ws = new WebSocket("ws://127.0.0.1:3111/chat");
             ws.OnMessage += (sender1, e1) => { if (MessageReceived != null)
                                                 { MessageReceived(e1.Data); response = e1.Data.ToString(); } };
-            ws.Connect();
             return response;
         }
 

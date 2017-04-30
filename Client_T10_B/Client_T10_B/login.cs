@@ -38,7 +38,7 @@ namespace Client_T10_B
                 dynamic o = new ExpandoObject();
                 o.username = uxUserName.Text.ToString();
                 o.password = uxPassword.Text.ToString();
-                o.messageType = messageType.login;
+                o.messageType = "login";
                 messageType handle = messageType.login;
                 f1(sender, e, handle, o , uxUserName.Text.ToString());
             }
