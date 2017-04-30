@@ -30,7 +30,7 @@ namespace Client_T10_B
 
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:3111/chat");
-            ws.OnMessage += (sender, e) => { if (MessageReceived != null) MessageReceived(e.Data); };
+            ws.OnMessage += (sender, e) => { if (MessageReceived != null) { MessageReceived(e.Data); } };
             ws.Connect();
         }
 
@@ -115,45 +115,64 @@ namespace Client_T10_B
         // handles request by dealing a card from the deck to the hand:
         private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
+
+
             //TODO : do check for the valid user name 
             int error = 0;
             List<string> contactList = new List<string>();
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
-            string response = dummy.login(json);
-            JObject rss = JObject.Parse(response);
-          
-            foreach(var pair in rss)
+
+            if (!sendMessage(json))
             {
-                if (pair.Key == "messageType")
-                {
-                    Debug.Assert((string)pair.Value == "login");
-                }
-
-                else if (pair.Key == "username")
-                {
-                    u.userName = (string)pair.Value;
-                    Debug.Assert(u.userName == username);
-                    Console.Write(u.userName);
-                }
-
-                else if (pair.Key == "error")
-                {
-                    error = (int)pair.Value;
-                    if (error == 0)
-                        u.status = 0;
-                    else
-                        u.status = 1;
-                }
-
-                else if (pair.Key == "contactList")
-                {
-                    contactList = pair.Value.ToObject<List<string>>();
-                    u.contactList = contactList;
-                } 
+                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                return;
             }
-            signalObservers(sender, error , null);
+            else
+            {
+                string response = messageResponse();
+                if (response == "")
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                    return;
+                }
+                else
+                {
+                    JObject rss = JObject.Parse(response);
 
+                    foreach (var pair in rss)
+                    {
+                        if (pair.Key == "messageType")
+                        {
+                            Debug.Assert((string)pair.Value == "login");
+                        }
+
+                        else if (pair.Key == "username")
+                        {
+                            u.userName = (string)pair.Value;
+                            Debug.Assert(u.userName == username);
+                            Console.Write(u.userName);
+                        }
+
+                        else if (pair.Key == "error")
+                        {
+                            error = (int)pair.Value;
+                            if (error == 0)
+                                u.status = 0;
+                            else
+                                u.status = 1;
+                        }
+
+                        else if (pair.Key == "contactList")
+                        {
+                            contactList = pair.Value.ToObject<List<string>>();
+                            u.contactList = contactList;
+                        }
+                    }
+                    signalObservers(sender, error, null);
+                }
+            }
+                
         }
 
 
@@ -287,6 +306,31 @@ namespace Client_T10_B
                 System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
 
             signalObservers(sender, error, null);
+        }
+
+        public bool sendMessage(string message)
+        {
+            // Send the message to the server if connection is alive
+            if (ws.IsAlive)
+            {
+                string response = u.userName + ": " + message;
+                ws.Send(response);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public string messageResponse()
+        {
+            string response = "";
+            ws = new WebSocket("ws://127.0.0.1:3111/chat");
+            ws.OnMessage += (sender1, e1) => { if (MessageReceived != null)
+                                                { MessageReceived(e1.Data); response = e1.Data.ToString(); } };
+            ws.Connect();
+            return response;
         }
 
         public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }
