@@ -27,6 +27,7 @@ namespace Websocket_Server
 
             // Broadcast message to all clients
             Sessions.Broadcast(msg);
+
         }
     }
 }
