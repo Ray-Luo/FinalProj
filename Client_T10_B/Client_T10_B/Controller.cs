@@ -27,7 +27,6 @@ namespace Client_T10_B
         public Controller(User_m u)
         {
             this.u = u;
-
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:3111/chat");
             ws.OnMessage += (sender, e) => { if (MessageReceived != null) { MessageReceived(e.Data); } };
