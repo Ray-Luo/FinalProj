@@ -22,24 +22,41 @@ namespace Websocket_Server
             contactList(string array)*/
         public string login(string json)
         {
-           // List<string> contactList = new List<string>(new string[] { "John", "1", "Sarah", "0" } );
+            // List<string> contactList = new List<string>(new string[] { "John", "1", "Sarah", "0" } );
+            JObject rss = JObject.Parse(json);
+            string username = "";
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                }
+            }
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "login");
-            jo.Add("username", "vira");
-            jo.Add("error",0);
+            jo.Add("username", username);
+            jo.Add("error", 0);
             jo.Add("contactList", JToken.FromObject(new string[] { "John", "1", "Sarah", "0" }));
             string output = jo.ToString();
             return output;
-
         }
 
         public string logout(string json)
         {
+            JObject rss = JObject.Parse(json);
+            string username = "";
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                }
+            }
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "logout");
-            jo.Add("username", "vira");
+            jo.Add("username", username);
             jo.Add("error", 0);
             string output = jo.ToString();
             return output;
@@ -53,6 +70,21 @@ namespace Websocket_Server
 
         public string createChat(string json)
         {
+            /*
+             client-side request:
+             message type(contactAdded),
+             usernameOrigin(string),
+             usernameAdd(string)
+             * */
+            JObject rss = JObject.Parse(json);
+            string username = "";
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                }
+            }
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "createChat");
