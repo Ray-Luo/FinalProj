@@ -325,7 +325,11 @@ namespace Client_T10_B
         {
             string response = "";
             ws.OnMessage += (sender1, e1) => { if (MessageReceived != null)
-                                                { MessageReceived(e1.Data); response = e1.Data.ToString(); } };
+                                                {
+                    MessageReceived(e1.Data);
+                    response = e1.Data.ToString();
+                } };
+            System.Threading.Thread.Sleep(5000);
             return response;
         }
 
