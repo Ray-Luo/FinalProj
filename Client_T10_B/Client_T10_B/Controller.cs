@@ -145,8 +145,10 @@ namespace Client_T10_B
                         else if (pair.Key == "username")
                         {
                             u.userName = (string)pair.Value;
-                            Debug.Assert(u.userName == username);
-                            Console.Write(u.userName);
+                            if (u.userName != username)
+                                return;
+                            //Debug.Assert(u.userName == username);
+                            //Console.Write(u.userName);
                         }
 
                         else if (pair.Key == "error")
@@ -219,7 +221,7 @@ namespace Client_T10_B
             int status = 0;
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
-           // string response = dummy.contactAdded(json);
+            // string response = dummy.contactAdded(json);
             string friend = "";
             if (!sendMessage(json))
             {
