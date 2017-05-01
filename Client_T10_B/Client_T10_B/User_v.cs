@@ -53,7 +53,7 @@ namespace Client_T10_B
         {
             dynamic o = new ExpandoObject();
             o.username = uxUserName.Text.ToString();
-            o.messageType = messageType.logout;
+            o.messageType = "logout";
             messageType handle = messageType.logout;
             f(sender, e, handle, o, uxUserName.Text.ToString());
           //  refreshContactList(sender, 0, null);
@@ -93,9 +93,9 @@ namespace Client_T10_B
         public void uxAddContact_Click(object sender, EventArgs e)
         {
             dynamic o = new ExpandoObject();
-            o.username = uxUserName.Text.ToString();
-            o.friend = uxPersonName.Text.ToString();
-            o.messageType = messageType.contactAdded;
+            o.usernameOrigin = uxUserName.Text.ToString();
+            o.usernameAdd = uxPersonName.Text.ToString();
+            o.messageType = "contactAdded";
             messageType handle = messageType.contactAdded;
             uxContactList.BeginUpdate();
             f(sender, e, handle, o, uxPersonName.Text.ToString() );
