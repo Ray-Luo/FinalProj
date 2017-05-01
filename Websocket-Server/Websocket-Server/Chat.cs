@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp;
 using WebSocketSharp.Server;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Websocket_Server
 {
@@ -16,6 +18,7 @@ namespace Websocket_Server
     //           for an example on how to get a timestamp).
     class Chat : WebSocketBehavior
     {
+        Dummy_API dummy = new Dummy_API();
         protected override void OnOpen()
         {
         }
@@ -25,8 +28,25 @@ namespace Websocket_Server
             // Retrieve message from client
             string msg = e.Data;
 
+            JObject rss = JObject.Parse(msg);
+            string message = "";
+            foreach(var pair in rss )
+            {
+                message = (string)pair.Value;
+            }
+            // login, logout, statusChange, roomStatusChange, createChat, addChatMember, leaveChat, chatMessage, contactAdded, contactRemoved 
+            string response = "";
+            switch (message)
+            {
+                case "login":
+                    response = dummy.login(msg);
+                    break;
+                case "contactAdded":
+                    response = dummy.contactAdded(msg);
+                    break;
+            }
             // Broadcast message to all clients
-            Sessions.Broadcast(msg);
+            Sessions.Broadcast(response);
 
         }
     }

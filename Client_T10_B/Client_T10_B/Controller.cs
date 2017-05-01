@@ -51,7 +51,7 @@ namespace Client_T10_B
         // Makes sure to close the websocket when the controller is destructed
         ~Controller()
         {
-            //ws.Close();
+           // ws.Close();
         }
         public void updatelist(IList list)
         {
@@ -63,8 +63,6 @@ namespace Client_T10_B
                 }
             }
         }
-
-        
         public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp )
         {
             switch (handle)
@@ -114,8 +112,6 @@ namespace Client_T10_B
         // handles request by dealing a card from the deck to the hand:
         private void loginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
-
-
             //TODO : do check for the valid user name 
             int error = 0;
             List<string> contactList = new List<string>();
@@ -217,33 +213,50 @@ namespace Client_T10_B
             int status = 0;
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
-            string response = dummy.contactAdded(json);
+           // string response = dummy.contactAdded(json);
             string friend = "";
-            JObject rss = JObject.Parse(response);
-            foreach (var pair in rss)
+            if (!sendMessage(json))
             {
-                if (pair.Key == "messageType")
-                {
-                    Debug.Assert((string)pair.Value == "contactAdded");
-                }
-
-                else if (pair.Key == "error")
-                {
-                    error = (int)pair.Value;
-                }
-
-                else if (pair.Key == "status")
-                {
-                    status = (int)pair.Value;
-                }
-
+                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                return;
             }
-            if (error == 0)
+            else
             {
-                u.contactList.Add(username);
-                u.contactList.Add(status.ToString());
+                string response = messageResponse();
+                if (response == "")
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                    return;
+                }
+                else
+                {
+                    JObject rss = JObject.Parse(response);
+                    foreach (var pair in rss)
+                    {
+                        if (pair.Key == "messageType")
+                        {
+                            Debug.Assert((string)pair.Value == "contactAdded");
+                        }
+
+                        else if (pair.Key == "error")
+                        {
+                            error = (int)pair.Value;
+                        }
+
+                        else if (pair.Key == "status")
+                        {
+                            status = (int)pair.Value;
+                        }
+
+                    }
+                    if (error == 0)
+                    {
+                        u.contactList.Add(username);
+                        u.contactList.Add(status.ToString());
+                    }
+                    signalObservers(sender, error, null);
+                }
             }
-            signalObservers(sender, error, null);
         }
 
         public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
@@ -326,9 +339,9 @@ namespace Client_T10_B
             string response = "";
             ws.OnMessage += (sender1, e1) => { if (MessageReceived != null)
                                                 {
-                    MessageReceived(e1.Data);
-                    response = e1.Data.ToString();
-                } };
+                                                    MessageReceived(e1.Data);
+                                                    response = e1.Data.ToString();
+                                                } };
             System.Threading.Thread.Sleep(5000);
             return response;
         }

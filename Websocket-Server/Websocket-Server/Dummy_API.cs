@@ -6,14 +6,28 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Dynamic;
+using System.Diagnostics;
 
 namespace Websocket_Server
 {
     class Dummy_API
     {
+        List<User_m> users = new List<User_m>();
         public Dummy_API()
         {
 
+        }
+
+        public User_m getUser(String username)
+        {
+            foreach (User_m u in users)
+            {
+                if(u.userName == username)
+                {
+                    return u;
+                }
+            }
+            return null;
         }
 
         /* message type(login),
@@ -23,21 +37,53 @@ namespace Websocket_Server
         public string login(string json)
         {
             // List<string> contactList = new List<string>(new string[] { "John", "1", "Sarah", "0" } );
+            Console.WriteLine(json);
             JObject rss = JObject.Parse(json);
             string username = "";
+            string password = "";
+            int error = 0;
+            List<string> contactList = null;
             foreach (var pair in rss)
             {
                 if (pair.Key == "username")
                 {
                     username = (string)pair.Value;
                 }
+                else if (pair.Key == "password")
+                {
+                    password = (string)pair.Value;
+                }
             }
+            if (getUser(username) == null)
+            {
+                User_m user = new User_m();
+                user.userName = username;
+                user.password = password;
+                user.status = 0;
+                contactList = user.contactList;
+                users.Add(user);
+            }
+            else
+            {
+                User_m user = getUser(username);
+                if ( user.password == password)
+                {
+                    error = 0;
+                }
+                else
+                {
+                    error = 1; //password does not match 
+                }
+                contactList = user.contactList;
+                user.status = 0;
+            }
+            
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "login");
             jo.Add("username", username);
-            jo.Add("error", 0);
-            jo.Add("contactList", JToken.FromObject(new string[] { "John", "1", "Sarah", "0" }));
+            jo.Add("error", error);
+            jo.Add("contactList", JToken.FromObject(contactList));//JToken.FromObject(new string[] { "John", "1", "Sarah", "0" }));
             string output = jo.ToString();
             return output;
         }
@@ -117,11 +163,47 @@ namespace Websocket_Server
 
         public string contactAdded(string json)
         {
+            JObject rss = JObject.Parse(json);
+            string username = "";
+            string friend = "";
+            int error = 0;
+            int status = 0;
+            foreach(var pair in rss)
+            {
+                if (pair.Key == "usernameOrigin")
+                {
+                    username = (string)pair.Value;
+                }
+                else if (pair.Key == "usernameAdd")
+                {
+                    friend = (string)pair.Value;
+                }
+            }
+            if(getUser(username) != null)
+            {
+                User_m user = getUser(username);
+                user.contactList.Add(friend);
+                if(getUser(friend) != null)
+                {
+                    User_m newContact = getUser(friend);
+                    status = newContact.status;
+                    user.contactList.Add(newContact.status.ToString());
+                }
+                else
+                {
+                    error = 2; // friend does not exists 
+                }
+                
+            }
+            else
+            {
+                error = 1; // user not found 
+            }
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "contactAdded");
-            jo.Add("status", "0");
-            jo.Add("error", 0);
+            jo.Add("status", status);
+            jo.Add("error", error);
             string output = jo.ToString();
             return output;
 
