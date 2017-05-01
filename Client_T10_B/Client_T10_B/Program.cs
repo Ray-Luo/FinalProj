@@ -34,7 +34,7 @@ namespace Client_T10_B
             LogIn l = new LogIn(c.handle, u);
             User_v user_main = new User_v(c.handle,u);//u, c.logoutHandle,c.addContactHandle, c);
 
-            Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(), c.MessageEntered);
+            Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(), c.MessageEntered,c.handle);
 
             c.register(l.login);
             c.register(user_main.logout);

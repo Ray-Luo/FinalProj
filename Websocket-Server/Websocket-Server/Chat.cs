@@ -33,7 +33,10 @@ namespace Websocket_Server
             string message = "";
             foreach(var pair in rss)
             {
-                message = (string)pair.Value;
+                if(pair.Key == "messageType")
+                {
+                    message = (string)pair.Value;
+                }
             }
             // login, logout, statusChange, roomStatusChange, createChat, addChatMember, leaveChat, chatMessage, contactAdded, contactRemoved 
             string response = "";

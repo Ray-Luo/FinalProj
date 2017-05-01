@@ -39,7 +39,7 @@ namespace Client_T10_B
             // Send the message to the server if connection is alive
             if (ws.IsAlive)
             {
-                ws.Send(u.userName + ": " + message);
+                ws.Send(message);
                 return true;
             }
             else
@@ -70,9 +70,9 @@ namespace Client_T10_B
                 case messageType.login:
                     loginHandle(sender, e, handle, o, temp );
                     break;
-                //case messageType.chatMessage:
-                //    chatMessageHandle(sender, e, handle, o, temp);
-                //    break;
+                case messageType.chatMessage:
+                    chatMessageHandle(sender, e, handle, o, temp);
+                    break;
                 case messageType.contactAdded:
                     contactAddedHandle(sender, e, handle, o, temp);
                     break;
@@ -327,7 +327,7 @@ namespace Client_T10_B
                         chat.currentMembers = currentMembers;
                         chat.mutualMembers = mutualMembers;
                         chat.roomNumber = roomName;
-                        Chatbox_v chatbox = new Chatbox_v(chat, MessageEntered);
+                        Chatbox_v chatbox = new Chatbox_v(chat, MessageEntered,chatMessageHandle);
 
                         Task.Factory.StartNew(() => chatbox.ShowDialog(), TaskCreationOptions.LongRunning);
 
@@ -346,6 +346,82 @@ namespace Client_T10_B
             }
         }
 
+        public void chatMessageHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        {
+            JObject jo = JObject.FromObject(o);
+            jo.Add("username", u.userName);
+            string json = jo.ToString();
+
+
+            if (!sendMessage(json))
+            {
+                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                return;
+            }
+            else
+            {
+                string response = messageResponse();
+                if (response == "")
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                    return;
+                }
+                else
+                {
+                    JObject rss = JObject.Parse(response);
+                    int error = 0;
+                    int roomName = 0;
+                    string content = "";
+                    string username = "";
+                    string timestamp = "";
+                    string message = "";
+                    foreach (var pair in rss)
+                    {
+                        if (pair.Key == "messageType")
+                        {
+                            Debug.Assert((string)pair.Value == "chatMessage");
+                        }
+
+                        else if (pair.Key == "error")
+                        {
+                            error = (int)pair.Value;
+                        }
+
+                        else if (pair.Key == "roomName")
+                        {
+                            roomName = (int)pair.Value;
+                        }
+
+                        else if (pair.Key == "content")
+                        {
+                            content = (string)pair.Value;//(List<string>)pair.Value;
+                        }
+
+                        else if (pair.Key == "username")
+                        {
+                            username = (string)pair.Value;
+                            if (username != u.userName)
+                            {
+                                return;
+                            }
+                        }
+                        else if (pair.Key == "timestamp")
+                        {
+                            timestamp = (string)pair.Value;
+                        }
+                    }
+                    if (error == 0)
+                    {
+                        message = username + ":" + content;
+                    }
+                    signalObservers(sender, error, message);
+
+
+                }
+            }
+
+       }
+
         public bool sendMessage(string message)
         {
             // Send the message to the server if connection is alive
@@ -356,7 +432,12 @@ namespace Client_T10_B
             }
             else
             {
-                return false;
+                while(!ws.IsAlive)
+                {
+                    ws.Connect();
+                }
+                ws.Send(message);
+                return true;
             }
         }
 

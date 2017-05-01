@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Dynamic;
 using Newtonsoft.Json.Linq;
+using static Client_T10_B.Program;
 
 namespace Client_T10_B
 {
     public partial class Chatbox_v : Form
     {
-        public Chatbox_v(ChatRoom_m room, Program.Message newMessageHandler)
+        public Chatbox_v(ChatRoom_m room, Program.Message newMessageHandler, InputHandler f)
         {
             InitializeComponent();
-            Text = "Chat:";
             uxTextbox.KeyDown += (o, e) =>
             {
                 if (e.KeyCode == Keys.Enter)
@@ -25,19 +25,22 @@ namespace Client_T10_B
                     string message = uxTextbox.Text;
                     dynamic obj = new ExpandoObject();
                     obj.message = message;
+                    obj.messageType = "chatMessage";
+                    messageType handle = messageType.chatMessage;                
                     JObject jo = JObject.FromObject(obj);
-                    string json = jo.ToString();
-                    
+                    f(o, e, handle, obj, "");
+                    //string json = jo.ToString();
 
-                    if (newMessageHandler(json))
-                    {
-                        uxTextbox.Text = "";
-                    }
+
+                    // if (newMessageHandler(json))
+                    // {
+                    //     uxTextbox.Text = "";
+                    //  }
                 }
             };
 
 
-            uxmessageBox.Select();
+            //uxmessageBox.Select();
         }
 
         public bool MessageReceived(string message)
@@ -48,8 +51,7 @@ namespace Client_T10_B
             {
                 this.CreateHandle();
             }
-            Invoke(new Action(() => uxmessageBox.TopIndex = uxmessageBox.Items.Add(message)));
-
+            Invoke(new Action(() => uxmessageBox.TopIndex = uxmessageBox.Items.Add(message)));            
             return true;
         }
 
