@@ -171,8 +171,6 @@ namespace Client_T10_B
             }
                 
         }
-
-
         // handles request by dealing TWO cards at a time:
         public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
