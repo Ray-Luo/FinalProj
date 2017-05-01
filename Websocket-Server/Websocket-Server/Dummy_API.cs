@@ -182,12 +182,12 @@ namespace Websocket_Server
             if(getUser(username) != null)
             {
                 User_m user = getUser(username);
-                user.contactList.Add(friend);
                 if(getUser(friend) != null)
                 {
                     User_m newContact = getUser(friend);
                     status = newContact.status;
-                    user.contactList.Add(newContact.status.ToString());
+                    user.contactList.Add(friend);
+                    user.contactList.Add(status.ToString());
                 }
                 else
                 {
