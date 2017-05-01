@@ -66,6 +66,7 @@ namespace Websocket_Server
             else
             {
                 User_m user = getUser(username);
+                Console.Write(user.password);
                 if ( user.password == password)
                 {
                     error = 0;
@@ -77,7 +78,7 @@ namespace Websocket_Server
                 contactList = user.contactList;
                 user.status = 0;
             }
-                        dynamic o = new ExpandoObject();
+            dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "login");
             jo.Add("username", username);
