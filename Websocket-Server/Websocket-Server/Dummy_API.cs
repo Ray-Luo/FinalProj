@@ -12,7 +12,9 @@ namespace Websocket_Server
 {
     class Dummy_API
     {
-        List<User_m> users = new List<User_m>();
+        public static List<User_m> users = new List<User_m>();
+        public static List<ChatRoom_m> chatRooms = new List<ChatRoom_m>();
+        int chatRoomCount = 0;
         public Dummy_API()
         {
 
@@ -29,7 +31,17 @@ namespace Websocket_Server
             }
             return null;
         }
-
+        public ChatRoom_m getChatRoom(int roomNo)
+        {
+            foreach (ChatRoom_m r in chatRooms)
+            {
+                if(r.roomNumber == roomNo)
+                {
+                    return r;
+                }
+            }
+            return null;
+        }
         /* message type(login),
             error type,
             username(string),
@@ -122,25 +134,72 @@ namespace Websocket_Server
              usernameOrigin(string),
              usernameAdd(string)
              * */
+            /*
+             *  message type(createChat),
+                error type,
+                roomname(integer),
+                potentialMembers(string array),
+                currentMembers(string array)
+             * */
             JObject rss = JObject.Parse(json);
             string username = "";
+            string friend = "";
+            int error = 0;
+            List<string> currentMembers = new List<string>();
+            List<string> mutualFriends = new List<string>();
+
             foreach (var pair in rss)
             {
-                if (pair.Key == "username")
+                if (pair.Key == "usernameOrigin")
                 {
                     username = (string)pair.Value;
                 }
+                else if(pair.Key == "usernameAdd")
+                {
+                    friend = (string)pair.Value;
+                }
             }
-            dynamic o = new ExpandoObject();
-            JObject jo = JObject.FromObject(o);
-            jo.Add("messageType", "createChat");
-            jo.Add("username_1", "Ray");
-            jo.Add("username_2", "John");
-            jo.Add("roomNumber", "0");
-            jo.Add("error", 0);
-            string output = jo.ToString();
-            return output;
+            User_m user1 = getUser(username);
+            User_m user2 = getUser(friend);
 
+            if (!user1.contactList.Contains(friend))
+            {
+                error = 1;
+            }
+            else
+            {
+                ChatRoom_m chat = new ChatRoom_m();
+                chatRoomCount++;
+                chat.roomNumber = chatRoomCount;
+                chat.users.Add(username);
+                chat.users.Add(friend);
+                chatRooms.Add(chat);
+                currentMembers = chat.users;
+                Dictionary<string, int> friendList1 = user1.getContactList();
+                Dictionary<string, int> friendList2 = user2.getContactList();
+
+                foreach (KeyValuePair<string, int> f1 in friendList1)
+                {
+                    foreach (KeyValuePair<string, int> f2 in friendList2)
+                    {
+                        if (f2.Key == f1.Key)
+                        {
+                            mutualFriends.Add(f1.Key);
+                            mutualFriends.Add(f1.Value.ToString());
+                        }
+                    }
+                }
+                error = 0;
+            }
+                dynamic o = new ExpandoObject();
+                JObject jo = JObject.FromObject(o);
+                jo.Add("messageType", "createChat");
+                jo.Add("roomname", chatRoomCount);
+                jo.Add("potentialMembers", JToken.FromObject(mutualFriends));
+                jo.Add("currentMembers", JToken.FromObject(currentMembers));
+                jo.Add("error", error);
+                string output = jo.ToString();
+                return output;
         }
 
         public string addChatMember(string json)
@@ -158,7 +217,7 @@ namespace Websocket_Server
         public string chatMessage(string json)
         {
             return null;
-
+            
         }
 
         public string contactAdded(string json)
@@ -179,12 +238,12 @@ namespace Websocket_Server
                     friend = (string)pair.Value;
                 }
             }
-            if(getUser(username) != null)
+            User_m user = getUser(username);
+            User_m newContact = getUser(friend);
+            if (user != null)
             {
-                User_m user = getUser(username);
-                if(getUser(friend) != null)
+                if(newContact != null)
                 {
-                    User_m newContact = getUser(friend);
                     status = newContact.status;
                     user.contactList.Add(friend);
                     user.contactList.Add(status.ToString());

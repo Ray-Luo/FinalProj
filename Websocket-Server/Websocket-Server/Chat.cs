@@ -44,6 +44,9 @@ namespace Websocket_Server
                 case "contactAdded":
                     response = dummy.contactAdded(msg);
                     break;
+                case "createChat":
+                    response = dummy.createChat(msg);
+                    break;
             }
             // Broadcast message to all clients
             Sessions.Broadcast(response);

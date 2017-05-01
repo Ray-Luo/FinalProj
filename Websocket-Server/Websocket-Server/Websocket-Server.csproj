@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat.cs" />
+    <Compile Include="ChatRoom_m.cs" />
     <Compile Include="Dummy_API.cs" />
     <Compile Include="Echo.cs" />
     <Compile Include="Program.cs" />
