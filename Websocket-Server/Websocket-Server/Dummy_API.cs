@@ -56,12 +56,13 @@ namespace Websocket_Server
             }
             if (getUser(username) == null)
             {
-                User_m user = new User_m();
-                user.userName = username;
-                user.password = password;
-                user.status = 0;
-                contactList = user.contactList;
-                users.Add(user);
+                //User_m user = new User_m();
+                //user.userName = username;
+                //user.password = password;
+                //user.status = 0;
+                //contactList = user.contactList;
+                //users.Add(user);
+                error = 2; // user doesnot exists 
             }
             else
             {
