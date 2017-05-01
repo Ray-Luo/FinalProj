@@ -272,7 +272,7 @@ namespace Client_T10_B
             int error = 0;
             int roomName = 0;
             List<string> currentMembers = new List<string>();
-            List<string> potentialMembers = new List<string>();
+            List<string> mutualMembers = new List<string>();
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
             //string response = dummy.createChat(json);
@@ -319,15 +319,17 @@ namespace Client_T10_B
 
                         else if (pair.Key == "mutualMembers")
                         {
-                            potentialMembers = pair.Value.ToObject<List<string>>();
+                            mutualMembers = pair.Value.ToObject<List<string>>();
                         }
 
                     }
                     if (error == 0)
                     {
                         ChatRoom_m chat = new ChatRoom_m();
-
-                        Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(), MessageEntered);
+                        chat.currentMembers = currentMembers;
+                        chat.mutualMembers = mutualMembers;
+                        chat.roomNumber = roomName;
+                        Chatbox_v chatbox = new Chatbox_v(chat, MessageEntered);
 
                         Task.Factory.StartNew(() => chatbox.ShowDialog(), TaskCreationOptions.LongRunning);
 
@@ -336,8 +338,10 @@ namespace Client_T10_B
 
                         MessageReceived = chatbox.MessageReceived;
                     }
+                    else if (error == 1)
+                        System.Windows.Forms.MessageBox.Show("The person is not in your friend list. Please add first!");
                     else
-                        System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                        System.Windows.Forms.MessageBox.Show("Cannot connect tho the server!");
 
                     signalObservers(sender, error, null);
                 }
