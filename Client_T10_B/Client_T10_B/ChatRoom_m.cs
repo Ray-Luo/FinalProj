@@ -8,7 +8,8 @@ namespace Client_T10_B
 {
     public class ChatRoom_m
     {
-        public List<string> users;
+        public List<string> currentMembers;
+        public List<string> mutualMembers;
         public int roomNumber;
 
         public ChatRoom_m()

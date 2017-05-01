@@ -147,7 +147,7 @@ namespace Client_T10_B
                 return;
             }
             o.username = uxContactList.SelectedItems[0].Text.ToString();
-            o.messageType = messageType.createChat;
+            o.messageType = "createChat";
             messageType handle = messageType.createChat;
             f(sender, e, handle, o, null);
         }

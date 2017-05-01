@@ -60,12 +60,6 @@
     <Compile Include="Chatbox_v.Designer.cs">
       <DependentUpon>Chatbox_v.cs</DependentUpon>
     </Compile>
-    <Compile Include="chatRoom.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="chatRoom.Designer.cs">
-      <DependentUpon>chatRoom.cs</DependentUpon>
-    </Compile>
     <Compile Include="ChatRoom_m.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Dummy_API.cs" />
@@ -87,9 +81,6 @@
     <Compile Include="User_m.cs" />
     <EmbeddedResource Include="Chatbox_v.resx">
       <DependentUpon>Chatbox_v.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="chatRoom.resx">
-      <DependentUpon>chatRoom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="login.resx">
       <DependentUpon>login.cs</DependentUpon>
