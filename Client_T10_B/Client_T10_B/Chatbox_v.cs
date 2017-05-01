@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Dynamic;
+using Newtonsoft.Json.Linq;
 
 namespace Client_T10_B
 {
@@ -21,8 +23,13 @@ namespace Client_T10_B
                 if (e.KeyCode == Keys.Enter)
                 {
                     string message = uxTextbox.Text;
+                    dynamic obj = new ExpandoObject();
+                    obj.message = message;
+                    JObject jo = JObject.FromObject(obj);
+                    string json = jo.ToString();
+                    
 
-                    if (newMessageHandler(message))
+                    if (newMessageHandler(json))
                     {
                         uxTextbox.Text = "";
                     }

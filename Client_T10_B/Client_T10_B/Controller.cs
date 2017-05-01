@@ -19,7 +19,7 @@ namespace Client_T10_B
         private List<Observer> observers = new List<Observer>();  // registry of event handlers
         private User_m u;  // handles to Model objects
         private Dummy_API dummy = new Dummy_API();
-        private WebSocket ws;
+        public static WebSocket ws;
 
         // Event for when a message is received from the server
         public event Message MessageReceived;
@@ -370,7 +370,7 @@ namespace Client_T10_B
                                                     MessageReceived(e1.Data);
                                                     response = e1.Data.ToString();
                                                 } };
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(2000);
             return response;
         }
 
