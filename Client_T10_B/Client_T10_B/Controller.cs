@@ -270,62 +270,78 @@ namespace Client_T10_B
         public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
         {
             int error = 0;
-            int status = 0;
-            int roomNumber = 0;
-            string username_1 = "";
-            string username_2 = "";
+            int roomName = 0;
+            List<string> currentMembers = new List<string>();
+            List<string> potentialMembers = new List<string>();
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
-            string response = dummy.createChat(json);
-            JObject rss = JObject.Parse(response);
+            //string response = dummy.createChat(json);
 
-            foreach (var pair in rss)
+            if (!sendMessage(json))
             {
-                if (pair.Key == "messageType")
-                {
-                    Debug.Assert((string)pair.Value == "createChat");
-                }
-
-                else if (pair.Key == "error")
-                {
-                    error = (int)pair.Value;
-                }
-
-                else if (pair.Key == "status")
-                {
-                    status = (int)pair.Value;
-                }
-
-                else if (pair.Key == "username_1")
-                {
-                    username_1 = (string)pair.Value;
-                }
-
-                else if (pair.Key == "username_2")
-                {
-                    username_2 = (string)pair.Value;
-                }
-
-                else if (pair.Key == "roomNumber")
-                {
-                    roomNumber = (int)pair.Value;
-                }
-            }
-            if (error == 0)
-            {
-                Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(), MessageEntered);
-
-                Task.Factory.StartNew(()=>chatbox.ShowDialog(),TaskCreationOptions.LongRunning);
-
-                //chatbox.ShowDialog();
-                //new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber), MessageEntered).ShowDialog();
-
-                MessageReceived = chatbox.MessageReceived;
+                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                return;
             }
             else
-                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+            {
+                string response = messageResponse();
+                if (response == "")
+                {
+                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                    return;
+                }
+                else
+                {
 
-            signalObservers(sender, error, null);
+                    JObject rss = JObject.Parse(response);
+
+                    foreach (var pair in rss)
+                    {
+                        if (pair.Key == "messageType")
+                        {
+                            Debug.Assert((string)pair.Value == "createChat");
+                        }
+
+                        else if (pair.Key == "error")
+                        {
+                            error = (int)pair.Value;
+                        }
+
+                        else if (pair.Key == "roomName")
+                        {
+                            roomName = (int)pair.Value;
+                        }
+
+                        else if (pair.Key == "currentMembers")
+                        {
+                            currentMembers = pair.Value.ToObject<List<string>>();//(List<string>)pair.Value;
+                        }
+
+                        else if (pair.Key == "mutualMembers")
+                        {
+                            potentialMembers = pair.Value.ToObject<List<string>>();
+                        }
+
+                    }
+                    if (error == 0)
+                    {
+                        ChatRoom_m chat = new ChatRoom_m();
+
+                        Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(), MessageEntered);
+
+                        Task.Factory.StartNew(() => chatbox.ShowDialog(), TaskCreationOptions.LongRunning);
+
+                        //chatbox.ShowDialog();
+                        //new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber), MessageEntered).ShowDialog();
+
+                        MessageReceived = chatbox.MessageReceived;
+                    }
+                    else
+                        System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+
+                    signalObservers(sender, error, null);
+                }
+            }
         }
 
         public bool sendMessage(string message)
