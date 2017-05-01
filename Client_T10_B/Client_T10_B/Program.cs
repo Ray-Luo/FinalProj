@@ -39,7 +39,7 @@ namespace Client_T10_B
             c.register(l.login);
             c.register(user_main.logout);
             c.MessageReceived += chatbox.MessageReceived;
-            //  c.register(user_main.refreshContactList);
+            c.register(user_main.refreshContactList);
             Application.Run(l);
         }
     }

@@ -60,35 +60,35 @@ namespace Client_T10_B
         }
 
 
-        //public void refreshContactList(object sender, int e, string temp)
-        //{
-        //    if (e == 0)
-        //    {
-        //        Dictionary<string, int> contacts = u.getContactList();
-        //        uxContactList.BeginUpdate();
-        //        foreach (KeyValuePair<string, int> c in contacts)
-        //        {
-        //            ListViewItem li = new ListViewItem();
-        //            li.Text = c.Key;
-        //            if (c.Value == 0) //logged in 
-        //            {
-        //                li.ForeColor = Color.Green;
-        //            }
-        //            else //logged out 
-        //            {
-        //                li.ForeColor = Color.Red;
-        //            }
+        public void refreshContactList(object sender, int e, string temp)
+        {
+            if (e == 0)
+            {
+                Dictionary<string, int> contacts = u.getContactList();
+                uxContactList.BeginUpdate();
+                foreach (KeyValuePair<string, int> c in contacts)
+                {
+                    ListViewItem li = new ListViewItem();
+                    li.Text = c.Key;
+                    if (c.Value == 0) //logged in 
+                    {
+                        li.ForeColor = Color.Green;
+                    }
+                    else //logged out 
+                    {
+                        li.ForeColor = Color.Red;
+                    }
 
-        //            uxContactList.Items.Add(li);
-        //        }
+                    uxContactList.Items.Add(li);
+                }
 
-        //        uxContactList.EndUpdate();
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Something went wrong!");
-        //    }
-        //}
+                uxContactList.EndUpdate();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong!");
+            }
+        }
 
         public void uxAddContact_Click(object sender, EventArgs e)
         {
