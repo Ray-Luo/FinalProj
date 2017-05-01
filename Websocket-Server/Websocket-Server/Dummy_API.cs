@@ -42,7 +42,7 @@ namespace Websocket_Server
             string username = "";
             string password = "";
             int error = 0;
-            List<string> contactList = null;
+            List<string> contactList = new List<string>();
             foreach (var pair in rss)
             {
                 if (pair.Key == "username")
@@ -56,13 +56,12 @@ namespace Websocket_Server
             }
             if (getUser(username) == null)
             {
-                //User_m user = new User_m();
-                //user.userName = username;
-                //user.password = password;
-                //user.status = 0;
-                //contactList = user.contactList;
-                //users.Add(user);
-                error = 2; // user doesnot exists 
+                User_m user = new User_m();
+                user.userName = username;
+                user.password = password;
+                user.status = 0;
+                contactList = user.contactList;
+                users.Add(user);
             }
             else
             {
@@ -78,8 +77,7 @@ namespace Websocket_Server
                 contactList = user.contactList;
                 user.status = 0;
             }
-            
-            dynamic o = new ExpandoObject();
+                        dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "login");
             jo.Add("username", username);

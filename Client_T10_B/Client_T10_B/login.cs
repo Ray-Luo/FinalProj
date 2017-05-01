@@ -63,11 +63,13 @@ namespace Client_T10_B
                 {
                     MessageBox.Show("Password is incorrect");
                 }
-                else if(error == 2)
+                else
                 {
-                    MessageBox.Show("Please create an account first");
+                    MessageBox.Show("Oops, something went wrong!");
                 }
+               
             }
         }
+
     }
 }

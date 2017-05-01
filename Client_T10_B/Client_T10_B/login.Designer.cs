@@ -94,19 +94,16 @@
             this.status_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.status_label.Location = new System.Drawing.Point(80, 148);
             this.status_label.Name = "status_label";
-            this.status_label.Size = new System.Drawing.Size(138, 15);
+            this.status_label.Size = new System.Drawing.Size(0, 15);
             this.status_label.TabIndex = 6;
-            this.status_label.Text = "Don\'t have an account? ";
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(87, 172);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(103, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(0, 13);
             this.linkLabel1.TabIndex = 7;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Create new account";
             // 
             // LogIn
             // 
