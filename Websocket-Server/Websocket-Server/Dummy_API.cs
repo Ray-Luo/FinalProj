@@ -171,6 +171,7 @@ namespace Websocket_Server
                 ChatRoom_m chat = new ChatRoom_m();
                 chatRoomCount++;
                 chat.roomNumber = chatRoomCount;
+                chat.users = new List<string>();
                 chat.users.Add(username);
                 chat.users.Add(friend);
                 chatRooms.Add(chat);

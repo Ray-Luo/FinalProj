@@ -27,10 +27,11 @@ namespace Websocket_Server
         {
             // Retrieve message from client
             string msg = e.Data;
-
+           
             JObject rss = JObject.Parse(msg);
+          
             string message = "";
-            foreach(var pair in rss )
+            foreach(var pair in rss)
             {
                 message = (string)pair.Value;
             }
@@ -46,6 +47,9 @@ namespace Websocket_Server
                     break;
                 case "createChat":
                     response = dummy.createChat(msg);
+                    break;
+                case "chatMessage":
+                    response = msg;
                     break;
             }
             // Broadcast message to all clients
