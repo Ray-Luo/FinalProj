@@ -146,7 +146,7 @@ namespace Client_T10_B
                 MessageBox.Show("Please select a contact to chat");
                 return;
             }
-            o.username = uxContactList.SelectedItems[0].Text.ToString();
+            o.usernameAdd = uxContactList.SelectedItems[0].Text.ToString();
             o.messageType = "createChat";
             messageType handle = messageType.createChat;
             f(sender, e, handle, o, null);

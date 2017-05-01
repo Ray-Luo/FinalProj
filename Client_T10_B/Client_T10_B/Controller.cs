@@ -370,7 +370,7 @@ namespace Client_T10_B
                                                     MessageReceived(e1.Data);
                                                     response = e1.Data.ToString();
                                                 } };
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(5000);
             return response;
         }
 
