@@ -140,13 +140,13 @@ namespace Client_T10_B
         private void uxChat_Click(object sender, EventArgs e)
         {
             dynamic o = new ExpandoObject();
-            o.username = uxUserName.Text.ToString();
+            o.usernameOrigin = uxUserName.Text.ToString();
             if (uxContactList.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Please select a contact to chat");
                 return;
             }
-            o.usernameAdd = uxContactList.SelectedItems[0].Text.ToString();
+            o.username = uxContactList.SelectedItems[0].Text.ToString();
             o.messageType = messageType.createChat;
             messageType handle = messageType.createChat;
             f(sender, e, handle, o, null);
