@@ -191,8 +191,14 @@ namespace Client_T10_B
                 {
                     error = (int)pair.Value;
                     if (error == 0)
+                    {
                         // user.status = 1 means it is offline
+                        u.status = 0;
+                    }
+                    else 
+                    {
                         u.status = 1;
+                    }
                 }
 
                 else if (pair.Key == "username")

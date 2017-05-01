@@ -59,9 +59,13 @@ namespace Client_T10_B
                     Hide();
                     userProfile.ShowDialog();
                 }
-                else
+                else if(error == 1)
                 {
-                    MessageBox.Show("Somthing went wrong!");
+                    MessageBox.Show("Password is incorrect");
+                }
+                else if(error == 2)
+                {
+                    MessageBox.Show("Please create an account first");
                 }
             }
         }
