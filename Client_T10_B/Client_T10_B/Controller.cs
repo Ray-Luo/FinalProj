@@ -29,8 +29,18 @@ namespace Client_T10_B
             this.u = u;
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:3111/chat");
-            ws.OnMessage += (sender, e) => { if (MessageReceived != null) { MessageReceived(e.Data); } };
+            string host = "localhost";
+            Queue<JObject> buffer = new Queue<JObject>();
+            ws.OnOpen += (ss, ee) =>
+                System.Windows.Forms.MessageBox.Show("Connection establised!");
+            ws.OnError += (ss, ee) =>
+               System.Windows.Forms.MessageBox.Show("Error:" +ee.Message);
+            ws.OnMessage += (ss, ee) =>
+                { MessageReceived?.Invoke(ee.Data);  };
+            ws.OnClose += (ss, ee) =>
+               System.Windows.Forms.MessageBox.Show("Disconnected with {0}", host);
             ws.Connect();
+       
         }
 
         // Handles when a new message is entered by the user
@@ -51,7 +61,41 @@ namespace Client_T10_B
         // Makes sure to close the websocket when the controller is destructed
         ~Controller()
         {
-           // ws.Close();
+            ws.Close();
+        }
+
+
+        public bool sendMessage(string message)
+        {
+            // Send the message to the server if connection is alive
+            if (ws.IsAlive)
+            {
+                ws.Send(message);
+                return true;
+            }
+            else
+            {
+                while (!ws.IsAlive)
+                {
+                    ws.Connect();
+                }
+                ws.Send(message);
+                return true;
+            }
+        }
+
+        public string messageResponse()
+        {
+            string response = "";
+            ws.OnMessage += (sender1, e1) => {
+                if (MessageReceived != null)
+                {
+                    MessageReceived(e1.Data);
+                    response = e1.Data.ToString();
+                }
+            };
+            System.Threading.Thread.Sleep(2000);
+            return response;
         }
         public void updatelist(IList list)
         {
@@ -421,37 +465,6 @@ namespace Client_T10_B
             }
 
        }
-
-        public bool sendMessage(string message)
-        {
-            // Send the message to the server if connection is alive
-            if (ws.IsAlive)
-            {
-                ws.Send(message);
-                return true;
-            }
-            else
-            {
-                while(!ws.IsAlive)
-                {
-                    ws.Connect();
-                }
-                ws.Send(message);
-                return true;
-            }
-        }
-
-        public string messageResponse()
-        {
-            string response = "";
-            ws.OnMessage += (sender1, e1) => { if (MessageReceived != null)
-                                                {
-                                                    MessageReceived(e1.Data);
-                                                    response = e1.Data.ToString();
-                                                } };
-            System.Threading.Thread.Sleep(2000);
-            return response;
-        }
 
         public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }
     }
