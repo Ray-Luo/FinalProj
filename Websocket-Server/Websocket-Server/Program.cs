@@ -13,7 +13,7 @@ namespace Websocket_Server
         static void Main(string[] args)
         {
             // Start a websocket server at port 8001
-            var wss = new WebSocketServer(3111);
+            var wss = new WebSocketServer(8112);
 
             // Add the Echo websocket service
             wss.AddWebSocketService<Echo>("/echo");
