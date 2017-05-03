@@ -72,6 +72,7 @@
     <Compile Include="Message_m.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tempClient.cs" />
     <Compile Include="User_v.cs">
       <SubType>Form</SubType>
     </Compile>

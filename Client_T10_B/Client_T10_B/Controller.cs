@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Client_T10_B.Program;
 using WebSocketSharp;
-using System.Drawing;
+using System.Threading;
 
 namespace Client_T10_B
 {
@@ -20,6 +20,8 @@ namespace Client_T10_B
         private User_m u;  // handles to Model objects
         private Dummy_API dummy = new Dummy_API();
         public static WebSocket ws;
+        private Queue<string> buffer;
+        private static ManualResetEvent receiveDone = new ManualResetEvent(false);
 
         // Event for when a message is received from the server
         public event Message MessageReceived;
@@ -28,35 +30,44 @@ namespace Client_T10_B
         {
             this.u = u;
             // Connects to the server
-            ws = new WebSocket("ws://127.0.0.1:3111/chat");
+            buffer = new Queue<string>();
+            configure();
+
+        }
+        public void configure()
+        {
+            ws = new WebSocket("ws://127.0.0.1:8112/chat");
             string host = "localhost";
-            Queue<JObject> buffer = new Queue<JObject>();
             ws.OnOpen += (ss, ee) =>
                 System.Windows.Forms.MessageBox.Show("Connection establised!");
             ws.OnError += (ss, ee) =>
-               System.Windows.Forms.MessageBox.Show("Error:" +ee.Message);
+               System.Windows.Forms.MessageBox.Show("Error:" + ee.Message);
             ws.OnMessage += (ss, ee) =>
-                { MessageReceived?.Invoke(ee.Data);  };
+               {
+                   if (MessageReceived != null)
+                   {
+                       MessageReceived(ee.Data);
+                       buffer.Enqueue(ee.Data);
+                   }
+               };
             ws.OnClose += (ss, ee) =>
                System.Windows.Forms.MessageBox.Show("Disconnected with {0}", host);
             ws.Connect();
-       
         }
-
         // Handles when a new message is entered by the user
-        public bool MessageEntered(string message)
-        {
-            // Send the message to the server if connection is alive
-            if (ws.IsAlive)
-            {
-                ws.Send(message);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //public bool MessageEntered(string message)
+        //{
+        //    // Send the message to the server if connection is alive
+        //    if (ws.IsAlive)
+        //    {
+        //        ws.Send(message);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
         // Makes sure to close the websocket when the controller is destructed
         ~Controller()
@@ -75,27 +86,22 @@ namespace Client_T10_B
             }
             else
             {
-                while (!ws.IsAlive)
-                {
-                    ws.Connect();
-                }
-                ws.Send(message);
-                return true;
+                return false;
             }
         }
 
-        public string messageResponse()
+        public void messageResponse()
         {
-            string response = "";
-            ws.OnMessage += (sender1, e1) => {
+            Thread.Sleep(50);
+            ws.OnMessage += (sender, e) =>
+            {
                 if (MessageReceived != null)
                 {
-                    MessageReceived(e1.Data);
-                    response = e1.Data.ToString();
+                    MessageReceived(e.Data);
+                    buffer.Enqueue(e.Data);
                 }
             };
-            System.Threading.Thread.Sleep(2000);
-            return response;
+            //  System.Threading.Thread.Sleep(2000);
         }
         public void updatelist(IList list)
         {
@@ -107,16 +113,16 @@ namespace Client_T10_B
                 }
             }
         }
-        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp )
+        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
             switch (handle)
             {
                 case messageType.login:
-                    loginHandle(sender, e, handle, o, temp );
+                    loginHandle(sender, e, handle, o, temp);
                     break;
-                case messageType.chatMessage:
-                    chatMessageHandle(sender, e, handle, o, temp);
-                    break;
+                //case messageType.chatMessage:
+                //    chatMessageHandle(sender, e, handle, o, temp);
+                //    break;
                 case messageType.contactAdded:
                     contactAddedHandle(sender, e, handle, o, temp);
                     break;
@@ -129,12 +135,12 @@ namespace Client_T10_B
                 case messageType.createChat:
                     createChatHandle(sender, e, handle, o, temp);
                     break;
-                //case messageType.leaveChat:
-                //    leaveChatHandle(sender, e, handle, o, temp);
-                //    break;
-                case messageType.logout:
-                    logoutHandle(sender, e, handle, o, temp);
-                    break;
+                    //case messageType.leaveChat:
+                    //    leaveChatHandle(sender, e, handle, o, temp);
+                    //    break;
+                    //case messageType.logout:
+                    //    logoutHandle(sender, e, handle, o, temp);
+                    //    break;
                     //case messageType.roomStatusChange:
                     //    roomStatusChangeHandle(sender, e, handle, o, temp);
                     //    break;
@@ -169,14 +175,16 @@ namespace Client_T10_B
             }
             else
             {
-                string response = messageResponse();
-                if (response == "")
+                messageResponse();
+               
+                //if (response == "")
+                //{
+                //    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                //    return;
+                //}
+                if(buffer.Count != 0)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                    return;
-                }
-                else
-                {
+                    string response = buffer.Dequeue();
                     JObject rss = JObject.Parse(response);
 
                     foreach (var pair in rss)
@@ -213,49 +221,49 @@ namespace Client_T10_B
                     signalObservers(sender, error, null);
                 }
             }
-                
+
         }
         // handles request by dealing TWO cards at a time:
-        public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
-        {
-            int error = 0;
-            JObject jo = JObject.FromObject(o);
-            string json = jo.ToString();
-            string user_name = "";
-            string response = dummy.logout(json);
-            JObject rss = JObject.Parse(response);
-            foreach (var pair in rss)
-            {
-                if (pair.Key == "messageType")
-                {
-                    Debug.Assert((string)pair.Value == "logout");
-                }
+        //    public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
+        //    {
+        //        int error = 0;
+        //        JObject jo = JObject.FromObject(o);
+        //        string json = jo.ToString();
+        //        string user_name = "";
+        //        string response = dummy.logout(json);
+        //        JObject rss = JObject.Parse(response);
+        //        foreach (var pair in rss)
+        //        {
+        //            if (pair.Key == "messageType")
+        //            {
+        //                Debug.Assert((string)pair.Value == "logout");
+        //            }
 
-                else if (pair.Key == "error")
-                {
-                    error = (int)pair.Value;
-                    if (error == 0)
-                    {
-                        // user.status = 1 means it is offline
-                        u.status = 0;
-                    }
-                    else 
-                    {
-                        u.status = 1;
-                    }
-                }
+        //            else if (pair.Key == "error")
+        //            {
+        //                error = (int)pair.Value;
+        //                if (error == 0)
+        //                {
+        //                    // user.status = 1 means it is offline
+        //                    u.status = 0;
+        //                }
+        //                else
+        //                {
+        //                    u.status = 1;
+        //                }
+        //            }
 
-                else if (pair.Key == "username")
-                {
-                    user_name = (string)pair.Value;
-                    if (!u.contactList.Contains(user_name))
-                    {
-                        user_name = null ;
-                    }
-                }
-            }
-            signalObservers(sender, error, user_name);
-        }
+        //            else if (pair.Key == "username")
+        //            {
+        //                user_name = (string)pair.Value;
+        //                if (!u.contactList.Contains(user_name))
+        //                {
+        //                    user_name = null;
+        //                }
+        //            }
+        //        }
+        //        signalObservers(sender, error, user_name);
+        //    }
 
         public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
@@ -270,43 +278,44 @@ namespace Client_T10_B
                 System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
                 return;
             }
-            else
+            //else
+            //{
+            messageResponse();
+            //    if (response == "")
+            //    {
+            //        System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+            //        return;
+            //    }
+            if (buffer.Count != 0)
             {
-                string response = messageResponse();
-                if (response == "")
+                string response = buffer.Dequeue();
+                JObject rss = JObject.Parse(response);
+                foreach (var pair in rss)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                    return;
+                    if (pair.Key == "messageType")
+                    {
+                        Debug.Assert((string)pair.Value == "contactAdded");
+                    }
+
+                    else if (pair.Key == "error")
+                    {
+                        error = (int)pair.Value;
+                    }
+
+                    else if (pair.Key == "status")
+                    {
+                        status = (int)pair.Value;
+                    }
+
                 }
-                else
+                if (error == 0)
                 {
-                    JObject rss = JObject.Parse(response);
-                    foreach (var pair in rss)
-                    {
-                        if (pair.Key == "messageType")
-                        {
-                            Debug.Assert((string)pair.Value == "contactAdded");
-                        }
-
-                        else if (pair.Key == "error")
-                        {
-                            error = (int)pair.Value;
-                        }
-
-                        else if (pair.Key == "status")
-                        {
-                            status = (int)pair.Value;
-                        }
-
-                    }
-                    if (error == 0)
-                    {
-                        u.contactList.Add(username);
-                        u.contactList.Add(status.ToString());
-                    }
-                    signalObservers(sender, error, null);
+                    u.contactList.Add(username);
+                    u.contactList.Add(status.ToString());
                 }
+                signalObservers(sender, error, null);
             }
+     
         }
 
         public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
@@ -326,15 +335,16 @@ namespace Client_T10_B
             }
             else
             {
-                string response = messageResponse();
-                if (response == "")
+                messageResponse();
+                //if (response == "")
+                //{
+                //    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                //    return;
+                //}
+                //else
+                if(buffer.Count != 0)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                    return;
-                }
-                else
-                {
-
+                    string response = buffer.Dequeue();
                     JObject rss = JObject.Parse(response);
 
                     foreach (var pair in rss)
@@ -371,14 +381,14 @@ namespace Client_T10_B
                         chat.currentMembers = currentMembers;
                         chat.mutualMembers = mutualMembers;
                         chat.roomNumber = roomName;
-                        Chatbox_v chatbox = new Chatbox_v(chat, MessageEntered,chatMessageHandle);
+                        Chatbox_v chatbox = new Chatbox_v(chat, sendMessage, createChatHandle);
 
                         Task.Factory.StartNew(() => chatbox.ShowDialog(), TaskCreationOptions.LongRunning);
 
                         //chatbox.ShowDialog();
                         //new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber), MessageEntered).ShowDialog();
 
-                        MessageReceived = chatbox.MessageReceived;
+                       // MessageReceived = chatbox.MessageReceived;
                     }
                     else if (error == 1)
                         System.Windows.Forms.MessageBox.Show("The person is not in your friend list. Please add first!");
@@ -404,14 +414,15 @@ namespace Client_T10_B
             }
             else
             {
-                string response = messageResponse();
-                if (response == "")
+                messageResponse();
+                //if (response == "")
+                //{
+                //    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                //    return;
+                //}
+                if(buffer.Count != 0)
                 {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                    return;
-                }
-                else
-                {
+                    string response = buffer.Dequeue();
                     JObject rss = JObject.Parse(response);
                     int error = 0;
                     int roomName = 0;
@@ -464,8 +475,8 @@ namespace Client_T10_B
                 }
             }
 
-       }
+        }
 
-        public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }
+        public void signalObservers(object sender, int e, string str) { foreach (Observer m in observers) { m(sender, e, str); } }
     }
 }

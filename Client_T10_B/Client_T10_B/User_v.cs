@@ -58,6 +58,17 @@ namespace Client_T10_B
             f(sender, e, handle, o, uxUserName.Text.ToString());
           //  refreshContactList(sender, 0, null);
         }
+        public bool findItem(IList list, string item)
+        {
+            foreach(ListViewItem l in list)
+            {
+                if(l.Text == item)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
 
         public void refreshContactList(object sender, int e, string temp)
@@ -65,21 +76,36 @@ namespace Client_T10_B
             if (e == 0)
             {
                 Dictionary<string, int> contacts = u.getContactList();
+               // uxContactList.Clear();
                 uxContactList.BeginUpdate();
                 foreach (KeyValuePair<string, int> c in contacts)
                 {
-                    ListViewItem li = new ListViewItem();
-                    li.Text = c.Key;
-                    if (c.Value == 0) //logged in 
-                    {
-                        li.ForeColor = Color.Green;
-                    }
-                    else //logged out 
-                    {
-                        li.ForeColor = Color.Red;
-                    }
+                    //bool x = true;
 
-                    uxContactList.Items.Add(li);
+                    //foreach (ListViewItem l in uxContactList.Items)
+                    //{
+                    //    if (l.Text == c.Key)
+                    //    {
+                    //        x = true;
+                    //    }
+                    //}
+                    //x = false;
+                    //if (x == false)
+                    //{
+                        ListViewItem li = new ListViewItem();
+                        li.Text = c.Key;
+                        if (c.Value == 0) //logged in 
+                        {
+                            li.ForeColor = Color.Green;
+                        }
+                        else //logged out 
+                        {
+                            li.ForeColor = Color.Red;
+                        }
+
+                        uxContactList.Items.Add(li);
+                  //  }
+                
                 }
 
                 uxContactList.EndUpdate();
@@ -97,9 +123,9 @@ namespace Client_T10_B
             o.usernameAdd = uxPersonName.Text.ToString();
             o.messageType = "contactAdded";
             messageType handle = messageType.contactAdded;
-            uxContactList.BeginUpdate();
+           // uxContactList.BeginUpdate();
             f(sender, e, handle, o, uxPersonName.Text.ToString() );
-            uxContactList.EndUpdate();
+          //  uxContactList.EndUpdate();
         }
 
         private void User_v_Load(object sender, EventArgs e)
