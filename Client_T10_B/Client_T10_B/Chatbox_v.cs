@@ -47,11 +47,11 @@ namespace Client_T10_B
         {
             // Add message to messageListBox and scroll to bottom
             // Invoke is used to make sure that this is done in the GUI thread
-            if (!this.IsHandleCreated)
-            {
-                this.CreateHandle();
-            }
-            Invoke(new Action(() => uxmessageBox.TopIndex = uxmessageBox.Items.Add(message)));            
+            //if (!this.IsHandleCreated)
+            //{
+            //    this.CreateHandle();
+            //}
+            //Invoke(new Action(() => uxmessageBox.TopIndex = uxmessageBox.Items.Add(message)));            
             return true;
         }
 

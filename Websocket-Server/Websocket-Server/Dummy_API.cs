@@ -141,6 +141,7 @@ namespace Websocket_Server
                 potentialMembers(string array),
                 currentMembers(string array)
              * */
+            
             JObject rss = JObject.Parse(json);
             string username = "";
             string friend = "";
@@ -223,6 +224,7 @@ namespace Websocket_Server
 
         public string contactAdded(string json)
         {
+            Console.WriteLine("AddContact\n"+json);
             JObject rss = JObject.Parse(json);
             string username = "";
             string friend = "";

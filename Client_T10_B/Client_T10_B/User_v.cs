@@ -65,7 +65,7 @@ namespace Client_T10_B
             if (e == 0)
             {
                 Dictionary<string, int> contacts = u.getContactList();
-                uxContactList.BeginUpdate();
+                //uxContactList.BeginUpdate();
                 foreach (KeyValuePair<string, int> c in contacts)
                 {
                     ListViewItem li = new ListViewItem();
@@ -82,7 +82,7 @@ namespace Client_T10_B
                     uxContactList.Items.Add(li);
                 }
 
-                uxContactList.EndUpdate();
+                //uxContactList.EndUpdate();
             }
             else
             {

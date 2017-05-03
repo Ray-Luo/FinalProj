@@ -33,6 +33,7 @@ namespace Client_T10_B
 
         private void login_button_Click(object sender, EventArgs e)
         {
+            uxLogin.DialogResult = DialogResult.OK;
             try
             {
                 dynamic o = new ExpandoObject();

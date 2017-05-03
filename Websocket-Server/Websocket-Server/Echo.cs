@@ -14,7 +14,7 @@ namespace Websocket_Server
         {
             // Retrieve message from client
             string msg = e.Data;
-            
+            Console.Write(msg);
             // Send the message back
             Send("Echo: " + msg);
         }

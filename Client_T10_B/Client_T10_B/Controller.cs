@@ -10,12 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using static Client_T10_B.Program;
 using WebSocketSharp;
+using WebSocketSharp.Server;
 using System.Drawing;
 
 namespace Client_T10_B
 {
     public class Controller
-    {
+    { 
         private List<Observer> observers = new List<Observer>();  // registry of event handlers
         private User_m u;  // handles to Model objects
         private Dummy_API dummy = new Dummy_API();
@@ -35,25 +36,24 @@ namespace Client_T10_B
             this.u = u;
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:3111/chat");
+            ws.Connect();
             ws.OnMessage += (sender, e) =>
             {
-                ws.OnMessage += (sender1, e1) =>
+                response = e.Data.ToString();
+                if (response == null)
                 {
+                   System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                   return;
+                }
+                if (response.Contains("chatMessage"))
                     if (MessageReceived != null)
                     {
-                        MessageReceived(e1.Data);
-                        response = e1.Data.ToString();
-                        if (response == null)
-                        {
-                            System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                            return;
-                        }
-                        myHandler(_sender,_e,_handle,_o,_temp);                       
-                    }
-                };
-                ws.Connect();
+                        MessageReceived(e.Data);
+                        return;
+                    }                       
+                myHandler(_sender, _e, _handle, _o, _temp);
             };
-           }
+        }
 
         // Handles when a new message is entered by the user
         public bool MessageEntered(string message)
@@ -73,8 +73,9 @@ namespace Client_T10_B
         // Makes sure to close the websocket when the controller is destructed
         ~Controller()
         {
-            // ws.Close();
+             ws.Close();
         }
+
         public void updatelist(IList list)
         {
             if (list != null)
@@ -94,9 +95,8 @@ namespace Client_T10_B
                     _e = e;
                     _handle = handle;
                     _o = o;
-                    _temp = temp;
-                    sendMessage(o);
-                    myHandler = loginHandle;
+                    _temp = temp;                    
+                    myHandler = loginHandle;                    
                     break;
                 case messageType.chatMessage:
                     _sender = sender;
@@ -104,7 +104,6 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-                    sendMessage(o);
                     myHandler = chatMessageHandle;
                     break;
                 case messageType.contactAdded:
@@ -113,22 +112,30 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-                    sendMessage(o);
                     myHandler = contactAddedHandle;
                     break;
-                //case messageType.addChatMember:
-                //    addChatMemberHandle(sender, e, handle, o, temp);
-                //    break;
-                //case messageType.contactRemoved:
-                //    contactRemovedHandle(sender, e, handle, o, temp);
-                //    break;
+                case messageType.addChatMember:
+                    _sender = sender;
+                    _e = e;
+                    _handle = handle;
+                    _o = o;
+                    _temp = temp;
+      //TODO              myHandler = addChatMemberHandle;
+                    break;
+                case messageType.contactRemoved:
+                    _sender = sender;
+                    _e = e;
+                    _handle = handle;
+                    _o = o;
+                    _temp = temp;
+      //TODO              myHandler = contactRemovedHandle;
+                    break;
                 case messageType.createChat:
                     _sender = sender;
                     _e = e;
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-                    sendMessage(o);
                     myHandler = createChatHandle;
                     break;
                 //case messageType.leaveChat:
@@ -140,7 +147,6 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-                    sendMessage(o);
                     myHandler = logoutHandle;
                     break;
                     //case messageType.roomStatusChange:
@@ -151,6 +157,7 @@ namespace Client_T10_B
                     //    break;
 
             }
+            sendMessage(o);
         }
 
         // register(f) adds event-handler method  f  to the registry:
@@ -245,8 +252,6 @@ namespace Client_T10_B
         {
             int error = 0;
             int status = 0;
-            JObject jo = JObject.FromObject(o);
-            string json = jo.ToString();
 
                     JObject rss = JObject.Parse(response);
                     foreach (var pair in rss)
@@ -283,9 +288,6 @@ namespace Client_T10_B
             int roomName = 0;
             List<string> currentMembers = new List<string>();
             List<string> mutualMembers = new List<string>();
-            JObject jo = JObject.FromObject(o);
-            string json = jo.ToString();
-            //string response = dummy.createChat(json);
 
                     JObject rss = JObject.Parse(response);
 
@@ -323,14 +325,8 @@ namespace Client_T10_B
                         chat.currentMembers = currentMembers;
                         chat.mutualMembers = mutualMembers;
                         chat.roomNumber = roomName;
-                        Chatbox_v chatbox = new Chatbox_v(chat, MessageEntered,chatMessageHandle);
 
-                        Task.Factory.StartNew(() => chatbox.ShowDialog(), TaskCreationOptions.LongRunning);
-
-                        //chatbox.ShowDialog();
-                        //new Chatbox_v(new ChatRoom_m(new List<string>(new string[] { username_1,username_2 }), roomNumber), MessageEntered).ShowDialog();
-
-                        MessageReceived = chatbox.MessageReceived;
+                       // MessageReceived = chatbox.MessageReceived;
                     }
                     else if (error == 1)
                         System.Windows.Forms.MessageBox.Show("The person is not in your friend list. Please add first!");
@@ -344,9 +340,7 @@ namespace Client_T10_B
 
         public void chatMessageHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
-            JObject jo = JObject.FromObject(o);
-            jo.Add("username", u.userName);
-            string json = jo.ToString();
+
 
                     JObject rss = JObject.Parse(response);
                     int error = 0;
@@ -367,10 +361,6 @@ namespace Client_T10_B
                             error = (int)pair.Value;
                         }
 
-                        else if (pair.Key == "roomName")
-                        {
-                            roomName = (int)pair.Value;
-                        }
 
                         else if (pair.Key == "content")
                         {
@@ -392,7 +382,7 @@ namespace Client_T10_B
                     }
                     if (error == 0)
                     {
-                        message = username + ":" + content;
+                        message = username + ": " + content;
                     }
                     signalObservers(sender, error, message);
 
@@ -424,7 +414,6 @@ namespace Client_T10_B
             }
         }
 
-        
 
         public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }
     }
