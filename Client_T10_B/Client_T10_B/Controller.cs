@@ -20,18 +20,40 @@ namespace Client_T10_B
         private User_m u;  // handles to Model objects
         private Dummy_API dummy = new Dummy_API();
         public static WebSocket ws;
-
+        public static InputHandler myHandler;
         // Event for when a message is received from the server
         public event Message MessageReceived;
+        public static object _sender;
+        public static EventArgs _e;
+        public static messageType _handle;
+        public static ExpandoObject _o;
+        public static string _temp;
+        public static string response;
 
         public Controller(User_m u)
         {
             this.u = u;
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:3111/chat");
-            ws.OnMessage += (sender, e) => { if (MessageReceived != null) { MessageReceived(e.Data); } };
-            ws.Connect();
-        }
+            ws.OnMessage += (sender, e) =>
+            {
+                ws.OnMessage += (sender1, e1) =>
+                {
+                    if (MessageReceived != null)
+                    {
+                        MessageReceived(e1.Data);
+                        response = e1.Data.ToString();
+                        if (response == null)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
+                            return;
+                        }
+                        myHandler(_sender,_e,_handle,_o,_temp);                       
+                    }
+                };
+                ws.Connect();
+            };
+           }
 
         // Handles when a new message is entered by the user
         public bool MessageEntered(string message)
@@ -51,7 +73,7 @@ namespace Client_T10_B
         // Makes sure to close the websocket when the controller is destructed
         ~Controller()
         {
-           // ws.Close();
+            // ws.Close();
         }
         public void updatelist(IList list)
         {
@@ -63,18 +85,36 @@ namespace Client_T10_B
                 }
             }
         }
-        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp )
+        public void handle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
             switch (handle)
             {
                 case messageType.login:
-                    loginHandle(sender, e, handle, o, temp );
+                    _sender = sender;
+                    _e = e;
+                    _handle = handle;
+                    _o = o;
+                    _temp = temp;
+                    sendMessage(o);
+                    myHandler = loginHandle;
                     break;
                 case messageType.chatMessage:
-                    chatMessageHandle(sender, e, handle, o, temp);
+                    _sender = sender;
+                    _e = e;
+                    _handle = handle;
+                    _o = o;
+                    _temp = temp;
+                    sendMessage(o);
+                    myHandler = chatMessageHandle;
                     break;
                 case messageType.contactAdded:
-                    contactAddedHandle(sender, e, handle, o, temp);
+                    _sender = sender;
+                    _e = e;
+                    _handle = handle;
+                    _o = o;
+                    _temp = temp;
+                    sendMessage(o);
+                    myHandler = contactAddedHandle;
                     break;
                 //case messageType.addChatMember:
                 //    addChatMemberHandle(sender, e, handle, o, temp);
@@ -83,13 +123,25 @@ namespace Client_T10_B
                 //    contactRemovedHandle(sender, e, handle, o, temp);
                 //    break;
                 case messageType.createChat:
-                    createChatHandle(sender, e, handle, o, temp);
+                    _sender = sender;
+                    _e = e;
+                    _handle = handle;
+                    _o = o;
+                    _temp = temp;
+                    sendMessage(o);
+                    myHandler = createChatHandle;
                     break;
                 //case messageType.leaveChat:
                 //    leaveChatHandle(sender, e, handle, o, temp);
                 //    break;
                 case messageType.logout:
-                    logoutHandle(sender, e, handle, o, temp);
+                    _sender = sender;
+                    _e = e;
+                    _handle = handle;
+                    _o = o;
+                    _temp = temp;
+                    sendMessage(o);
+                    myHandler = logoutHandle;
                     break;
                     //case messageType.roomStatusChange:
                     //    roomStatusChangeHandle(sender, e, handle, o, temp);
@@ -99,11 +151,6 @@ namespace Client_T10_B
                     //    break;
 
             }
-        }
-
-        public bool handle2(string message)
-        {
-            return true;
         }
 
         // register(f) adds event-handler method  f  to the registry:
@@ -117,22 +164,6 @@ namespace Client_T10_B
             List<string> contactList = new List<string>();
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
-
-            if (!sendMessage(json))
-            {
-                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                return;
-            }
-            else
-            {
-                string response = messageResponse();
-                if (response == "")
-                {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                    return;
-                }
-                else
-                {
                     JObject rss = JObject.Parse(response);
 
                     foreach (var pair in rss)
@@ -167,9 +198,6 @@ namespace Client_T10_B
                         }
                     }
                     signalObservers(sender, error, null);
-                }
-            }
-                
         }
         // handles request by dealing TWO cards at a time:
         public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
@@ -219,23 +247,7 @@ namespace Client_T10_B
             int status = 0;
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
-            // string response = dummy.contactAdded(json);
-            string friend = "";
-            if (!sendMessage(json))
-            {
-                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                return;
-            }
-            else
-            {
-                string response = messageResponse();
-                if (response == "")
-                {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                    return;
-                }
-                else
-                {
+
                     JObject rss = JObject.Parse(response);
                     foreach (var pair in rss)
                     {
@@ -261,8 +273,8 @@ namespace Client_T10_B
                         u.contactList.Add(status.ToString());
                     }
                     signalObservers(sender, error, null);
-                }
-            }
+                
+            
         }
 
         public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
@@ -274,22 +286,6 @@ namespace Client_T10_B
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
             //string response = dummy.createChat(json);
-
-            if (!sendMessage(json))
-            {
-                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                return;
-            }
-            else
-            {
-                string response = messageResponse();
-                if (response == "")
-                {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                    return;
-                }
-                else
-                {
 
                     JObject rss = JObject.Parse(response);
 
@@ -342,8 +338,8 @@ namespace Client_T10_B
                         System.Windows.Forms.MessageBox.Show("Cannot connect tho the server!");
 
                     signalObservers(sender, error, null);
-                }
-            }
+                
+            
         }
 
         public void chatMessageHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
@@ -352,22 +348,6 @@ namespace Client_T10_B
             jo.Add("username", u.userName);
             string json = jo.ToString();
 
-
-            if (!sendMessage(json))
-            {
-                System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                return;
-            }
-            else
-            {
-                string response = messageResponse();
-                if (response == "")
-                {
-                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
-                    return;
-                }
-                else
-                {
                     JObject rss = JObject.Parse(response);
                     int error = 0;
                     int roomName = 0;
@@ -417,17 +397,20 @@ namespace Client_T10_B
                     signalObservers(sender, error, message);
 
 
-                }
-            }
+                
+            
 
        }
 
-        public bool sendMessage(string message)
+        public bool sendMessage(ExpandoObject o)
         {
+
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
             // Send the message to the server if connection is alive
             if (ws.IsAlive)
             {
-                ws.Send(message);
+                ws.Send(json);
                 return true;
             }
             else
@@ -436,22 +419,12 @@ namespace Client_T10_B
                 {
                     ws.Connect();
                 }
-                ws.Send(message);
+                ws.Send(json);
                 return true;
             }
         }
 
-        public string messageResponse()
-        {
-            string response = "";
-            ws.OnMessage += (sender1, e1) => { if (MessageReceived != null)
-                                                {
-                                                    MessageReceived(e1.Data);
-                                                    response = e1.Data.ToString();
-                                                } };
-            System.Threading.Thread.Sleep(2000);
-            return response;
-        }
+        
 
         public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }
     }

@@ -29,6 +29,7 @@ namespace Client_T10_B
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             User_m u = new User_m();
             Controller c = new Controller(u);
             LogIn l = new LogIn(c.handle, u);

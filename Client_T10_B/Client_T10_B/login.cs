@@ -56,7 +56,7 @@ namespace Client_T10_B
                 if (error == 0)
                 {
                     User_v userProfile = new User_v(f1,u);//; u, f1,f2, c);
-                    Hide();
+                    //Hide();
                     userProfile.ShowDialog();
                 }
                 else if(error == 1)

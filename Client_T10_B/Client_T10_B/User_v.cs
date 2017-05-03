@@ -97,9 +97,9 @@ namespace Client_T10_B
             o.usernameAdd = uxPersonName.Text.ToString();
             o.messageType = "contactAdded";
             messageType handle = messageType.contactAdded;
-            uxContactList.BeginUpdate();
+           // uxContactList.BeginUpdate();
             f(sender, e, handle, o, uxPersonName.Text.ToString() );
-            uxContactList.EndUpdate();
+           // uxContactList.EndUpdate();
         }
 
         private void User_v_Load(object sender, EventArgs e)
