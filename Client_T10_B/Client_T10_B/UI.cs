@@ -115,7 +115,7 @@ namespace Client_T10_B
                     //      return true;
                     //  }
                 }
-                else if (pair.Key == "timestamp")
+                else if (pair.Key == "timeStamp")
                 {
                     timestamp = (string)pair.Value;
                 }

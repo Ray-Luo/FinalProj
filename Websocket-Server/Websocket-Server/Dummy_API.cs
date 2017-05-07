@@ -345,6 +345,7 @@ namespace Websocket_Server
             jo.Add("content", content);
             jo.Add("timeStamp", timestamp);
             jo.Add("error", error);
+            jo.Add("currentMembers", JToken.FromObject(chat.users));
             string output = jo.ToString();
             return output;
 
