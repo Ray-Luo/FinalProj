@@ -111,11 +111,19 @@ namespace Websocket_Server
                     username = (string)pair.Value;
                 }
             }
+            int error = 0;
+            if(getUser(username) == null)
+            {
+                error = 1;
+            }
+            User_m user = getUser(username);
+            user.status = 1;
+
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "logout");
             jo.Add("username", username);
-            jo.Add("error", 0);
+            jo.Add("error", error);
             string output = jo.ToString();
             return output;
         }

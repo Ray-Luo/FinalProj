@@ -54,6 +54,9 @@ namespace Websocket_Server
                 case "chatMessage":
                     response = msg;
                     break;
+                case "logout":
+                    response = msg;
+                    break;
             }
             // Broadcast message to all clients
             Sessions.Broadcast(response);
