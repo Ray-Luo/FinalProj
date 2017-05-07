@@ -175,7 +175,12 @@ namespace Client_T10_B
 
                     foreach (var pair in rss)
                     {
-                        if (pair.Key == "username")
+                        if (pair.Key == "messageType")
+                        {
+                            Debug.Assert((string)pair.Value == "login");
+                        }
+
+                        else if (pair.Key == "username")
                         {
                             u.userName = (string)pair.Value;
                             if (u.userName != username)
@@ -212,7 +217,12 @@ namespace Client_T10_B
             JObject rss = JObject.Parse(response);
             foreach (var pair in rss)
             {
-                if (pair.Key == "error")
+                if (pair.Key == "messageType")
+                {
+                    Debug.Assert((string)pair.Value == "logout");
+                }
+
+                else if (pair.Key == "error")
                 {
                     error = (int)pair.Value;
                     if (error == 0)
@@ -246,7 +256,12 @@ namespace Client_T10_B
                     JObject rss = JObject.Parse(response);
                     foreach (var pair in rss)
                     {
-                        if (pair.Key == "error")
+                        if (pair.Key == "messageType")
+                        {
+                            Debug.Assert((string)pair.Value == "contactAdded");
+                        }
+
+                        else if (pair.Key == "error")
                         {
                             error = (int)pair.Value;
                         }
@@ -278,7 +293,12 @@ namespace Client_T10_B
 
                     foreach (var pair in rss)
                     {
-                        if (pair.Key == "error")
+                        if (pair.Key == "messageType")
+                        {
+                            Debug.Assert((string)pair.Value == "createChat");
+                        }
+
+                        else if (pair.Key == "error")
                         {
                             error = (int)pair.Value;
                         }
@@ -331,7 +351,12 @@ namespace Client_T10_B
                     string message = "";
                     foreach (var pair in rss)
                     {
-                        if (pair.Key == "error")
+                        if (pair.Key == "messageType")
+                        {
+                            Debug.Assert((string)pair.Value == "chatMessage");
+                        }
+
+                        else if (pair.Key == "error")
                         {
                             error = (int)pair.Value;
                         }
