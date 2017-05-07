@@ -247,17 +247,17 @@ namespace Client_T10_B
             }
             else
             {
-                if (error == 0)
-                {
+                //if (error == 0)
+                //{
 
-                        // user clicked yes
-                        if (username != null)
-                        {
-                            MessageBox.Show(username + " loggout");
-                        }
+                //        // user clicked yes
+                //        if (username != null)
+                //        {
+                //            MessageBox.Show(username + " loggout");
+                //        }
 
-                    }
-                }
+                //}
+            }
 
         }
     }
