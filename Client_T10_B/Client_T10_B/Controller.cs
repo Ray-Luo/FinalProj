@@ -29,14 +29,15 @@ namespace Client_T10_B
         public static messageType _handle;
         public static ExpandoObject _o;
         public static string _temp;
-        public static string response;
+        public  string response;
         public int roomnumber = 99999999;
-
+        public string usr = "";
         public bool flag = false;
 
         public Controller(User_m u)
         {
             this.u = u;
+            usr = u.userName;
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:3111/chat");
             ws.Connect();
@@ -48,16 +49,16 @@ namespace Client_T10_B
                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
                    return;
                 }
-                //if (response.Contains("chatMessage"))
-                //    if (MessageReceived != null)
-                //    {
-                //        MessageReceived(e.Data);
-                //        return;
-                //    }
+                if (response.Contains("chatMessage"))
+                    if (MessageReceived != null)
+                    {
+                        MessageReceived(e.Data);
+                        return;
+                    }
 
                 JObject rss = JObject.Parse(response);
                 string username = "";
-                string messagetype = "";
+                string messagetype = "";      
                 List<string> currentMems = new List<string>();
                 foreach (var pair in rss)
                 {
@@ -70,7 +71,11 @@ namespace Client_T10_B
                         currentMems = pair.Value.ToObject<List<string>>();
                         if (currentMems.Contains(u.userName))
                         {
-                            username = u.userName;
+                            username = usr;
+                            if(u.userName != usr)
+                            {
+                                u.userName = usr;
+                            }
                         }
                     }
                 }
