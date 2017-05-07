@@ -56,15 +56,18 @@ namespace Client_T10_B
                 JObject rss = JObject.Parse(response);
                 string username = "";
                 string messagetype = "";
+                int roomnumber = 0;
                 foreach (var pair in rss)
                 {
                     if (pair.Key == "username")
                         username = (string)pair.Value;
                     if (pair.Key == "messageType")
                         messagetype = (string)pair.Value;
+                    if (pair.Key == "roomnumber")
+                        roomnumber = (int)pair.Value;
                 }
-                if(messagetype == "chatMessage")
-                    myHandler(_sender, _e, _handle, _o, _temp);
+                if (u.roomNumber != 9999999 && roomnumber != u.roomNumber)
+                    return;
 
                 if (flag == true)
                 {
@@ -313,43 +316,48 @@ namespace Client_T10_B
         public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
         {
             int error = 0;
+            int roomnumber = 0;
             List<string> currentMembers = new List<string>();
-            List<string> mutualMembers = new List<string>();
+            Dictionary<string,int> mutualMembers = new Dictionary<string, int>();
 
-                    JObject rss = JObject.Parse(response);
+            JObject rss = JObject.Parse(response);
 
-                    foreach (var pair in rss)
-                    {
-                        if (pair.Key == "error")
-                        {
-                            error = (int)pair.Value;
-                        }
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
 
-                        else if (pair.Key == "currentMembers")
-                        {
-                            currentMembers = pair.Value.ToObject<List<string>>();//(List<string>)pair.Value;
-                        }
+                else if (pair.Key == "currentMembers")
+                {
+                    currentMembers = pair.Value.ToObject<List<string>>();//(List<string>)pair.Value;
+                }
 
-                        else if (pair.Key == "mutualMembers")
-                        {
-                            mutualMembers = pair.Value.ToObject<List<string>>();
-                        }
+                else if (pair.Key == "mutualMembers")
+                {
+                    mutualMembers = pair.Value.ToObject<Dictionary<string, int>>();
+                }
+                else if(pair.Key == "roomNumber")
+                {
+                    roomnumber = (int)pair.Value;
+                }
 
-                    }
-                    if (error == 0)
-                    {
-                        ChatRoom_m chat = new ChatRoom_m();
-                        chat.currentMembers = currentMembers;
-                        chat.mutualMembers = mutualMembers;
+            }
+            if (error == 0)
+            { 
+                u.currentMembers = currentMembers;
+                u.mutualMembers = mutualMembers;
+                u.roomNumber = roomnumber;
 
-                       // MessageReceived = chatbox.MessageReceived;
-                    }
-                    else if (error == 1)
-                        System.Windows.Forms.MessageBox.Show("The person is not in your friend list. Please add first!");
-                    else
-                        System.Windows.Forms.MessageBox.Show("Cannot connect tho the server!");
+                // MessageReceived = chatbox.MessageReceived;
+            }
+            else if (error == 1)
+                System.Windows.Forms.MessageBox.Show("The person is not in your friend list. Please add first!");
+            else
+                System.Windows.Forms.MessageBox.Show("Cannot connect tho the server!");
 
-                    signalObservers(sender, error, null, 10);
+            signalObservers(sender, error, null, 4);
                 
             
         }
@@ -386,7 +394,7 @@ namespace Client_T10_B
                                 return;
                             }
                         }
-                        else if (pair.Key == "timestamp")
+                        else if (pair.Key == "timeStamp")
                         {
                             timestamp = (string)pair.Value;
                         }
@@ -394,7 +402,7 @@ namespace Client_T10_B
                     if (error == 0)
                     {
                         
-                        message = DateTime.Now.ToString("HH:mm:ss tt") + "/n" + username + ": " + content;
+                        message = timestamp + "\n" + username + ": " + content;
                     }
                     signalObservers(sender, error, message, 10);
 

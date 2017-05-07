@@ -12,7 +12,10 @@ namespace Client_T10_B
         public string password;
         public int status; // online (0) or offline (1)
         public List<string> contactList = new List<string>();
-        public List<int> roomNumbers = new List<int>();
+
+        public List<string> currentMembers;
+        public Dictionary<string, int> mutualMembers;
+        public int roomNumber = 9999999;
 
         public User_m()
         {
