@@ -210,15 +210,21 @@ namespace Client_T10_B
             f(sender, e, handle, o, uxUsername.Text.ToString());
         }
 
-        public void logout(object sender, int error, string temp)
+        public void logout(object sender, int error, string username)
         {
             Button clickedButton = sender as Button;
             if (clickedButton == uxLogout)
             {
                 if (error == 0)
                 {
-                    MessageBox.Show("Logged out");
 
+                    if (MessageBox.Show("Are you sure you want to Log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        // user clicked yes
+                        Application.Exit();
+                        MessageBox.Show("Logged out");
+                    }
+                 
                 }
                 else
                 {
@@ -226,11 +232,20 @@ namespace Client_T10_B
                 }
 
             }
-
-            if (temp != "")
+            else
             {
+                if (error == 0)
+                {
 
-            }
+                        // user clicked yes
+                        if (username != null)
+                        {
+                            MessageBox.Show(username + " loggout");
+                        }
+
+                    }
+                }
+
         }
     }
 }
