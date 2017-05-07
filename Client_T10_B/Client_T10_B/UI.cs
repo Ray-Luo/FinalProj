@@ -50,7 +50,7 @@ namespace Client_T10_B
             }
         }
 
-        public void login(object sender, int error, string username)
+        public void login(object sender, int error, string username, int s)
         {
             Button clickedButton = sender as Button;
             if (clickedButton == uxLogin)
@@ -138,10 +138,22 @@ namespace Client_T10_B
             f(sender, e, handle, o, uxAddContactBox.Text.ToString());
         }
 
-        public void refreshContactList(object sender, int e, string temp)
+        public void refreshContactList(object sender, int e, string username, int status)
         {
             if (e == 0)
             {
+                if (u.userName != username)
+                {
+                    if (status == 0) // log in
+                    {
+                        MessageBox.Show(username + " logged in");
+                    }
+                    if (status == 1) // log out
+                    {
+                        MessageBox.Show(username + " logged out");
+                    }
+                    int a = 0;
+                }
                 Dictionary<string, int> contacts = u.getContactList();
                 Invoke(new Action(() => {
                     uxContactList.Items.Clear();
@@ -211,7 +223,7 @@ namespace Client_T10_B
             f(sender, e, handle, o, uxUsername.Text.ToString());
         }
 
-        public void logout(object sender, int error, string username)
+        public void logout(object sender, int error, string username, int s)
         {
             Button clickedButton = sender as Button;
             if (clickedButton == uxLogout)

@@ -219,7 +219,7 @@ namespace Client_T10_B
                             u.contactList = contactList;
                         }
                     }
-                    signalObservers(sender, error, null);
+                    signalObservers(sender, error, null,0);
         }
         // handles request by dealing TWO cards at a time:
         public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
@@ -255,7 +255,7 @@ namespace Client_T10_B
                     }
                 }
             }
-            signalObservers(sender, error, user_name);
+            signalObservers(sender, error, user_name, 0);
         }
 
         public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
@@ -282,7 +282,7 @@ namespace Client_T10_B
                         u.contactList.Add(username);
                         u.contactList.Add(status.ToString());
                     }
-                    signalObservers(sender, error, null);
+                    signalObservers(sender, error, null, 0);
                 
             
         }
@@ -333,7 +333,7 @@ namespace Client_T10_B
                     else
                         System.Windows.Forms.MessageBox.Show("Cannot connect tho the server!");
 
-                    signalObservers(sender, error, null);
+                    signalObservers(sender, error, null, 0);
                 
             
         }
@@ -379,7 +379,7 @@ namespace Client_T10_B
                     {
                         message = username + ": " + content;
                     }
-                    signalObservers(sender, error, message);
+                    signalObservers(sender, error, message, 0);
 
 
                 
@@ -409,9 +409,10 @@ namespace Client_T10_B
                     error = (int)pair.Value;
                 }
 
+
                
             }
-            signalObservers(sender, error, username);
+            signalObservers(sender, error, username, 0); // 0 is login
         }
 
         public void friendLogoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
@@ -440,6 +441,6 @@ namespace Client_T10_B
         }
 
 
-        public void signalObservers(object sender,int e, string str) { foreach (Observer m in observers) { m(sender,e, str); } }
+        public void signalObservers(object sender,int e, string str, int s) { foreach (Observer m in observers) { m(sender,e, str,s); } }
     }
 }
