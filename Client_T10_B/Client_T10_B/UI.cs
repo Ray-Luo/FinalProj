@@ -140,49 +140,60 @@ namespace Client_T10_B
 
         public void refreshContactList(object sender, int e, string username, int status)
         {
-            if (e == 0)
-            {
-                if (u.userName != username)
+           
+                if (e == 0)
                 {
-                    if (status == 0) // log in
+                    if (u.userName != username)
                     {
-                        MessageBox.Show(username + " logged in");
-                    }
-                    if (status == 1) // log out
+                        if (status == 0) // log in
+                        {
+                            MessageBox.Show(username + " logged in");
+                        }
+                        else if (status == 1) // log out
+                        {
+                            MessageBox.Show(username + " logged out");
+                        }
+                        else if(status == 2) // I logged in 
+                        {
+                        MessageBox.Show("Logged In");
+                        }
+                    else if (status == 3) // I logged in 
                     {
-                        MessageBox.Show(username + " logged out");
+                        MessageBox.Show("Logged Out");
                     }
                 }
-                Dictionary<string, int> contacts = u.getContactList();
-                Invoke(new Action(() => {
-                    uxContactList.Items.Clear();
-                    uxContactList.Update();
-                    uxContactList.Refresh();
-                }));
-                
-                
-                foreach (KeyValuePair<string, int> c in contacts)
-                {
-                    ListViewItem li = new ListViewItem();
-                    li.Text = c.Key;
-                    if (c.Value == 0) //logged in 
+                    Dictionary<string, int> contacts = u.getContactList();
+                    Invoke(new Action(() =>
                     {
-                        li.ForeColor = Color.Green;
-                    }
-                    else //logged out 
+                        uxContactList.Items.Clear();
+                        uxContactList.Update();
+                        uxContactList.Refresh();
+                    }));
+
+
+                    foreach (KeyValuePair<string, int> c in contacts)
                     {
-                        li.ForeColor = Color.Red;
+                        ListViewItem li = new ListViewItem();
+                        li.Text = c.Key;
+                        if (c.Value == 0) //logged in 
+                        {
+                            li.ForeColor = Color.Green;
+                        }
+                        else //logged out 
+                        {
+                            li.ForeColor = Color.Red;
+                        }
+
+                        Invoke(new Action(() => uxContactList.Items.Add(li)));
                     }
 
-                    Invoke(new Action(() => uxContactList.Items.Add(li)));
+                    //uxContactList.EndUpdate();
                 }
-
-                //uxContactList.EndUpdate();
-            }
-            else
-            {
-                MessageBox.Show("Something went wrong!");
-            }
+                else
+                {
+                    MessageBox.Show("Something went wrong!");
+                }
+            
         }
 
         private void uxChat_Click(object sender, EventArgs e)

@@ -239,7 +239,7 @@ namespace Client_T10_B
                             u.contactList = contactList;
                         }
                     }
-                    signalObservers(sender, error, null,0);
+                    signalObservers(sender, error, null,2);
         }
         // handles request by dealing TWO cards at a time:
         public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
@@ -275,7 +275,7 @@ namespace Client_T10_B
                     }
                 }
             }
-            signalObservers(sender, error, user_name, 0);
+            signalObservers(sender, error, user_name, 3);
         }
 
         public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
@@ -302,7 +302,7 @@ namespace Client_T10_B
                         u.contactList.Add(username);
                         u.contactList.Add(status.ToString());
                     }
-                    signalObservers(sender, error, null, 0);
+                    signalObservers(sender, error, null, 10);
                 
             
         }
@@ -353,7 +353,7 @@ namespace Client_T10_B
                     else
                         System.Windows.Forms.MessageBox.Show("Cannot connect tho the server!");
 
-                    signalObservers(sender, error, null, 0);
+                    signalObservers(sender, error, null, 10);
                 
             
         }
@@ -399,7 +399,7 @@ namespace Client_T10_B
                     {
                         message = username + ": " + content;
                     }
-                    signalObservers(sender, error, message, 0);
+                    signalObservers(sender, error, message, 10);
 
 
                 
