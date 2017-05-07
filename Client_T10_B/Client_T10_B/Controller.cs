@@ -252,7 +252,7 @@ namespace Client_T10_B
                             u.contactList = contactList;
                         }
                     }
-                    signalObservers(sender, error, null,2);
+                    signalObservers(sender, error, response, 2);
         }
         // handles request by dealing TWO cards at a time:
         public void logoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)

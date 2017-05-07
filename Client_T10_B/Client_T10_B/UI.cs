@@ -73,7 +73,7 @@ namespace Client_T10_B
         }
 
         public void MessageReceived(object sender, int e, string response, int s)
-        {
+        {           
             JObject rss = JObject.Parse(response);
             int error = 0;
             int roomName = 0;
@@ -81,8 +81,15 @@ namespace Client_T10_B
             string username = "";
             string timestamp = "";
             string message = "";
+            string messageType = "";
             foreach (var pair in rss)
             {
+                if(pair.Key == "messageType")
+                {
+                    messageType = (string)pair.Value;
+                    if (messageType != "ChatMessage")
+                        return;
+                }
                if (pair.Key == "error")
                 {
                     error = (int)pair.Value;
