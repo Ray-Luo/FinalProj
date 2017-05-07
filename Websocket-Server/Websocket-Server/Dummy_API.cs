@@ -155,6 +155,7 @@ namespace Websocket_Server
             int error = 0;
             List<string> currentMembers = new List<string>();
             Dictionary<string,int> mutualFriends = new Dictionary<string, int>();
+            ChatRoom_m chat = new ChatRoom_m();
 
             foreach (var pair in rss)
             {
@@ -176,7 +177,6 @@ namespace Websocket_Server
             }
             else
             {
-                ChatRoom_m chat = new ChatRoom_m();
                 chat.roomNumber = chatRooms.Count;
                 chat.users = new List<string>();
                 chat.users.Add(username);
@@ -202,7 +202,7 @@ namespace Websocket_Server
                 dynamic o = new ExpandoObject();
                 JObject jo = JObject.FromObject(o);
                 jo.Add("messageType", "createChat");
-                jo.Add("roomname", chatRooms.Count);
+                jo.Add("roomNumber", chat.roomNumber);
                 jo.Add("username", username);
                 jo.Add("potentialMembers", JToken.FromObject(mutualFriends));
                 jo.Add("currentMembers", JToken.FromObject(currentMembers));
@@ -254,7 +254,7 @@ namespace Websocket_Server
                     {
                         friend = (string)pair.Value;
                     }
-                    else if (pair.Key == "roomname")
+                    else if (pair.Key == "roomNumber")
                     {
                         roomname = (int)pair.Value;
                     }
@@ -281,7 +281,7 @@ namespace Websocket_Server
                 dynamic o = new ExpandoObject();
                 JObject jo = JObject.FromObject(o);
                 jo.Add("messageType", "createChat");
-                jo.Add("roomname", chat.roomNumber);
+                jo.Add("roomNumber", chat.roomNumber);
                 jo.Add("username", username);
                 jo.Add("potentialMembers", JToken.FromObject(chat.mutualFriends));
                 jo.Add("currentMembers", JToken.FromObject(currentMembers));
@@ -320,7 +320,7 @@ namespace Websocket_Server
                 {
                     username = (string)pair.Value;
                 }
-                else if (pair.Key == "chatRoom")
+                else if (pair.Key == "roomNumber")
                 {
                     roomNumber = (int)pair.Value;
                 }
@@ -340,7 +340,7 @@ namespace Websocket_Server
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "chatMessage");
-            jo.Add("chatRoom", roomNumber);
+            jo.Add("roomNumber", chat.roomNumber);
             jo.Add("username", username);
             jo.Add("content", content);
             jo.Add("timeStamp", timestamp);
@@ -405,7 +405,57 @@ namespace Websocket_Server
 
         public string contactRemoved(string json)
         {
-            return null;
+            /*
+             * 
+             * client-side request:
+                message type(contactRemoved),
+                username(string),
+                usernameRemoved(string)
+
+                server-side response(to appropriate users with chatRooms):
+                message type(roomStatusChange),
+                error type,
+                roomname(integer),
+                potentialMembers(string array),
+                currentMembers(string array)
+             * */
+            JObject rss = JObject.Parse(json);
+            string username = "";
+            string friend = "";
+            int error = 0;
+            int status = 0;
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                }
+                else if (pair.Key == "usernameRemoved")
+                {
+                    friend = (string)pair.Value;
+                }
+            }
+            User_m user = getUser(username);
+            if(user.contactList.Contains(friend))
+            {
+                int index = user.contactList.IndexOf(friend);
+                user.contactList.Remove(friend);
+                user.contactList.RemoveAt(index);
+                error = 0;
+            }
+            else
+            {
+                error = 1;
+
+            }
+
+            dynamic o = new ExpandoObject();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "contactRemoved");
+            jo.Add("username", username);
+            jo.Add("error", error);
+            string output = jo.ToString();
+            return output;
 
         }
     }

@@ -74,67 +74,18 @@ namespace Client_T10_B
 
         }
 
-        public bool MessageReceived(string response)
-        {           
-            //JObject rss = JObject.Parse(response);
-            //int error = 0;
-            //int roomName = 0;
-            //string content = "";
-            //string username = "";
-            //string timestamp = "";
-            //string message = "";
-            //string messageType = "";
-            //foreach (var pair in rss)
-            //{
-            //    if(pair.Key == "messageType")
-            //    {
-            //        messageType = (string)pair.Value;
-            //        if (messageType != "chatMessage")
-            //            return;
-            //    }
-            //   if (pair.Key == "error")
-            //    {
-            //        error = (int)pair.Value;
-            //    }
-
-            //    else if (pair.Key == "roomName")
-            //    {
-            //        roomName = (int)pair.Value;
-            //    }
-
-            //    else if (pair.Key == "content")
-            //    {
-            //        content = (string)pair.Value;//(List<string>)pair.Value;
-            //    }
-
-            //    else if (pair.Key == "username")
-            //    {
-            //        username = (string)pair.Value;
-            //        // TODO !!!!!!!!!
-            //        // if (username != u.userName)
-            //        //  {
-
-            //        //      return true;
-            //        //  }
-            //    }
-            //    else if (pair.Key == "timeStamp")
-            //    {
-            //        timestamp = (string)pair.Value;
-            //    }
-            //}
-            //if (error == 0)
-            //{
-            //    message = timestamp + "\n" + username + ": " + content;
-            //}
-
-            Invoke(new Action(() =>
+        public void MessageReceived(object sender, int error, string response, string message, int s)
+        {
+            if (response.Contains("chatMessage"))
             {
-                uxMessagebox.TopIndex = uxMessagebox.Items.Add(response);
-                uxText.Text = "";
+
+                Invoke(new Action(() =>
+                {
+                    uxMessagebox.TopIndex = uxMessagebox.Items.Add(message);
+                    uxText.Text = "";
+                }
+                ));
             }
-            ));
-            return true;
-  
         }
 
         private void uxAddContactButton_Click(object sender, EventArgs e)
@@ -147,121 +98,136 @@ namespace Client_T10_B
             f(sender, e, handle, o, uxAddContactBox.Text.ToString());
         }
 
+        public void removeContact(object sender, int e, string response, string username, int status)
+        {
+            
+           if(e == 1)
+            { 
+                 MessageBox.Show("No More contacts to remove");
+            }
+            
+        }
+
         public void refreshContactList(object sender, int e, string response, string username, int status)
         {
             Dictionary<string, int> contacts = u.getContactList();
-
-            if (e == 0)
+            if (status != 10)
             {
-                if (status != 4)
+                if (e == 0)
                 {
-                    if (status == 0) // log in
+                    if (status != 4)
                     {
-                        MessageBox.Show(username + " logged in");
-                    }
-                    else if (status == 1) // log out
-                    {
-                        MessageBox.Show(username + " logged out");
-                    }
-                    else if (status == 2) // I logged in 
-                    {
-                        MessageBox.Show("Logged In");
-                    }
-                    else if (status == 3) // I logged in 
-                    {
-                        if (MessageBox.Show("Are you sure you want to Log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        if (status == 0) // log in
                         {
-                            MessageBox.Show("Logged out");
-
-                            // user clicked yes
-                            Application.Exit();
-                            MessageBox.Show("Logged out");
+                            MessageBox.Show(username + " logged in");
                         }
-
-                    }
-
-                    Invoke(new Action(() =>
-                    {
-                        uxContactList.Items.Clear();
-                        uxContactList.Update();
-                        uxContactList.Refresh();
-                    }));
-
-
-                    foreach (KeyValuePair<string, int> c in contacts)
-                    {
-                        ListViewItem li = new ListViewItem();
-                        li.Text = c.Key;
-                        if (c.Value == 0) //logged in 
+                        else if (status == 1) // log out
                         {
-                            li.ForeColor = Color.Green;
+                            MessageBox.Show(username + " logged out");
                         }
-                        else //logged out 
+                        else if (status == 2) // I logged in 
                         {
-                            li.ForeColor = Color.Red;
+                            MessageBox.Show("Logged In");
                         }
-
-
-                        Invoke(new Action(() => uxContactList.Items.Add(li)));
-                    }
-
-                    //uxContactList.EndUpdate();
-                }
-
-                else if (status == 4)
-                {
-                    Dictionary<string, int> mutual = new Dictionary<string, int>();
-                    mutual = u.mutualMembers;
-
-                    Invoke(new Action(() =>
-                    {
-                        uxContactList.Items.Clear();
-                        uxContactList.Update();
-                        uxContactList.Refresh();
-                    }));
-
-                    foreach (KeyValuePair<string, int> c in contacts)
-                    {
-                        ListViewItem li = new ListViewItem();
-                        li.Text = c.Key;
-
-                        foreach (KeyValuePair<string, int> m in mutual)
+                        else if (status == 3) // I logged in 
                         {
-
-                            if (m.Key == c.Key)
+                            if (MessageBox.Show("Are you sure you want to Log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                if (c.Value == 0) //logged in 
+                                MessageBox.Show("Logged out");
+
+                                // user clicked yes
+                                Application.Exit();
+                                MessageBox.Show("Logged out");
+                            }
+
+                        }
+                        else if(status == 5)
+                        {
+                           
+                        }
+
+                        Invoke(new Action(() =>
+                        {
+                            uxContactList.Items.Clear();
+                            uxContactList.Update();
+                            uxContactList.Refresh();
+                        }));
+
+
+                        foreach (KeyValuePair<string, int> c in contacts)
+                        {
+                            ListViewItem li = new ListViewItem();
+                            li.Text = c.Key;
+                            if (c.Value == 0) //logged in 
+                            {
+                                li.ForeColor = Color.Green;
+                            }
+                            else //logged out 
+                            {
+                                li.ForeColor = Color.Red;
+                            }
+
+
+                            Invoke(new Action(() => uxContactList.Items.Add(li)));
+                        }
+
+                        //uxContactList.EndUpdate();
+                    }
+
+                    else if (status == 4)
+                    {
+                        Dictionary<string, int> mutual = new Dictionary<string, int>();
+                        mutual = u.mutualMembers;
+
+                        Invoke(new Action(() =>
+                        {
+                            uxContactList.Items.Clear();
+                            uxContactList.Update();
+                            uxContactList.Refresh();
+                        }));
+
+                        foreach (KeyValuePair<string, int> c in contacts)
+                        {
+                            ListViewItem li = new ListViewItem();
+                            li.Text = c.Key;
+
+                            foreach (KeyValuePair<string, int> m in mutual)
+                            {
+
+                                if (m.Key == c.Key)
                                 {
-                                    li.ForeColor = Color.BlanchedAlmond;
+                                    if (c.Value == 0) //logged in 
+                                    {
+                                        li.ForeColor = Color.BlanchedAlmond;
+                                    }
+                                    else //logged out 
+                                    {
+                                        li.ForeColor = Color.Red;
+                                    }
                                 }
-                                else //logged out 
+                                else
                                 {
-                                    li.ForeColor = Color.Red;
+                                    if (c.Value == 0) //logged in 
+                                    {
+                                        li.ForeColor = Color.Green;
+                                    }
+                                    else //logged out 
+                                    {
+                                        li.ForeColor = Color.Red;
+                                    }
                                 }
                             }
-                            else
-                            {
-                                if (c.Value == 0) //logged in 
-                                {
-                                    li.ForeColor = Color.Green;
-                                }
-                                else //logged out 
-                                {
-                                    li.ForeColor = Color.Red;
-                                }
-                            }
+                            Invoke(new Action(() => uxContactList.Items.Add(li)));
                         }
-                        Invoke(new Action(() => uxContactList.Items.Add(li)));
+
                     }
 
                 }
-
+                else
+                {
+                    MessageBox.Show("oops! Something went wrong!");
+                }
             }
-            else
-            {
-                MessageBox.Show("oops! Something went wrong!");
-            }
-            
         }
 
         private void uxChat_Click(object sender, EventArgs e)
@@ -288,7 +254,7 @@ namespace Client_T10_B
             o.username = uxUsername.Text;
             o.content = uxText.Text;
             o.timeStamp = DateTime.Now.ToString("HH:mm:ss tt");
-            o.chatRoom = u.roomNumber;
+            o.roomNumber = u.roomNumber;
             messageType handle = messageType.chatMessage;
             JObject jo = JObject.FromObject(o);
             f(sender, e, handle, o, "");
@@ -339,6 +305,16 @@ namespace Client_T10_B
                 //}
             }
 
+        }
+
+        private void uxRemove_Click(object sender, EventArgs e)
+        {
+            dynamic o = new ExpandoObject();
+            o.username = uxUsername.Text.ToString();
+            o.usernameRemoved = uxContactList.SelectedItems[0].Text.ToString();
+            o.messageType = "contactRemoved";
+            messageType handle = messageType.contactRemoved;
+            f(sender, e, handle, o, uxContactList.SelectedItems[0].Text.ToString());
         }
     }
 }

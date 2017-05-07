@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.uxRemove = new System.Windows.Forms.Button();
             this.uxContactList = new System.Windows.Forms.ListView();
             this.Freinds = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.uxLogout = new System.Windows.Forms.Button();
@@ -43,7 +44,6 @@
             this.uxSend = new System.Windows.Forms.Button();
             this.uxText = new System.Windows.Forms.TextBox();
             this.uxMessagebox = new System.Windows.Forms.ListBox();
-            this.uxRemove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -54,7 +54,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -81,6 +81,17 @@
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 0;
             // 
+            // uxRemove
+            // 
+            this.uxRemove.Location = new System.Drawing.Point(71, 123);
+            this.uxRemove.Margin = new System.Windows.Forms.Padding(2);
+            this.uxRemove.Name = "uxRemove";
+            this.uxRemove.Size = new System.Drawing.Size(63, 26);
+            this.uxRemove.TabIndex = 16;
+            this.uxRemove.Text = "Remove";
+            this.uxRemove.UseVisualStyleBackColor = true;
+            this.uxRemove.Click += new System.EventHandler(this.uxRemove_Click);
+            // 
             // uxContactList
             // 
             this.uxContactList.BackColor = System.Drawing.Color.Beige;
@@ -106,7 +117,7 @@
             // uxLogout
             // 
             this.uxLogout.Location = new System.Drawing.Point(9, 59);
-            this.uxLogout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxLogout.Margin = new System.Windows.Forms.Padding(2);
             this.uxLogout.Name = "uxLogout";
             this.uxLogout.Size = new System.Drawing.Size(56, 27);
             this.uxLogout.TabIndex = 14;
@@ -117,7 +128,7 @@
             // uxChat
             // 
             this.uxChat.Location = new System.Drawing.Point(13, 536);
-            this.uxChat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxChat.Margin = new System.Windows.Forms.Padding(2);
             this.uxChat.Name = "uxChat";
             this.uxChat.Size = new System.Drawing.Size(121, 19);
             this.uxChat.TabIndex = 12;
@@ -128,7 +139,7 @@
             // uxLogin
             // 
             this.uxLogin.Location = new System.Drawing.Point(78, 59);
-            this.uxLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxLogin.Margin = new System.Windows.Forms.Padding(2);
             this.uxLogin.Name = "uxLogin";
             this.uxLogin.Size = new System.Drawing.Size(56, 27);
             this.uxLogin.TabIndex = 10;
@@ -139,7 +150,7 @@
             // uxAddContactButton
             // 
             this.uxAddContactButton.Location = new System.Drawing.Point(9, 123);
-            this.uxAddContactButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxAddContactButton.Margin = new System.Windows.Forms.Padding(2);
             this.uxAddContactButton.Name = "uxAddContactButton";
             this.uxAddContactButton.Size = new System.Drawing.Size(55, 26);
             this.uxAddContactButton.TabIndex = 9;
@@ -150,7 +161,7 @@
             // uxAddContactBox
             // 
             this.uxAddContactBox.Location = new System.Drawing.Point(9, 99);
-            this.uxAddContactBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxAddContactBox.Margin = new System.Windows.Forms.Padding(2);
             this.uxAddContactBox.Name = "uxAddContactBox";
             this.uxAddContactBox.Size = new System.Drawing.Size(125, 20);
             this.uxAddContactBox.TabIndex = 8;
@@ -158,7 +169,7 @@
             // uxPassword
             // 
             this.uxPassword.Location = new System.Drawing.Point(59, 29);
-            this.uxPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxPassword.Margin = new System.Windows.Forms.Padding(2);
             this.uxPassword.Name = "uxPassword";
             this.uxPassword.Size = new System.Drawing.Size(76, 20);
             this.uxPassword.TabIndex = 7;
@@ -176,7 +187,7 @@
             // uxUsername
             // 
             this.uxUsername.Location = new System.Drawing.Point(59, 4);
-            this.uxUsername.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxUsername.Margin = new System.Windows.Forms.Padding(2);
             this.uxUsername.Name = "uxUsername";
             this.uxUsername.Size = new System.Drawing.Size(76, 20);
             this.uxUsername.TabIndex = 5;
@@ -194,7 +205,7 @@
             // uxSend
             // 
             this.uxSend.Location = new System.Drawing.Point(616, 531);
-            this.uxSend.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxSend.Margin = new System.Windows.Forms.Padding(2);
             this.uxSend.Name = "uxSend";
             this.uxSend.Size = new System.Drawing.Size(63, 30);
             this.uxSend.TabIndex = 2;
@@ -215,20 +226,10 @@
             // 
             this.uxMessagebox.FormattingEnabled = true;
             this.uxMessagebox.Location = new System.Drawing.Point(3, 2);
-            this.uxMessagebox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.uxMessagebox.Margin = new System.Windows.Forms.Padding(2);
             this.uxMessagebox.Name = "uxMessagebox";
             this.uxMessagebox.Size = new System.Drawing.Size(677, 524);
             this.uxMessagebox.TabIndex = 0;
-            // 
-            // uxRemove
-            // 
-            this.uxRemove.Location = new System.Drawing.Point(71, 123);
-            this.uxRemove.Margin = new System.Windows.Forms.Padding(2);
-            this.uxRemove.Name = "uxRemove";
-            this.uxRemove.Size = new System.Drawing.Size(63, 26);
-            this.uxRemove.TabIndex = 16;
-            this.uxRemove.Text = "Remove";
-            this.uxRemove.UseVisualStyleBackColor = true;
             // 
             // UI
             // 
@@ -236,7 +237,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(829, 566);
             this.Controls.Add(this.splitContainer1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "UI";
             this.Text = "UI";
             this.Load += new System.EventHandler(this.UI_Load);

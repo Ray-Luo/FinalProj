@@ -51,10 +51,22 @@ namespace Client_T10_B
                    return;
                 }
                 if (response.Contains("chatMessage"))
-                    if (MessageReceived != null)
-                    {
-                        MessageReceived(e.Data);
-                        return;
+                { // if (MessageReceived != null)
+                   // {
+                        JObject r = JObject.Parse(response);
+                        foreach(var pair in r)
+                        {
+                            if (pair.Key == "roomNumber")
+                            {
+                                if((int)pair.Value == u.roomNumber)
+                                {
+                                   // MessageReceived(e.Data);
+                                    myHandler(_sender, _e, _handle, _o, _temp);
+                                }
+                            }
+                        }
+                      //  MessageReceived(e.Data);
+                      //  return;
                     }
 
                 JObject rss = JObject.Parse(response);
@@ -179,7 +191,7 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-      //TODO              myHandler = contactRemovedHandle;
+                 myHandler = contactRemovedHandle;
                     break;
                 case messageType.createChat:
                     _sender = sender;
@@ -317,7 +329,7 @@ namespace Client_T10_B
                         u.contactList.Add(username);
                         u.contactList.Add(status.ToString());
                     }
-                    signalObservers(sender, error,response, null, 10);
+                    signalObservers(sender, error,response, null, 7);
                 
             
         }
@@ -326,6 +338,8 @@ namespace Client_T10_B
         {
             int error = 0;
             int roomnumber = 0;
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
             List<string> currentMembers = new List<string>();
             Dictionary<string,int> mutualMembers = new Dictionary<string, int>();
 
@@ -374,8 +388,9 @@ namespace Client_T10_B
         public void chatMessageHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
 
-
-                    JObject rss = JObject.Parse(response);
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
                     int error = 0;
                     int roomName = 0;
                     string content = "";
@@ -398,17 +413,14 @@ namespace Client_T10_B
                         else if (pair.Key == "username")
                         {
                             username = (string)pair.Value;
-                            if (username != u.userName)
-                            {
-                                return;
-                            }
+                            
                         }
                         else if (pair.Key == "timeStamp")
                         {
                             timestamp = (string)pair.Value;
                         }
 
-                else if (pair.Key == "chatRoom")
+                else if (pair.Key == "roomNumber")
                 {
                     roomName = (int)pair.Value;
                 }
@@ -482,6 +494,27 @@ namespace Client_T10_B
             signalObservers(sender, error, response, username, 1); // 0 is login
         }
 
+        public void contactRemovedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameRemoved)
+        {
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
+            int error = 0;
+            
+            foreach(var pair in rss)
+            {
+                if(pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
+            }
+            int index = u.contactList.IndexOf(usernameRemoved);
+
+            u.contactList.Remove(usernameRemoved);
+            u.contactList.RemoveAt(index);
+            signalObservers(sender, error, response, usernameRemoved,7); // 0 is login
+
+        }
         public bool sendMessage(ExpandoObject o)
         {
 

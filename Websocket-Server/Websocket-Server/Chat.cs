@@ -57,6 +57,9 @@ namespace Websocket_Server
                 case "chatMessage":
                     response = dummy.chatMessage(msg);
                     break;
+                case "contactRemoved":
+                    response = dummy.contactRemoved(msg);
+                    break;
             }
             // Broadcast message to all clients
             Sessions.Broadcast(response);
