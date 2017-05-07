@@ -39,13 +39,13 @@ namespace Client_T10_B
             //User_v user_main = new User_v(c.handle,u);//u, c.logoutHandle,c.addContactHandle, c);
 
             //Chatbox_v chatbox = new Chatbox_v(new ChatRoom_m(), c.MessageEntered,c.handle);
-          //  c.register(ui.MessageReceived);
 
             c.register(ui.login);
             //c.register(user_main.logout);
             c.MessageReceived += ui.MessageReceived;
             c.register(ui.refreshContactList);
             c.register(ui.logout);
+           // c.register(ui.MessageReceived);
             Application.Run(ui);
         }
     }

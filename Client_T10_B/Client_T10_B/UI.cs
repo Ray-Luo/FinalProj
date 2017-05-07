@@ -41,6 +41,7 @@ namespace Client_T10_B
                 o.username = uxUsername.Text.ToString();
                 o.password = uxPassword.Text.ToString();
                 o.messageType = "login";
+                u.userName = uxUsername.Text.ToString();
                 messageType handle = messageType.login;
                 u.userName = uxUsername.Text.ToString();
                 f(sender, e, handle, o, uxUsername.Text.ToString());
