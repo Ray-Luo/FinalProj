@@ -35,7 +35,7 @@ namespace Client_T10_B
         {
             this.u = u;
             // Connects to the server
-            ws = new WebSocket("ws://127.0.0.1:3111/chat");
+            ws = new WebSocket("ws://127.0.0.1:8001/chat");
             ws.Connect();
             ws.OnMessage += (sender, e) =>
             {
@@ -258,10 +258,12 @@ namespace Client_T10_B
                     {
                         if (pair.Key == "messageType")
                         {
-                            Debug.Assert((string)pair.Value == "contactAdded");
-                        }
+                    if ()
+                    System.Windows.Forms.MessageBox.Show("Something went wrong!");
 
-                        else if (pair.Key == "error")
+                }
+
+                else if (pair.Key == "error")
                         {
                             error = (int)pair.Value;
                         }
