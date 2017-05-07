@@ -72,7 +72,7 @@ namespace Client_T10_B
 
         }
 
-        public bool MessageReceived(string response)
+        public void MessageReceived(object sender, int e, string response, int s)
         {
             JObject rss = JObject.Parse(response);
             int error = 0;

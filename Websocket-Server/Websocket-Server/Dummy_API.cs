@@ -14,7 +14,6 @@ namespace Websocket_Server
     {
         public static List<User_m> users = new List<User_m>();
         public static List<ChatRoom_m> chatRooms = new List<ChatRoom_m>();
-        int chatRoomCount = 0;
         public Dummy_API()
         {
 
@@ -178,8 +177,7 @@ namespace Websocket_Server
             else
             {
                 ChatRoom_m chat = new ChatRoom_m();
-                chatRoomCount++;
-                chat.roomNumber = chatRoomCount;
+                chat.roomNumber = chatRooms.Count;
                 chat.users = new List<string>();
                 chat.users.Add(username);
                 chat.users.Add(friend);
@@ -204,7 +202,7 @@ namespace Websocket_Server
                 dynamic o = new ExpandoObject();
                 JObject jo = JObject.FromObject(o);
                 jo.Add("messageType", "createChat");
-                jo.Add("roomname", chatRoomCount);
+                jo.Add("roomname", chatRooms.Count);
                 jo.Add("username", username);
                 jo.Add("potentialMembers", JToken.FromObject(mutualFriends));
                 jo.Add("currentMembers", JToken.FromObject(currentMembers));
@@ -283,7 +281,7 @@ namespace Websocket_Server
                 dynamic o = new ExpandoObject();
                 JObject jo = JObject.FromObject(o);
                 jo.Add("messageType", "createChat");
-                jo.Add("roomname", chatRoomCount);
+                jo.Add("roomname", chat.roomNumber);
                 jo.Add("username", username);
                 jo.Add("potentialMembers", JToken.FromObject(chat.mutualFriends));
                 jo.Add("currentMembers", JToken.FromObject(currentMembers));

@@ -11,7 +11,7 @@ namespace Websocket_Server
         public List<string> users;
         public int roomNumber;
         public Dictionary<string, int> mutualFriends;
-        public List<string> history;
+        public List<string> history = new List<string>();
         public ChatRoom_m()
         {
           

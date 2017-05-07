@@ -42,9 +42,10 @@ namespace Client_T10_B
 
             c.register(ui.login);
             //c.register(user_main.logout);
-            c.MessageReceived += ui.MessageReceived;
+           // c.MessageReceived += ui.MessageReceived;
             c.register(ui.refreshContactList);
             c.register(ui.logout);
+            c.register(ui.MessageReceived);
             Application.Run(ui);
         }
     }

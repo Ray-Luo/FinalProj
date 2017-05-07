@@ -46,7 +46,10 @@ namespace Websocket_Server
             {
                 while (e1.MoveNext() && e2.MoveNext())
                 {
-                    contacts.Add(e1.Current,e2.Current);
+                    if (!contacts.ContainsKey(e1.Current))
+                    {
+                        contacts.Add(e1.Current, e2.Current);
+                    }
                 }
             }
 

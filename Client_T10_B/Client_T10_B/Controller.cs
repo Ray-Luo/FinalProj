@@ -30,6 +30,8 @@ namespace Client_T10_B
         public static ExpandoObject _o;
         public static string _temp;
         public static string response;
+        public int roomnumber = 99999999;
+
         public bool flag = false;
 
         public Controller(User_m u)
@@ -46,28 +48,33 @@ namespace Client_T10_B
                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
                    return;
                 }
-                if (response.Contains("chatMessage"))
-                    if (MessageReceived != null)
-                    {
-                        MessageReceived(e.Data);
-                        return;
-                    }
+                //if (response.Contains("chatMessage"))
+                //    if (MessageReceived != null)
+                //    {
+                //        MessageReceived(e.Data);
+                //        return;
+                //    }
 
                 JObject rss = JObject.Parse(response);
                 string username = "";
                 string messagetype = "";
-                int roomnumber = 0;
+                List<string> currentMems = new List<string>();
                 foreach (var pair in rss)
                 {
                     if (pair.Key == "username")
                         username = (string)pair.Value;
                     if (pair.Key == "messageType")
                         messagetype = (string)pair.Value;
-                    if (pair.Key == "roomnumber")
-                        roomnumber = (int)pair.Value;
+                    if (pair.Key == "currentMembers")
+                    {
+                        currentMems = pair.Value.ToObject<List<string>>();
+                        if (currentMems.Contains(u.userName))
+                        {
+                            username = u.userName;
+                        }
+                    }
                 }
-                if (u.roomNumber != 9999999 && roomnumber != u.roomNumber)
-                    return;
+
 
                 if (flag == true)
                 {
@@ -398,13 +405,20 @@ namespace Client_T10_B
                         {
                             timestamp = (string)pair.Value;
                         }
-                    }
+
+                else if (pair.Key == "chatRoom")
+                {
+                    roomName = (int)pair.Value;
+                }
+            }
                     if (error == 0)
                     {
                         
                         message = timestamp + "\n" + username + ": " + content;
                     }
-                    signalObservers(sender, error, message, 10);
+
+                    if(u.roomNumber == roomName)
+                        signalObservers(sender, error, message, 10);
 
 
                 
