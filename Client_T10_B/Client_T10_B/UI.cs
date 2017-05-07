@@ -142,7 +142,13 @@ namespace Client_T10_B
             if (e == 0)
             {
                 Dictionary<string, int> contacts = u.getContactList();
-                //uxContactList.BeginUpdate();
+                Invoke(new Action(() => {
+                    uxContactList.Items.Clear();
+                    uxContactList.Update();
+                    uxContactList.Refresh();
+                }));
+                
+                
                 foreach (KeyValuePair<string, int> c in contacts)
                 {
                     ListViewItem li = new ListViewItem();
