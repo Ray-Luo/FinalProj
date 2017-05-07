@@ -87,7 +87,7 @@ namespace Client_T10_B
                 if(pair.Key == "messageType")
                 {
                     messageType = (string)pair.Value;
-                    if (messageType != "ChatMessage")
+                    if (messageType != "chatMessage")
                         return;
                 }
                if (pair.Key == "error")
@@ -122,7 +122,7 @@ namespace Client_T10_B
             }
             if (error == 0)
             {
-                message = timestamp + "/n" + username + ": " + content;
+                message = timestamp + "\n" + username + ": " + content;
             }
 
             Invoke(new Action(() =>
