@@ -70,12 +70,14 @@ namespace Client_T10_B
                     }
                 else if(response.Contains("createChat"))
                 {
+                    List<string> currentMem = new List<string>();
                     JObject r = JObject.Parse(response);
                     foreach(var pair in r)
                     {
                         if(pair.Key == "currentMembers")
                         {
-                            if((string)pair.Value == u.userName)
+                             currentMem = pair.Value.ToObject<List<string>>();
+                            if (currentMem.Contains(u.userName))
                             {
                                 myHandler(_sender, _e, _handle, _o, _temp);
                             }
@@ -87,7 +89,6 @@ namespace Client_T10_B
                 JObject rss = JObject.Parse(response);
                 string username = "";
                 string messagetype = "";
-                List<string> currentMems = new List<string>();
                 foreach (var pair in rss)
                 {
                     if (pair.Key == "username")
