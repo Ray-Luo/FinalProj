@@ -125,7 +125,8 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;                    
-                    myHandler = loginHandle;                    
+                    myHandler = loginHandle;
+                    flag = true; // logged in                   
                     break;
                 case messageType.chatMessage:
                     _sender = sender;
@@ -207,7 +208,6 @@ namespace Client_T10_B
                         if (pair.Key == "username")
                         {
                             u.userName = (string)pair.Value;
-                            flag = true; // logged in
                             if (u.userName != username)
                                 return;
                             //Debug.Assert(u.userName == username);
@@ -217,10 +217,13 @@ namespace Client_T10_B
                         else if (pair.Key == "error")
                         {
                             error = (int)pair.Value;
-                            if (error == 0)
-                                u.status = 0;
-                            else
-                                u.status = 1;
+                    if (error == 0)
+                    {
+                        u.status = 0;
+                        flag = false;
+                    }
+                    else
+                        u.status = 1;
                         }
 
                         else if (pair.Key == "contactList")
