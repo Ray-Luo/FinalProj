@@ -427,11 +427,10 @@ namespace Client_T10_B
                 else if (pair.Key == "error")
                 {
                     error = (int)pair.Value;
-                }
-
-
-               
+                }        
             }
+            int index = u.contactList.IndexOf(username);
+            u.contactList[index + 1] = "0";
             signalObservers(sender, error, username, 0); // 0 is login
         }
 
@@ -456,10 +455,9 @@ namespace Client_T10_B
                 {
                     error = (int)pair.Value;
                 }
-
-
-
             }
+            int index = u.contactList.IndexOf(username);
+            u.contactList[index + 1] = "1";
             signalObservers(sender, error, username, 1); // 0 is login
         }
 
