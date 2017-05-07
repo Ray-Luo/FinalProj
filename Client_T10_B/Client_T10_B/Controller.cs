@@ -70,7 +70,7 @@ namespace Client_T10_B
                         if (messagetype == "logout")
                             friendLogoutHandle(_sender, _e, _handle, _o, _temp);
                     }
-                else
+                else if(username == u.userName)
                     myHandler(_sender, _e, _handle, _o, _temp);
             };
         }
