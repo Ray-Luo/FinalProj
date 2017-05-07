@@ -248,7 +248,7 @@ namespace Client_T10_B
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
             string user_name = "";
-            string response = dummy.logout(json);
+         //   string response = dummy.logout(json);
             JObject rss = JObject.Parse(response);
             foreach (var pair in rss)
             {
@@ -258,11 +258,11 @@ namespace Client_T10_B
                     if (error == 0)
                     {
                         // user.status = 1 means it is offline
-                        u.status = 0;
+                        u.status = 1;
                     }
                     else 
                     {
-                        u.status = 1;
+                        u.status = 0;
                     }
                 }
 

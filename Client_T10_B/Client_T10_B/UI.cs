@@ -161,6 +161,8 @@ namespace Client_T10_B
                     {
                         if (MessageBox.Show("Are you sure you want to Log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
+                            MessageBox.Show("Logged out");
+
                             // user clicked yes
                             Application.Exit();
                             MessageBox.Show("Logged out");
