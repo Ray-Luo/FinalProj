@@ -50,12 +50,12 @@ namespace Websocket_Server
                     break;
                 case "createChat":
                     response = dummy.createChat(msg);
-                    break;
-                case "chatMessage":
-                    response = msg;
-                    break;
+                    break;;
                 case "logout":
                     response = msg;
+                    break;
+                case "chatMessage":
+                    response = dummy.chatMessage(msg);
                     break;
             }
             // Broadcast message to all clients

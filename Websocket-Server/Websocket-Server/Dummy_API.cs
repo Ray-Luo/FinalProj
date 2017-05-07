@@ -300,8 +300,52 @@ namespace Websocket_Server
 
         public string chatMessage(string json)
         {
-            return null;
+            /*
+             * messageType, username, chatRoom, timeStamp, content
+             * */
+            JObject rss = JObject.Parse(json);
+            int roomNumber = 0;
+            string username = "";
+            int error = 0;
+            string timestamp = "";
+            string content = "";
+
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                }
+                else if (pair.Key == "chatRoom")
+                {
+                    roomNumber = (int)pair.Value;
+                }
+                else if (pair.Key == "timeStamp")
+                {
+                    timestamp = (string)pair.Value;
+                }
+                else if(pair.Key == "content")
+                {
+                    content = (string)pair.Value;
+                }
+            }
             
+            ChatRoom_m chat = getChatRoom(roomNumber);
+            chat.history.Add(timestamp + '\n' + username + ':' + content);
+
+            dynamic o = new ExpandoObject();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "chatMessage");
+            jo.Add("chatRoom", roomNumber);
+            jo.Add("username", username);
+            jo.Add("content", content);
+            jo.Add("timeStamp", timestamp);
+            jo.Add("error", error);
+            string output = jo.ToString();
+            return output;
+
+
+
         }
 
         public string contactAdded(string json)
