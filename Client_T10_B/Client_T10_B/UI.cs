@@ -159,7 +159,12 @@ namespace Client_T10_B
                         }
                     else if (status == 3) // I logged in 
                     {
-                        MessageBox.Show("Logged Out");
+                        if (MessageBox.Show("Are you sure you want to Log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            // user clicked yes
+                            Application.Exit();
+                            MessageBox.Show("Logged out");
+                        }
                     }
                 }
                     Dictionary<string, int> contacts = u.getContactList();
@@ -241,12 +246,12 @@ namespace Client_T10_B
                 if (error == 0)
                 {
 
-                    if (MessageBox.Show("Are you sure you want to Log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        // user clicked yes
-                        Application.Exit();
-                        MessageBox.Show("Logged out");
-                    }
+                    //if (MessageBox.Show("Are you sure you want to Log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    //{
+                    //    // user clicked yes
+                    //    Application.Exit();
+                    //    MessageBox.Show("Logged out");
+                    //}
                  
                 }
                 else
