@@ -60,8 +60,9 @@ namespace Client_T10_B
                             {
                                 if((int)pair.Value == u.roomNumber)
                                 {
-                                   // MessageReceived(e.Data);
-                                    myHandler(_sender, _e, _handle, _o, _temp);
+                                // MessageReceived(e.Data);
+                                // myHandler(_sender, _e, _handle, _o, _temp);
+                                chatMessageHandle(_sender, _e, _handle, _o, _temp);
                                 }
                             }
                         }
@@ -79,7 +80,8 @@ namespace Client_T10_B
                              currentMem = pair.Value.ToObject<List<string>>();
                             if (currentMem.Contains(u.userName))
                             {
-                                myHandler(_sender, _e, _handle, _o, _temp);
+                                createChatHandle(_sender, _e, _handle, _o, _temp);
+                               // myHandler(_sender, _e, _handle, _o, _temp);
                             }
                         }
                     }
@@ -318,8 +320,9 @@ namespace Client_T10_B
         {
             int error = 0;
             int status = 0;
-
-                    JObject rss = JObject.Parse(response);
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
                     foreach (var pair in rss)
                     {
                         if (pair.Key == "error")
