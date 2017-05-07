@@ -139,7 +139,7 @@ namespace Websocket_Server
             /*
              client-side request:
              message type(contactAdded),
-             usernameOrigin(string),
+             username(string),
              usernameAdd(string)
              * */
             /*
