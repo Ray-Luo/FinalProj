@@ -63,7 +63,7 @@ namespace Client_T10_B
                         messagetype = (string)pair.Value;
                 }
                 if(username != "" && messagetype != "")
-                    if (u.userName != username)
+                    if (u.userName != username && u.contactList.Contains(username))
                     {
                         if(messagetype == "login")
                             friendLoginHandle(_sender, _e, _handle, _o, _temp);
