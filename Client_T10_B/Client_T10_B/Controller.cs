@@ -218,12 +218,13 @@ namespace Client_T10_B
                         {
                             error = (int)pair.Value;
                     if (error == 0)
-                    {
                         u.status = 0;
-                        flag = false;
-                    }
                     else
+                    {
+                        flag = false;
                         u.status = 1;
+                        
+                    }
                         }
 
                         else if (pair.Key == "contactList")
