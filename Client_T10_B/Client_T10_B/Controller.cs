@@ -30,6 +30,7 @@ namespace Client_T10_B
         public static ExpandoObject _o;
         public static string _temp;
         public static string response;
+        public bool flag = false;
 
         public Controller(User_m u)
         {
@@ -62,15 +63,13 @@ namespace Client_T10_B
                     if (pair.Key == "messageType")
                         messagetype = (string)pair.Value;
                 }
-                if (u.userName == null)
+                if (flag == true)
                 {
                     if (messagetype == "login")
                     {
                         myHandler(_sender, _e, _handle, _o, _temp);
                     }
-                }
-                else
-                {
+
                     if (username != "" && messagetype != "")
                         if (u.userName != username && u.contactList.Contains(username))
                         {
@@ -208,6 +207,7 @@ namespace Client_T10_B
                         if (pair.Key == "username")
                         {
                             u.userName = (string)pair.Value;
+                            flag = true; // logged in
                             if (u.userName != username)
                                 return;
                             //Debug.Assert(u.userName == username);
