@@ -62,16 +62,26 @@ namespace Client_T10_B
                     if (pair.Key == "messageType")
                         messagetype = (string)pair.Value;
                 }
-                if(username != "" && messagetype != "")
-                    if (u.userName != username && u.contactList.Contains(username))
+                if (u.userName == null)
+                {
+                    if (messagetype == "login")
                     {
-                        if(messagetype == "login")
-                            friendLoginHandle(_sender, _e, _handle, _o, _temp);
-                        if (messagetype == "logout")
-                            friendLogoutHandle(_sender, _e, _handle, _o, _temp);
+                        myHandler(_sender, _e, _handle, _o, _temp);
                     }
-                else if(username == u.userName || u.userName == null)
-                    myHandler(_sender, _e, _handle, _o, _temp);
+                }
+                else
+                {
+                    if (username != "" && messagetype != "")
+                        if (u.userName != username && u.contactList.Contains(username))
+                        {
+                            if (messagetype == "login")
+                                friendLoginHandle(_sender, _e, _handle, _o, _temp);
+                            if (messagetype == "logout")
+                                friendLogoutHandle(_sender, _e, _handle, _o, _temp);
+                        }
+                        else if (username == u.userName)
+                            myHandler(_sender, _e, _handle, _o, _temp);
+                }
             };
         }
 
