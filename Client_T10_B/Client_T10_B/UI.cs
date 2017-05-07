@@ -200,5 +200,31 @@ namespace Client_T10_B
             JObject jo = JObject.FromObject(o);
             f(sender, e, handle, o, "");
         }
+
+        private void uxLogout_Click(object sender, EventArgs e)
+        {
+            dynamic o = new ExpandoObject();
+            o.username = uxUsername.Text.ToString();
+            o.messageType = "logout";
+            messageType handle = messageType.logout;
+            f(sender, e, handle, o, uxUsername.Text.ToString());
+        }
+
+        public void logout(object sender, int error, string temp)
+        {
+            Button clickedButton = sender as Button;
+            if (clickedButton == uxLogout)
+            {
+                if (error == 0)
+                {
+                    MessageBox.Show("Logged out");
+                }
+                else
+                {
+                    MessageBox.Show("Oops, something went wrong!");
+                }
+
+            }
+        }
     }
 }

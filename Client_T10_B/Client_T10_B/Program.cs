@@ -44,6 +44,7 @@ namespace Client_T10_B
             //c.register(user_main.logout);
             c.MessageReceived += ui.MessageReceived;
             c.register(ui.refreshContactList);
+            c.register(ui.logout);
             Application.Run(ui);
         }
     }
