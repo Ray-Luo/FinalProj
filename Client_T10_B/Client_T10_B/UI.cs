@@ -50,7 +50,7 @@ namespace Client_T10_B
             }
         }
 
-        public void login(object sender, int error, string temp)
+        public void login(object sender, int error, string username)
         {
             Button clickedButton = sender as Button;
             if (clickedButton == uxLogin)
@@ -69,6 +69,7 @@ namespace Client_T10_B
                 }
 
             }
+
         }
 
         public bool MessageReceived(string response)

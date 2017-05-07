@@ -389,8 +389,29 @@ namespace Client_T10_B
 
         public void friendLoginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
+            int error = 0;
+            string username = "";
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
 
-            signalObservers(sender, e, null);
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;   
+                    //Debug.Assert(u.userName == username);
+                    //Console.Write(u.userName);
+                }
+
+                else if (pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
+
+               
+            }
+            signalObservers(sender, error, username);
         }
 
         public void friendLogoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
