@@ -124,7 +124,7 @@ namespace Client_T10_B
                 uxText.Text = "";
             }
             ));
-            return true;
+  
         }
 
         private void uxAddContactButton_Click(object sender, EventArgs e)
