@@ -13,7 +13,7 @@ namespace Client_T10_B
         // defines the type of method that observes model updates:
         public delegate void Observer(object sender, int e, string response,string str, int status);
 
-
+        public static User_m u;
         // defines the type of method that handles an input event (button press):
         public delegate void InputHandler(object sender, EventArgs e, messageType handle, ExpandoObject o, string name);
         public delegate bool Message(string message);
@@ -30,7 +30,7 @@ namespace Client_T10_B
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            User_m u = new User_m();
+            u = new User_m();
             Controller c = new Controller(u);
 
             UI ui = new UI(c.handle,u);
@@ -42,10 +42,10 @@ namespace Client_T10_B
 
             c.register(ui.login);
             //c.register(user_main.logout);
-           // c.MessageReceived += ui.MessageReceived;
+            c.MessageReceived += ui.MessageReceived;
             c.register(ui.refreshContactList);
             c.register(ui.logout);
-            c.register(ui.MessageReceived);
+           // c.register(ui.MessageReceived);
             Application.Run(ui);
         }
     }

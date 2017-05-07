@@ -41,6 +41,7 @@ namespace Client_T10_B
                 o.username = uxUsername.Text.ToString();
                 o.password = uxPassword.Text.ToString();
                 o.messageType = "login";
+                u.userName = uxUsername.Text.ToString();
                 messageType handle = messageType.login;
                 f(sender, e, handle, o, uxUsername.Text.ToString());
             }
@@ -72,65 +73,66 @@ namespace Client_T10_B
 
         }
 
-        public void MessageReceived(object sender, int e, string response, string str, int s)
+        public bool MessageReceived(string response)
         {           
-            JObject rss = JObject.Parse(response);
-            int error = 0;
-            int roomName = 0;
-            string content = "";
-            string username = "";
-            string timestamp = "";
-            string message = "";
-            string messageType = "";
-            foreach (var pair in rss)
-            {
-                if(pair.Key == "messageType")
-                {
-                    messageType = (string)pair.Value;
-                    if (messageType != "chatMessage")
-                        return;
-                }
-               if (pair.Key == "error")
-                {
-                    error = (int)pair.Value;
-                }
+            //JObject rss = JObject.Parse(response);
+            //int error = 0;
+            //int roomName = 0;
+            //string content = "";
+            //string username = "";
+            //string timestamp = "";
+            //string message = "";
+            //string messageType = "";
+            //foreach (var pair in rss)
+            //{
+            //    if(pair.Key == "messageType")
+            //    {
+            //        messageType = (string)pair.Value;
+            //        if (messageType != "chatMessage")
+            //            return;
+            //    }
+            //   if (pair.Key == "error")
+            //    {
+            //        error = (int)pair.Value;
+            //    }
 
-                else if (pair.Key == "roomName")
-                {
-                    roomName = (int)pair.Value;
-                }
+            //    else if (pair.Key == "roomName")
+            //    {
+            //        roomName = (int)pair.Value;
+            //    }
 
-                else if (pair.Key == "content")
-                {
-                    content = (string)pair.Value;//(List<string>)pair.Value;
-                }
+            //    else if (pair.Key == "content")
+            //    {
+            //        content = (string)pair.Value;//(List<string>)pair.Value;
+            //    }
 
-                else if (pair.Key == "username")
-                {
-                    username = (string)pair.Value;
-                    // TODO !!!!!!!!!
-                    // if (username != u.userName)
-                    //  {
+            //    else if (pair.Key == "username")
+            //    {
+            //        username = (string)pair.Value;
+            //        // TODO !!!!!!!!!
+            //        // if (username != u.userName)
+            //        //  {
 
-                    //      return true;
-                    //  }
-                }
-                else if (pair.Key == "timeStamp")
-                {
-                    timestamp = (string)pair.Value;
-                }
-            }
-            if (error == 0)
-            {
-                message = timestamp + "\n" + username + ": " + content;
-            }
+            //        //      return true;
+            //        //  }
+            //    }
+            //    else if (pair.Key == "timeStamp")
+            //    {
+            //        timestamp = (string)pair.Value;
+            //    }
+            //}
+            //if (error == 0)
+            //{
+            //    message = timestamp + "\n" + username + ": " + content;
+            //}
 
             Invoke(new Action(() =>
             {
-                uxMessagebox.TopIndex = uxMessagebox.Items.Add(message);
+                uxMessagebox.TopIndex = uxMessagebox.Items.Add(response);
                 uxText.Text = "";
             }
             ));
+            return true;
   
         }
 

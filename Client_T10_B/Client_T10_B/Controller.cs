@@ -29,7 +29,8 @@ namespace Client_T10_B
         public static messageType _handle;
         public static ExpandoObject _o;
         public static string _temp;
-        public static string response;
+        public string response;
+        public  string name = "";
         public int roomnumber = 99999999;
 
         public bool flag = false;
@@ -37,6 +38,7 @@ namespace Client_T10_B
         public Controller(User_m u)
         {
             this.u = u;
+            name = u.userName;
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:3111/chat");
             ws.Connect();
@@ -48,12 +50,12 @@ namespace Client_T10_B
                    System.Windows.Forms.MessageBox.Show("Cannot connect to the server");
                    return;
                 }
-                //if (response.Contains("chatMessage"))
-                //    if (MessageReceived != null)
-                //    {
-                //        MessageReceived(e.Data);
-                //        return;
-                //    }
+                if (response.Contains("chatMessage"))
+                    if (MessageReceived != null)
+                    {
+                        MessageReceived(e.Data);
+                        return;
+                    }
 
                 JObject rss = JObject.Parse(response);
                 string username = "";
