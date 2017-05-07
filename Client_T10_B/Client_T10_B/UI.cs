@@ -139,23 +139,24 @@ namespace Client_T10_B
 
         public void refreshContactList(object sender, int e, string username, int status)
         {
-           
-                if (e == 0)
+            Dictionary<string, int> contacts = u.getContactList();
+
+            if (e == 0)
+            {
+                if (status != 4)
                 {
-                    if (u.userName != username)
+                    if (status == 0) // log in
                     {
-                        if (status == 0) // log in
-                        {
-                            MessageBox.Show(username + " logged in");
-                        }
-                        else if (status == 1) // log out
-                        {
-                            MessageBox.Show(username + " logged out");
-                        }
-                        else if(status == 2) // I logged in 
-                        {
+                        MessageBox.Show(username + " logged in");
+                    }
+                    else if (status == 1) // log out
+                    {
+                        MessageBox.Show(username + " logged out");
+                    }
+                    else if (status == 2) // I logged in 
+                    {
                         MessageBox.Show("Logged In");
-                        }
+                    }
                     else if (status == 3) // I logged in 
                     {
                         if (MessageBox.Show("Are you sure you want to Log out?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -166,9 +167,9 @@ namespace Client_T10_B
                             Application.Exit();
                             MessageBox.Show("Logged out");
                         }
+
                     }
-                }
-                    Dictionary<string, int> contacts = u.getContactList();
+
                     Invoke(new Action(() =>
                     {
                         uxContactList.Items.Clear();
@@ -190,15 +191,66 @@ namespace Client_T10_B
                             li.ForeColor = Color.Red;
                         }
 
+
                         Invoke(new Action(() => uxContactList.Items.Add(li)));
                     }
 
                     //uxContactList.EndUpdate();
                 }
-                else
+
+                else if (status == 4)
                 {
-                    MessageBox.Show("Something went wrong!");
+                    Dictionary<string, int> mutual = new Dictionary<string, int>();
+                    mutual = u.mutualMembers;
+
+                    Invoke(new Action(() =>
+                    {
+                        uxContactList.Items.Clear();
+                        uxContactList.Update();
+                        uxContactList.Refresh();
+                    }));
+
+                    foreach (KeyValuePair<string, int> c in contacts)
+                    {
+                        ListViewItem li = new ListViewItem();
+                        li.Text = c.Key;
+
+                        foreach (KeyValuePair<string, int> m in mutual)
+                        {
+
+                            if (m.Key == c.Key)
+                            {
+                                if (c.Value == 0) //logged in 
+                                {
+                                    li.ForeColor = Color.BlanchedAlmond;
+                                }
+                                else //logged out 
+                                {
+                                    li.ForeColor = Color.Red;
+                                }
+                            }
+                            else
+                            {
+                                if (c.Value == 0) //logged in 
+                                {
+                                    li.ForeColor = Color.Green;
+                                }
+                                else //logged out 
+                                {
+                                    li.ForeColor = Color.Red;
+                                }
+                            }
+                        }
+                        Invoke(new Action(() => uxContactList.Items.Add(li)));
+                    }
+
                 }
+
+            }
+            else
+            {
+                MessageBox.Show("oops! Something went wrong!");
+            }
             
         }
 
@@ -225,6 +277,8 @@ namespace Client_T10_B
             o.messageType = "chatMessage";
             o.username = uxUsername.Text;
             o.content = uxText.Text;
+            o.timeStamp = DateTime.Now.ToString("HH:mm:ss tt");
+            o.chatRoom = u.roomNumber;
             messageType handle = messageType.chatMessage;
             JObject jo = JObject.FromObject(o);
             f(sender, e, handle, o, "");
