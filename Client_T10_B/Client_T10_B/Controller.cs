@@ -70,7 +70,7 @@ namespace Client_T10_B
                         myHandler(_sender, _e, _handle, _o, _temp);
                     }
 
-                    if (username != "" && messagetype != "")
+                    else if (username != "" && messagetype != "")
                     {
                         if (u.userName != username && u.contactList.Contains(username))
                         {
@@ -79,7 +79,7 @@ namespace Client_T10_B
                             if (messagetype == "logout")
                                 friendLogoutHandle(_sender, _e, _handle, _o, _temp);
                         }
-                        if(u.userName == username)
+                       else if(u.userName == username)
                         {
                             myHandler(_sender, _e, _handle, _o, _temp);
                         }
@@ -436,7 +436,32 @@ namespace Client_T10_B
         }
 
         public void friendLogoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
-        { }
+        {
+            int error = 0;
+            string username = "";
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
+
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                    //Debug.Assert(u.userName == username);
+                    //Console.Write(u.userName);
+                }
+
+                else if (pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
+
+
+
+            }
+            signalObservers(sender, error, username, 1); // 0 is login
+        }
 
         public bool sendMessage(ExpandoObject o)
         {
