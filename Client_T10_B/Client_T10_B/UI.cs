@@ -50,7 +50,7 @@ namespace Client_T10_B
             }
         }
 
-        public void login(object sender, int error, string username, int s)
+        public void login(object sender, int error, string response, string username, int s)
         {
             Button clickedButton = sender as Button;
             if (clickedButton == uxLogin)
@@ -72,7 +72,7 @@ namespace Client_T10_B
 
         }
 
-        public void MessageReceived(object sender, int e, string response, int s)
+        public void MessageReceived(object sender, int e, string response, string str, int s)
         {           
             JObject rss = JObject.Parse(response);
             int error = 0;
@@ -144,7 +144,7 @@ namespace Client_T10_B
             f(sender, e, handle, o, uxAddContactBox.Text.ToString());
         }
 
-        public void refreshContactList(object sender, int e, string username, int status)
+        public void refreshContactList(object sender, int e, string response, string username, int status)
         {
             Dictionary<string, int> contacts = u.getContactList();
 
@@ -300,7 +300,7 @@ namespace Client_T10_B
             f(sender, e, handle, o, uxUsername.Text.ToString());
         }
 
-        public void logout(object sender, int error, string username, int s)
+        public void logout(object sender, int error, string response, string username, int s)
         {
             Button clickedButton = sender as Button;
             if (clickedButton == uxLogout)
