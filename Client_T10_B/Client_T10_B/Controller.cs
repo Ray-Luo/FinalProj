@@ -73,7 +73,7 @@ namespace Client_T10_B
                     JObject r = JObject.Parse(response);
                     foreach(var pair in r)
                     {
-                        if(pair.Key == "currentMemebers")
+                        if(pair.Key == "currentMembers")
                         {
                             if((string)pair.Value == u.userName)
                             {
