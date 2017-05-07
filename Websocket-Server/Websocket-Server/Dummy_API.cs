@@ -272,6 +272,7 @@ namespace Websocket_Server
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "contactAdded");
+            jo.Add("username", username);
             jo.Add("status", status);
             jo.Add("error", error);
             string output = jo.ToString();
