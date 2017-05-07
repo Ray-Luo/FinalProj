@@ -83,16 +83,15 @@ namespace Client_T10_B
             string message = "";
             foreach (var pair in rss)
             {
-                if (pair.Key == "messageType")
-                {
-                    Debug.Assert((string)pair.Value == "chatMessage");
-                }
-
-                else if (pair.Key == "error")
+               if (pair.Key == "error")
                 {
                     error = (int)pair.Value;
                 }
 
+                else if (pair.Key == "roomName")
+                {
+                    roomName = (int)pair.Value;
+                }
 
                 else if (pair.Key == "content")
                 {
@@ -116,7 +115,7 @@ namespace Client_T10_B
             }
             if (error == 0)
             {
-                message = username + ": " + content;
+                message = timestamp + "/n" + username + ": " + content;
             }
 
             Invoke(new Action(() =>
@@ -206,7 +205,7 @@ namespace Client_T10_B
         private void uxChat_Click(object sender, EventArgs e)
         {
             dynamic o = new ExpandoObject();
-            o.usernameOrigin = uxUsername.Text.ToString();
+            o.username = uxUsername.Text.ToString();
             if (uxContactList.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Please select a contact to chat");

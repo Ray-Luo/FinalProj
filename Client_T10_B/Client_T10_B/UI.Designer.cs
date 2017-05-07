@@ -32,7 +32,6 @@
             this.uxContactList = new System.Windows.Forms.ListView();
             this.Freinds = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.uxLogout = new System.Windows.Forms.Button();
-            this.uxAdd = new System.Windows.Forms.Button();
             this.uxChat = new System.Windows.Forms.Button();
             this.uxLogin = new System.Windows.Forms.Button();
             this.uxAddContactButton = new System.Windows.Forms.Button();
@@ -44,6 +43,7 @@
             this.uxSend = new System.Windows.Forms.Button();
             this.uxText = new System.Windows.Forms.TextBox();
             this.uxMessagebox = new System.Windows.Forms.ListBox();
+            this.uxRemove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -59,9 +59,9 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.uxRemove);
             this.splitContainer1.Panel1.Controls.Add(this.uxContactList);
             this.splitContainer1.Panel1.Controls.Add(this.uxLogout);
-            this.splitContainer1.Panel1.Controls.Add(this.uxAdd);
             this.splitContainer1.Panel1.Controls.Add(this.uxChat);
             this.splitContainer1.Panel1.Controls.Add(this.uxLogin);
             this.splitContainer1.Panel1.Controls.Add(this.uxAddContactButton);
@@ -91,9 +91,9 @@
             this.uxContactList.GridLines = true;
             this.uxContactList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.uxContactList.HideSelection = false;
-            this.uxContactList.Location = new System.Drawing.Point(2, 128);
+            this.uxContactList.Location = new System.Drawing.Point(2, 154);
             this.uxContactList.Name = "uxContactList";
-            this.uxContactList.Size = new System.Drawing.Size(141, 405);
+            this.uxContactList.Size = new System.Drawing.Size(141, 372);
             this.uxContactList.TabIndex = 15;
             this.uxContactList.UseCompatibleStateImageBehavior = false;
             this.uxContactList.View = System.Windows.Forms.View.Details;
@@ -114,22 +114,12 @@
             this.uxLogout.UseVisualStyleBackColor = true;
             this.uxLogout.Click += new System.EventHandler(this.uxLogout_Click);
             // 
-            // uxAdd
-            // 
-            this.uxAdd.Location = new System.Drawing.Point(71, 538);
-            this.uxAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.uxAdd.Name = "uxAdd";
-            this.uxAdd.Size = new System.Drawing.Size(56, 19);
-            this.uxAdd.TabIndex = 13;
-            this.uxAdd.Text = "Add";
-            this.uxAdd.UseVisualStyleBackColor = true;
-            // 
             // uxChat
             // 
-            this.uxChat.Location = new System.Drawing.Point(10, 538);
+            this.uxChat.Location = new System.Drawing.Point(13, 536);
             this.uxChat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxChat.Name = "uxChat";
-            this.uxChat.Size = new System.Drawing.Size(56, 19);
+            this.uxChat.Size = new System.Drawing.Size(121, 19);
             this.uxChat.TabIndex = 12;
             this.uxChat.Text = "Chat";
             this.uxChat.UseVisualStyleBackColor = true;
@@ -148,21 +138,21 @@
             // 
             // uxAddContactButton
             // 
-            this.uxAddContactButton.Location = new System.Drawing.Point(72, 99);
+            this.uxAddContactButton.Location = new System.Drawing.Point(9, 123);
             this.uxAddContactButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxAddContactButton.Name = "uxAddContactButton";
-            this.uxAddContactButton.Size = new System.Drawing.Size(70, 26);
+            this.uxAddContactButton.Size = new System.Drawing.Size(55, 26);
             this.uxAddContactButton.TabIndex = 9;
-            this.uxAddContactButton.Text = "Add Contact";
+            this.uxAddContactButton.Text = "Add";
             this.uxAddContactButton.UseVisualStyleBackColor = true;
             this.uxAddContactButton.Click += new System.EventHandler(this.uxAddContactButton_Click);
             // 
             // uxAddContactBox
             // 
-            this.uxAddContactBox.Location = new System.Drawing.Point(5, 103);
+            this.uxAddContactBox.Location = new System.Drawing.Point(9, 99);
             this.uxAddContactBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxAddContactBox.Name = "uxAddContactBox";
-            this.uxAddContactBox.Size = new System.Drawing.Size(63, 20);
+            this.uxAddContactBox.Size = new System.Drawing.Size(125, 20);
             this.uxAddContactBox.TabIndex = 8;
             // 
             // uxPassword
@@ -224,11 +214,21 @@
             // uxMessagebox
             // 
             this.uxMessagebox.FormattingEnabled = true;
-            this.uxMessagebox.Location = new System.Drawing.Point(2, 2);
+            this.uxMessagebox.Location = new System.Drawing.Point(3, 2);
             this.uxMessagebox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.uxMessagebox.Name = "uxMessagebox";
-            this.uxMessagebox.Size = new System.Drawing.Size(678, 524);
+            this.uxMessagebox.Size = new System.Drawing.Size(677, 524);
             this.uxMessagebox.TabIndex = 0;
+            // 
+            // uxRemove
+            // 
+            this.uxRemove.Location = new System.Drawing.Point(71, 123);
+            this.uxRemove.Margin = new System.Windows.Forms.Padding(2);
+            this.uxRemove.Name = "uxRemove";
+            this.uxRemove.Size = new System.Drawing.Size(63, 26);
+            this.uxRemove.TabIndex = 16;
+            this.uxRemove.Text = "Remove";
+            this.uxRemove.UseVisualStyleBackColor = true;
             // 
             // UI
             // 
@@ -258,7 +258,6 @@
         private System.Windows.Forms.TextBox uxUsername;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button uxLogout;
-        private System.Windows.Forms.Button uxAdd;
         private System.Windows.Forms.Button uxChat;
         private System.Windows.Forms.Button uxLogin;
         private System.Windows.Forms.Button uxAddContactButton;
@@ -268,5 +267,6 @@
         public System.Windows.Forms.ListView uxContactList;
         private System.Windows.Forms.ColumnHeader Freinds;
         private System.Windows.Forms.Button uxSend;
+        private System.Windows.Forms.Button uxRemove;
     }
 }

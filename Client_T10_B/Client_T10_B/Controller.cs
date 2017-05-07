@@ -63,6 +63,9 @@ namespace Client_T10_B
                     if (pair.Key == "messageType")
                         messagetype = (string)pair.Value;
                 }
+                if(messagetype == "chatMessage")
+                    myHandler(_sender, _e, _handle, _o, _temp);
+
                 if (flag == true)
                 {
                     if (messagetype == "login" && u.userName == null)
@@ -310,7 +313,6 @@ namespace Client_T10_B
         public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
         {
             int error = 0;
-            int roomName = 0;
             List<string> currentMembers = new List<string>();
             List<string> mutualMembers = new List<string>();
 
@@ -321,11 +323,6 @@ namespace Client_T10_B
                         if (pair.Key == "error")
                         {
                             error = (int)pair.Value;
-                        }
-
-                        else if (pair.Key == "roomName")
-                        {
-                            roomName = (int)pair.Value;
                         }
 
                         else if (pair.Key == "currentMembers")
@@ -344,7 +341,6 @@ namespace Client_T10_B
                         ChatRoom_m chat = new ChatRoom_m();
                         chat.currentMembers = currentMembers;
                         chat.mutualMembers = mutualMembers;
-                        chat.roomNumber = roomName;
 
                        // MessageReceived = chatbox.MessageReceived;
                     }
@@ -397,7 +393,8 @@ namespace Client_T10_B
                     }
                     if (error == 0)
                     {
-                        message = username + ": " + content;
+                        
+                        message = DateTime.Now.ToString("HH:mm:ss tt") + "/n" + username + ": " + content;
                     }
                     signalObservers(sender, error, message, 10);
 
