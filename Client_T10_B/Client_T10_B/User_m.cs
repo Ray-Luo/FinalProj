@@ -46,7 +46,10 @@ namespace Client_T10_B
             {
                 while (e1.MoveNext() && e2.MoveNext())
                 {
-                    contacts.Add(e1.Current,e2.Current);
+                    if (contacts.ContainsKey(e1.Current) == false)
+                    {
+                        contacts.Add(e1.Current, e2.Current);
+                    }
                 }
             }
 

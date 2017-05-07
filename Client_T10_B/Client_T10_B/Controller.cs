@@ -71,6 +71,7 @@ namespace Client_T10_B
                     }
 
                     if (username != "" && messagetype != "")
+                    {
                         if (u.userName != username && u.contactList.Contains(username))
                         {
                             if (messagetype == "login")
@@ -78,8 +79,9 @@ namespace Client_T10_B
                             if (messagetype == "logout")
                                 friendLogoutHandle(_sender, _e, _handle, _o, _temp);
                         }
-                        else if (username == u.userName)
-                            myHandler(_sender, _e, _handle, _o, _temp);
+                        //else if (username == u.userName)
+                        //    myHandler(_sender, _e, _handle, _o, _temp);
+                    }
                 }
             };
         }

@@ -57,7 +57,7 @@ namespace Client_T10_B
             {
                 if (error == 0)
                 {
-                    MessageBox.Show("Logged In");
+                   // messagebox.show("logged in");
                 }
                 else if (error == 1)
                 {
@@ -152,7 +152,6 @@ namespace Client_T10_B
                     {
                         MessageBox.Show(username + " logged out");
                     }
-                    int a = 0;
                 }
                 Dictionary<string, int> contacts = u.getContactList();
                 Invoke(new Action(() => {
