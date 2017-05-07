@@ -155,11 +155,11 @@ namespace Websocket_Server
             string friend = "";
             int error = 0;
             List<string> currentMembers = new List<string>();
-            List<string> mutualFriends = new List<string>();
+            Dictionary<string,int> mutualFriends = new Dictionary<string, int>();
 
             foreach (var pair in rss)
             {
-                if (pair.Key == "usernameOrigin")
+                if (pair.Key == "username")
                 {
                     username = (string)pair.Value;
                 }
@@ -194,17 +194,18 @@ namespace Websocket_Server
                     {
                         if (f2.Key == f1.Key)
                         {
-                            mutualFriends.Add(f1.Key);
-                            mutualFriends.Add(f1.Value.ToString());
+                            mutualFriends.Add(f1.Key, f1.Value);
                         }
                     }
                 }
+                chat.mutualFriends = mutualFriends;
                 error = 0;
             }
                 dynamic o = new ExpandoObject();
                 JObject jo = JObject.FromObject(o);
                 jo.Add("messageType", "createChat");
                 jo.Add("roomname", chatRoomCount);
+                jo.Add("username", username);
                 jo.Add("potentialMembers", JToken.FromObject(mutualFriends));
                 jo.Add("currentMembers", JToken.FromObject(currentMembers));
                 jo.Add("error", error);
@@ -214,7 +215,80 @@ namespace Websocket_Server
 
         public string addChatMember(string json)
         {
-            return null;
+            /*
+             * client-side request:
+                message type(addChatMember),
+                roomname(int),
+                usernameAdded(string)
+
+             *  server-side response(to target):
+                message type(addChatMember)
+                error type,
+                roomname(integer),
+                potentialMembers(string array),
+                currentMembers(string array),
+                messageHistory(string array)
+
+                server-side response(to chat members):
+                message type(roomStatusChange),
+                error type,
+                roomname(integer),
+                potentialMembers(string array),
+                currentMembers(string array)
+
+             * */
+            JObject rss = JObject.Parse(json);
+            string username = "";
+            string friend = "";
+            int roomname = 0;
+            int error = 0;
+            List<string> currentMembers = new List<string>();
+            List<string> mutualFriends = new List<string>();
+
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                }
+                else if (pair.Key == "usernameAdd")
+                {
+                    friend = (string)pair.Value;
+                }
+                else if (pair.Key == "roomname")
+                {
+                    roomname = (int)pair.Value;
+                }
+            }
+
+            ChatRoom_m chat = getChatRoom(roomname);
+            chat.users.Add(username);
+            currentMembers = chat.users;
+            User_m user = getUser(friend);
+            Dictionary<string, int> friendList = user.getContactList();
+            Dictionary<string, int> currentmutualFriends = chat.mutualFriends;
+
+            foreach (KeyValuePair<string, int> f1 in currentmutualFriends)
+            {
+                foreach (KeyValuePair<string, int> f2 in friendList)
+                {
+                    if (f2.Key != f1.Key)
+                    {
+                        mutualFriends.Remove(f1.Key);
+                    }
+                }
+            }
+
+            dynamic o = new ExpandoObject();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "createChat");
+            jo.Add("roomname", chatRoomCount);
+            jo.Add("username", username);
+            jo.Add("potentialMembers", JToken.FromObject(mutualFriends));
+            jo.Add("currentMembers", JToken.FromObject(currentMembers));
+            jo.Add("error", error);
+            string output = jo.ToString();
+            return output;
 
         }
 
