@@ -218,11 +218,17 @@ namespace Client_T10_B
                 if (error == 0)
                 {
                     MessageBox.Show("Logged out");
+
                 }
                 else
                 {
                     MessageBox.Show("Oops, something went wrong!");
                 }
+
+            }
+
+            if (temp != "")
+            {
 
             }
         }
