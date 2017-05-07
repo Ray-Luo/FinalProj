@@ -50,8 +50,28 @@ namespace Client_T10_B
                     {
                         MessageReceived(e.Data);
                         return;
-                    }                       
-                myHandler(_sender, _e, _handle, _o, _temp);
+                    }
+
+                JObject rss = JObject.Parse(response);
+                string username = "";
+                string messagetype = "";
+                foreach (var pair in rss)
+                {
+                    if (pair.Key == "username")
+                        username = (string)pair.Value;
+                    if (pair.Key == "messageType")
+                        messagetype = (string)pair.Value;
+                }
+                if(username != "" && messagetype != "")
+                    if (u.userName != username)
+                    {
+                        if(messagetype == "login")
+                            friendLoginHandle(_sender, _e, _handle, _o, _temp);
+                        if (messagetype == "logout")
+                            friendLogoutHandle(_sender, _e, _handle, _o, _temp);
+                    }
+                else
+                    myHandler(_sender, _e, _handle, _o, _temp);
             };
         }
 
@@ -366,6 +386,15 @@ namespace Client_T10_B
             
 
        }
+
+        public void friendLoginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        {
+
+            signalObservers(sender, e, null);
+        }
+
+        public void friendLogoutHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        { }
 
         public bool sendMessage(ExpandoObject o)
         {
