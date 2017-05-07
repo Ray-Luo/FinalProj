@@ -68,6 +68,21 @@ namespace Client_T10_B
                       //  MessageReceived(e.Data);
                       //  return;
                     }
+                else if(response.Contains("createChat"))
+                {
+                    JObject r = JObject.Parse(response);
+                    foreach(var pair in r)
+                    {
+                        if(pair.Key == "currentMemebers")
+                        {
+                            if((string)pair.Value == u.userName)
+                            {
+                                myHandler(_sender, _e, _handle, _o, _temp);
+                            }
+                        }
+                    }
+                }
+                  
 
                 JObject rss = JObject.Parse(response);
                 string username = "";
@@ -79,14 +94,7 @@ namespace Client_T10_B
                         username = (string)pair.Value;
                     if (pair.Key == "messageType")
                         messagetype = (string)pair.Value;
-                    if (pair.Key == "currentMembers")
-                    {
-                        currentMems = pair.Value.ToObject<List<string>>();
-                        if (currentMems.Contains(u.userName))
-                        {
-                            username = u.userName;
-                        }
-                    }
+                    
                 }
 
 
