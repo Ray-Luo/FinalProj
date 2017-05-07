@@ -65,7 +65,7 @@ namespace Client_T10_B
                 }
                 if (flag == true)
                 {
-                    if (messagetype == "login")
+                    if (messagetype == "login" && u.userName == null)
                     {
                         myHandler(_sender, _e, _handle, _o, _temp);
                     }
