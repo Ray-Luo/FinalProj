@@ -223,6 +223,7 @@ namespace Websocket_Server
                 message type(addChatMember)
                 error type,
                 roomname(integer),
+                usernameAdded(string),s
                 potentialMembers(string array),
                 currentMembers(string array),
                 messageHistory(string array)          
@@ -253,36 +254,44 @@ namespace Websocket_Server
             {
                 if (!chat.users.Contains(friend))
                 {
-                    chat.users.Add(friend);
-                    User_m user = getUser(friend);
-                    Dictionary<string, int> friendList = user.getContactList();
                     Dictionary<string, int> currentmutualFriends = chat.mutualFriends;
-
-                    foreach (KeyValuePair<string, int> f1 in currentmutualFriends)
+                    if (currentmutualFriends.ContainsKey(friend))
                     {
-                        foreach (KeyValuePair<string, int> f2 in friendList)
+                        chat.users.Add(friend);
+                        User_m user = getUser(friend);
+                        Dictionary<string, int> friendList = user.getContactList();
+
+                        foreach (KeyValuePair<string, int> f1 in currentmutualFriends)
                         {
-                            if (f2.Key != f1.Key)
+                            foreach (KeyValuePair<string, int> f2 in friendList)
                             {
-                                chat.mutualFriends.Remove(f1.Key);
+                                if (f2.Key != f1.Key)
+                                {
+                                    chat.mutualFriends.Remove(f1.Key);
+                                }
                             }
                         }
+                        error = 0;
                     }
-                    error = 0;
+                    else
+                    {
+                        error = 1;
+                    }
                 }
 
                 else
                 {
-                    error = 1;
+                    error = 2;
                 }
             }
             else
             {
-                error = 2;
+                error = 3;
             }
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "addChatMember");
+            jo.Add("usernameAdded", friend);
             jo.Add("roomNumber", chat.roomNumber);
             jo.Add("potentialMembers", JToken.FromObject(chat.mutualFriends));
             jo.Add("currentMembers", JToken.FromObject(chat.users));
@@ -352,12 +361,20 @@ namespace Websocket_Server
 
         public string contactAdded(string json)
         {
+            /*
+             * roomname(integer),
+                potentialMembers(string array),
+                currentMembers(string array)
+             * */
             Console.WriteLine("AddContact\n"+json);
             JObject rss = JObject.Parse(json);
             string username = "";
             string friend = "";
             int error = 0;
             int status = 0;
+            int roomNumber = 0;
+            List<string> current = new List<string>();
+            Dictionary<string, int> potential = new Dictionary<string, int>();
             foreach(var pair in rss)
             {
                 if (pair.Key == "usernameOrigin")
@@ -378,6 +395,37 @@ namespace Websocket_Server
                     status = newContact.status;
                     user.contactList.Add(friend);
                     user.contactList.Add(status.ToString());
+            
+                    foreach(ChatRoom_m chat in chatRooms)
+                    {
+                        if(chat.users.Contains(username))
+                        {
+                            List<string> users = chat.users;
+                            int cnt = users.Count;
+                            int flag = 0;
+                            bool i = false;
+                            while (cnt != 0)
+                            {
+                                foreach (string u in users)
+                                {
+                                    User_m chatMember = getUser(u);
+                                    i = chatMember.contactList.Contains(friend);
+                                    if(i == true)
+                                    {
+                                        flag++;
+                                    }
+                                }
+                            }
+                            if(flag == cnt)
+                            {
+                                chat.mutualFriends.Add(friend,newContact.status);
+                                current = chat.users;
+                                roomNumber = chat.roomNumber;
+                                potential = chat.mutualFriends;
+                            }
+                        }  
+                      
+                    }
                 }
                 else
                 {
@@ -395,6 +443,9 @@ namespace Websocket_Server
             jo.Add("username", username);
             jo.Add("status", status);
             jo.Add("error", error);
+            jo.Add("roomNumber", roomNumber);
+            jo.Add("potentialMembers", JToken.FromObject(potential));
+            jo.Add("currentMembers", JToken.FromObject(current));
             string output = jo.ToString();
             return output;
 

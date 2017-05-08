@@ -31,7 +31,6 @@ namespace Client_T10_B
         public static string _temp;
         public string response;
         public  string name = "";
-        public int roomnumber = 99999999;
 
         public bool flag = false;
 
@@ -94,6 +93,7 @@ namespace Client_T10_B
                     Dictionary<string,int> potentialMem = new Dictionary<string,int>();
                     JObject r = JObject.Parse(response);
                     int roomNumber = 0;
+                    string friend = "";
 
                     foreach (var pair in r)
                     {
@@ -106,17 +106,49 @@ namespace Client_T10_B
                         {
                             currentMem = pair.Value.ToObject<List<string>>();  
                         }
+                        if(pair.Key == "usernameAdded")
+                        {
+                            friend = (string)pair.Value;
+                        }
 
                     }
-                    if (roomNumber == u.roomNumber)
+                   
+                    if(friend == u.userName)
+                    {
+                        addChatMemberHandle_2(_sender, _e, _handle, _o, _temp);
+                        return;
+                    }
+                    else if (roomNumber == u.roomNumber)
                     {
                         addChatMemberHandle_1(_sender, _e, _handle, _o, _temp);
                         return;
                     }
-                    else
+                 
+
+                }
+                else if (response.Contains("contactAdded"))
+                {
+                    JObject r = JObject.Parse(response);
+                    List<string> current = new List<string>();
+                    string user = "";
+                    foreach(var pair in r)
                     {
-                        addChatMemberHandle_2(_sender, _e, _handle, _o, _temp);
-                        return;
+                        if(pair.Key == "currentMembers")
+                        {
+                            current = pair.Value.ToObject<List<string>>();
+                        }
+                        else if(pair.Key == "username")
+                        {
+                            user = (string)pair.Value;
+                        }
+                    }
+                    if(user == u.userName)
+                    {
+                        contactAddedHandle_1(_sender, _e, _handle, _o, _temp);
+                    }
+                    else if(current.Contains(user))
+                    {
+                        contactAddedHandle_2(_sender, _e, _handle, _o, _temp);
                     }
 
                 }
@@ -219,7 +251,7 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-                    myHandler = contactAddedHandle;
+                  //  myHandler = contactAddedHandle;
                     break;
                 case messageType.addChatMember:
                     _sender = sender;
@@ -349,36 +381,58 @@ namespace Client_T10_B
             signalObservers(sender, error, response,user_name, 3);
         }
 
-        public void contactAddedHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
+        public void contactAddedHandle_1(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
         {
             int error = 0;
             int status = 0;
+            List<string> current = new List<string>();
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
+            int roomNumber = 0;
+            Dictionary<string, int> mutualFriends = new Dictionary<string, int>();
             JObject rss = JObject.Parse(response);
-                    foreach (var pair in rss)
-                    {
-                        if (pair.Key == "error")
-                        {
-                            error = (int)pair.Value;
-                        }
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
 
-                        else if (pair.Key == "status")
-                        {
-                            status = (int)pair.Value;
-                        }
+                else if (pair.Key == "status")
+                {
+                    status = (int)pair.Value;
+                }
+                else if(pair.Key == "roomNumber")
+                {
+                    roomNumber = (int)pair.Value;
+                }
+                else if(pair.Key == "potentialMembers")
+                {
+                    mutualFriends = pair.Value.ToObject<Dictionary<string, int>>();
+                }
 
-                    }
-                    if (error == 0)
-                    {
-                        u.contactList.Add(username);
-                        u.contactList.Add(status.ToString());
-                    }
-                    signalObservers(sender, error,response, null, 7);
+            }
+            if (error == 0)
+            {
+                u.contactList.Add(username);
+                u.contactList.Add(status.ToString());
+                if(mutualFriends != u.mutualMembers)
+                {
+                    signalObservers(sender, error, response, null, 7);
+
+                }
+                else
+                {
+                    signalObservers(sender, error, response, null, 7);
+                }
+            }
                 
             
         }
+        public void contactAddedHandle_2(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
+        {
 
+        }
         public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
         {
             int error = 0;

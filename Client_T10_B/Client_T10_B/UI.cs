@@ -181,7 +181,7 @@ namespace Client_T10_B
 
         public void refreshChatGroup(object sender, int e, string response, string username, int status)
         {
-            if (status == 4 || status == 5)
+            if (status == 4 || status == 5 || status == 7)
             {
                 Dictionary<string, int> mutual = u.mutualMembers;
 
