@@ -257,7 +257,6 @@ namespace Websocket_Server
                     Dictionary<string, int> currentmutualFriends = chat.mutualFriends;
                     if (currentmutualFriends.ContainsKey(friend))
                     {
-                        chat.users.Add(friend);
                         User_m user = getUser(friend);
                         Dictionary<string, int> friendList = user.getContactList();
 
@@ -271,6 +270,7 @@ namespace Websocket_Server
                                 }
                             }
                         }
+                        chat.users.Add(friend);
                         error = 0;
                     }
                     else
@@ -396,36 +396,36 @@ namespace Websocket_Server
                     user.contactList.Add(friend);
                     user.contactList.Add(status.ToString());
             
-                    foreach(ChatRoom_m chat in chatRooms)
-                    {
-                        if(chat.users.Contains(username))
-                        {
-                            List<string> users = chat.users;
-                            int cnt = users.Count;
-                            int flag = 0;
-                            bool i = false;
-                            while (cnt != 0)
-                            {
-                                foreach (string u in users)
-                                {
-                                    User_m chatMember = getUser(u);
-                                    i = chatMember.contactList.Contains(friend);
-                                    if(i == true)
-                                    {
-                                        flag++;
-                                    }
-                                }
-                            }
-                            if(flag == cnt)
-                            {
-                                chat.mutualFriends.Add(friend,newContact.status);
-                                current = chat.users;
-                                roomNumber = chat.roomNumber;
-                                potential = chat.mutualFriends;
-                            }
-                        }  
+                    //foreach(ChatRoom_m chat in chatRooms)
+                    //{
+                    //    if(chat.users.Contains(username))
+                    //    {
+                    //        List<string> users = chat.users;
+                    //        int cnt = users.Count;
+                    //        int flag = 0;
+                    //        bool i = false;
+                    //        while (cnt != 0)
+                    //        {
+                    //            foreach (string u in users)
+                    //            {
+                    //                User_m chatMember = getUser(u);
+                    //                i = chatMember.contactList.Contains(friend);
+                    //                if(i == true)
+                    //                {
+                    //                    flag++;
+                    //                }
+                    //            }
+                    //        }
+                    //        if(flag == cnt)
+                    //        {
+                    //            chat.mutualFriends.Add(friend,newContact.status);
+                    //            current = chat.users;
+                    //            roomNumber = chat.roomNumber;
+                    //            potential = chat.mutualFriends;
+                    //        }
+                    //    }  
                       
-                    }
+                    //}
                 }
                 else
                 {

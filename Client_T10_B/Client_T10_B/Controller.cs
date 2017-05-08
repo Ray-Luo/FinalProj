@@ -126,32 +126,32 @@ namespace Client_T10_B
                  
 
                 }
-                else if (response.Contains("contactAdded"))
-                {
-                    JObject r = JObject.Parse(response);
-                    List<string> current = new List<string>();
-                    string user = "";
-                    foreach(var pair in r)
-                    {
-                        if(pair.Key == "currentMembers")
-                        {
-                            current = pair.Value.ToObject<List<string>>();
-                        }
-                        else if(pair.Key == "username")
-                        {
-                            user = (string)pair.Value;
-                        }
-                    }
-                    if(user == u.userName)
-                    {
-                        contactAddedHandle_1(_sender, _e, _handle, _o, _temp);
-                    }
-                    else if(current.Contains(user))
-                    {
-                        contactAddedHandle_2(_sender, _e, _handle, _o, _temp);
-                    }
+                //else if (response.Contains("contactAdded"))
+                //{
+                //    JObject r = JObject.Parse(response);
+                //    List<string> current = new List<string>();
+                //    string user = "";
+                //    foreach(var pair in r)
+                //    {
+                //        if(pair.Key == "currentMembers")
+                //        {
+                //            current = pair.Value.ToObject<List<string>>();
+                //        }
+                //        else if(pair.Key == "username")
+                //        {
+                //            user = (string)pair.Value;
+                //        }
+                //    }
+                //    if(user == u.userName)
+                //    {
+                //        contactAddedHandle_1(_sender, _e, _handle, _o, _temp);
+                //    }
+                //    else if(current.Contains(user))
+                //    {
+                //        contactAddedHandle_2(_sender, _e, _handle, _o, _temp);
+                //    }
 
-                }
+                //}
 
                 JObject rss = JObject.Parse(response);
                 string username = "";
@@ -251,7 +251,7 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-                  //  myHandler = contactAddedHandle;
+                    myHandler = contactAddedHandle_1;
                     break;
                 case messageType.addChatMember:
                     _sender = sender;
@@ -402,29 +402,30 @@ namespace Client_T10_B
                 {
                     status = (int)pair.Value;
                 }
-                else if(pair.Key == "roomNumber")
-                {
-                    roomNumber = (int)pair.Value;
-                }
-                else if(pair.Key == "potentialMembers")
-                {
-                    mutualFriends = pair.Value.ToObject<Dictionary<string, int>>();
-                }
+                //else if(pair.Key == "roomNumber")
+                //{
+                //    roomNumber = (int)pair.Value;
+                //}
+                //else if(pair.Key == "potentialMembers")
+                //{
+                //    mutualFriends = pair.Value.ToObject<Dictionary<string, int>>();
+                //}
 
             }
             if (error == 0)
             {
                 u.contactList.Add(username);
                 u.contactList.Add(status.ToString());
-                if(mutualFriends != u.mutualMembers || u.mutualMembers == null)
-                {
-                    signalObservers(sender, error, response, null, 7);
+                signalObservers(sender, error, response, null, 7);
+                //if(mutualFriends != u.mutualMembers || u.mutualMembers == null)
+                //{
+                //    signalObservers(sender, error, response, null, 7);
 
-                }
-                else 
-                {
-                    signalObservers(sender, error, response, null, 8);
-                }
+                //}
+                //else 
+                //{
+                //    signalObservers(sender, error, response, null, 8);
+                //}
             }
                 
             
