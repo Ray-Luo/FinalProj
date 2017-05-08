@@ -269,17 +269,6 @@ namespace Websocket_Server
                         }
                     }
                     error = 0;
-
-                    dynamic o = new ExpandoObject();
-                    JObject jo = JObject.FromObject(o);
-                    jo.Add("messageType", "createChat");
-                    jo.Add("roomNumber", chat.roomNumber);
-                    jo.Add("potentialMembers", JToken.FromObject(chat.mutualFriends));
-                    jo.Add("currentMembers", JToken.FromObject(currentMembers));
-                    jo.Add("error", error);
-                    jo.Add("messageHistory", JToken.FromObject(chat.history));
-                    string output = jo.ToString();
-                    return output;
                 }
 
                 else
@@ -291,8 +280,17 @@ namespace Websocket_Server
             {
                 error = 2;
             }
-            return null;
-           
+            dynamic o = new ExpandoObject();
+            JObject jo = JObject.FromObject(o);
+            jo.Add("messageType", "addChatMember");
+            jo.Add("roomNumber", chat.roomNumber);
+            jo.Add("potentialMembers", JToken.FromObject(chat.mutualFriends));
+            jo.Add("currentMembers", JToken.FromObject(chat.users));
+            jo.Add("error", error);
+            jo.Add("messageHistory", JToken.FromObject(chat.history));
+            string output = jo.ToString();
+            return output;
+
         }
 
         public string leaveChat(string json)

@@ -91,31 +91,32 @@ namespace Client_T10_B
                  else if (response.Contains("addChatMember"))
                 {
                     List<string> currentMem = new List<string>();
-                    List<string> potentialMem = new List<string>();
+                    Dictionary<string,int> potentialMem = new Dictionary<string,int>();
                     JObject r = JObject.Parse(response);
+                    int roomNumber = 0;
 
                     foreach (var pair in r)
                     {
+                        if(pair.Key == "roomNumber")
+                        {
+                            roomNumber = (int)pair.Value;
+
+                        }
                         if (pair.Key == "currentMembers")
                         {
-                            currentMem = pair.Value.ToObject<List<string>>();
-                            if (currentMem.Contains(u.userName))
-                            {
-                                addChatMemberHandle_1(_sender, _e, _handle, _o, _temp);
-                                return;
-                                // myHandler(_sender, _e, _handle, _o, _temp);
-                            }
+                            currentMem = pair.Value.ToObject<List<string>>();  
                         }
-                        else if(pair.Key == "PotentialMembers")
-                        {
-                            potentialMem = pair.Value.ToObject<List<string>>();
-                            if (currentMem.Contains(u.userName))
-                            {
-                                addChatMemberHandle_2(_sender, _e, _handle, _o, _temp);
-                                return;
-                                // myHandler(_sender, _e, _handle, _o, _temp);
-                            }
-                        }
+
+                    }
+                    if (roomNumber == u.roomNumber)
+                    {
+                        addChatMemberHandle_1(_sender, _e, _handle, _o, _temp);
+                        return;
+                    }
+                    else
+                    {
+                        addChatMemberHandle_2(_sender, _e, _handle, _o, _temp);
+                        return;
                     }
 
                 }
@@ -226,7 +227,7 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-               myHandler = addChatMemberHandle;
+              // myHandler = addChatMemberHandle;
                     break;
                 case messageType.contactRemoved:
                     _sender = sender;
@@ -401,7 +402,7 @@ namespace Client_T10_B
                     currentMembers = pair.Value.ToObject<List<string>>();//(List<string>)pair.Value;
                 }
 
-                else if (pair.Key == "mutualMembers")
+                else if (pair.Key == "potentialMembers")
                 {
                     mutualMembers = pair.Value.ToObject<Dictionary<string, int>>();
                 }
@@ -665,14 +666,18 @@ namespace Client_T10_B
                 }
                 else if(pair.Key == "messageHistory")
                 {
-                    
+                    history = pair.Value.ToObject<List<string>>();
                 }
             }
-            if (error == 0 && u.roomNumber == roomNumber)
+            if (error == 0 )
             {
+                u.roomNumber = roomNumber;
+                u.currentMembers = currentMem;
                 u.mutualMembers = potentialMem;
+                u.history = history;
             }
-            signalObservers(sender, error, response, temp, 4); // 0 is login
+
+            signalObservers(sender, error, response, temp, 5); // 0 is login
 
 
         }

@@ -111,7 +111,7 @@ namespace Client_T10_B
         public void refreshContactList(object sender, int e, string response, string username, int status)
         {
             Dictionary<string, int> contacts = u.getContactList();
-            if (status != 10 && status != 4)
+            if (status != 10 && status != 4 && status != 5)
             {
                 if (e == 0)
                 {
@@ -141,10 +141,7 @@ namespace Client_T10_B
                             }
 
                         }
-                        else if(status == 5)
-                        {
-                           
-                        }
+                      
 
                         Invoke(new Action(() =>
                         {
@@ -184,7 +181,7 @@ namespace Client_T10_B
 
         public void refreshChatGroup(object sender, int e, string response, string username, int status)
         {
-            if (status == 4)
+            if (status == 4 || status == 5)
             {
                 Dictionary<string, int> mutual = u.mutualMembers;
 
@@ -201,6 +198,22 @@ namespace Client_T10_B
                     li.Text = c.Key;
                     Invoke(new Action(() => uxChatGroup.Items.Add(li)));
                 }
+            }
+        }
+        public void chatHistory(object sender, int e, string response, string username, int status)
+        {
+
+            if(status == 5)
+            {
+                Invoke(new Action(() =>
+                {
+                    foreach (string message in u.history)
+                    {
+                        uxMessagebox.TopIndex = uxMessagebox.Items.Add(message);
+                        uxText.Text = "";
+                    }
+                }
+              ));
             }
         }
 
@@ -300,10 +313,10 @@ namespace Client_T10_B
              * */
             dynamic o = new ExpandoObject();
             o.username = uxUsername.Text.ToString();
-            o.friend = uxContactList.SelectedItems[0].Text.ToString();
+            o.friend = uxChatGroup.SelectedItems[0].Text.ToString();
             o.messageType = "addChatMember";
             messageType handle = messageType.addChatMember;
-            f(sender, e, handle, o, uxContactList.SelectedItems[0].Text.ToString());
+            f(sender, e, handle, o, uxChatGroup.SelectedItems[0].Text.ToString());
         }
     }
 }
