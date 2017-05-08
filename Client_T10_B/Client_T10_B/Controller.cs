@@ -51,69 +51,69 @@ namespace Client_T10_B
                 }
                 if (response.Contains("chatMessage"))
                 { // if (MessageReceived != null)
-                   // {
-                        JObject r = JObject.Parse(response);
-                        foreach(var pair in r)
+                  // {
+                    JObject r = JObject.Parse(response);
+                    foreach (var pair in r)
+                    {
+                        if (pair.Key == "roomNumber")
                         {
-                            if (pair.Key == "roomNumber")
+                            if ((int)pair.Value == u.roomNumber)
                             {
-                                if((int)pair.Value == u.roomNumber)
-                                {
                                 // MessageReceived(e.Data);
                                 // myHandler(_sender, _e, _handle, _o, _temp);
                                 chatMessageHandle(_sender, _e, _handle, _o, _temp);
                                 return;
-                                }
                             }
                         }
-                      //  MessageReceived(e.Data);
-                      //  return;
                     }
-                else if(response.Contains("createChat"))
+                    //  MessageReceived(e.Data);
+                    //  return;
+                }
+                else if (response.Contains("createChat"))
                 {
                     List<string> currentMem = new List<string>();
                     JObject r = JObject.Parse(response);
-                    foreach(var pair in r)
+                    foreach (var pair in r)
                     {
-                        if(pair.Key == "currentMembers")
+                        if (pair.Key == "currentMembers")
                         {
-                             currentMem = pair.Value.ToObject<List<string>>();
+                            currentMem = pair.Value.ToObject<List<string>>();
                             if (currentMem.Contains(u.userName))
                             {
                                 createChatHandle(_sender, _e, _handle, _o, _temp);
                                 return;
-                               // myHandler(_sender, _e, _handle, _o, _temp);
+                                // myHandler(_sender, _e, _handle, _o, _temp);
                             }
                         }
                     }
                 }
-                 else if (response.Contains("addChatMember"))
+                else if (response.Contains("addChatMember"))
                 {
                     List<string> currentMem = new List<string>();
-                    Dictionary<string,int> potentialMem = new Dictionary<string,int>();
+                    Dictionary<string, int> potentialMem = new Dictionary<string, int>();
                     JObject r = JObject.Parse(response);
                     int roomNumber = 0;
                     string friend = "";
 
                     foreach (var pair in r)
                     {
-                        if(pair.Key == "roomNumber")
+                        if (pair.Key == "roomNumber")
                         {
                             roomNumber = (int)pair.Value;
 
                         }
                         if (pair.Key == "currentMembers")
                         {
-                            currentMem = pair.Value.ToObject<List<string>>();  
+                            currentMem = pair.Value.ToObject<List<string>>();
                         }
-                        if(pair.Key == "usernameAdded")
+                        if (pair.Key == "usernameAdded")
                         {
                             friend = (string)pair.Value;
                         }
 
                     }
-                   
-                    if(friend == u.userName)
+
+                    if (friend == u.userName)
                     {
                         addChatMemberHandle_2(_sender, _e, _handle, _o, _temp);
                         return;
@@ -123,72 +123,76 @@ namespace Client_T10_B
                         addChatMemberHandle_1(_sender, _e, _handle, _o, _temp);
                         return;
                     }
-                 
+
 
                 }
-                //else if (response.Contains("contactAdded"))
-                //{
-                //    JObject r = JObject.Parse(response);
-                //    List<string> current = new List<string>();
-                //    string user = "";
-                //    foreach(var pair in r)
-                //    {
-                //        if(pair.Key == "currentMembers")
-                //        {
-                //            current = pair.Value.ToObject<List<string>>();
-                //        }
-                //        else if(pair.Key == "username")
-                //        {
-                //            user = (string)pair.Value;
-                //        }
-                //    }
-                //    if(user == u.userName)
-                //    {
-                //        contactAddedHandle_1(_sender, _e, _handle, _o, _temp);
-                //    }
-                //    else if(current.Contains(user))
-                //    {
-                //        contactAddedHandle_2(_sender, _e, _handle, _o, _temp);
-                //    }
-
-                //}
-
-                JObject rss = JObject.Parse(response);
-                string username = "";
-                string messagetype = "";
-                foreach (var pair in rss)
+                else if (response.Contains("contactAdded"))
                 {
-                    if (pair.Key == "username")
-                        username = (string)pair.Value;
-                    if (pair.Key == "messageType")
-                        messagetype = (string)pair.Value;
-                    
-                }
-
-
-                if (flag == true)
-                {
-                    if (messagetype == "login" && u.userName == null)
+                    JObject r = JObject.Parse(response);
+                    List<string> current = new List<string>();
+                    string user = "";
+                    foreach (var pair in r)
                     {
-                        myHandler(_sender, _e, _handle, _o, _temp);
+                        if (pair.Key == "currentMembers")
+                        {
+                            current = pair.Value.ToObject<List<string>>();
+                        }
+                        else if (pair.Key == "username")
+                        {
+                            user = (string)pair.Value;
+                        }
+                    }
+                    if (user == u.userName)
+                    {
+                        contactAddedHandle_1(_sender, _e, _handle, _o, _temp);
+                        return;
+                    }
+                    else if (current.Contains(user))
+                    {
+                        contactAddedHandle_2(_sender, _e, _handle, _o, _temp);
+                        return;
+                    }
+                }
+
+                    //}
+
+                    JObject rss = JObject.Parse(response);
+                    string username = "";
+                    string messagetype = "";
+                    foreach (var pair in rss)
+                    {
+                        if (pair.Key == "username")
+                            username = (string)pair.Value;
+                        if (pair.Key == "messageType")
+                            messagetype = (string)pair.Value;
+
                     }
 
-                    else if (username != "" && messagetype != "")
+
+                    if (flag == true)
                     {
-                        if (u.userName != username && u.contactList.Contains(username))
-                        {
-                            if (messagetype == "login")
-                                friendLoginHandle(_sender, _e, _handle, _o, _temp);
-                            if (messagetype == "logout")
-                                friendLogoutHandle(_sender, _e, _handle, _o, _temp);
-                        }
-                       else if(u.userName == username)
+                        if (messagetype == "login" && u.userName == null)
                         {
                             myHandler(_sender, _e, _handle, _o, _temp);
                         }
+
+                        else if (username != "" && messagetype != "")
+                        {
+                            if (u.userName != username && u.contactList.Contains(username))
+                            {
+                                if (messagetype == "login")
+                                    friendLoginHandle(_sender, _e, _handle, _o, _temp);
+                                if (messagetype == "logout")
+                                    friendLogoutHandle(_sender, _e, _handle, _o, _temp);
+                            }
+                            else if (u.userName == username)
+                            {
+                                myHandler(_sender, _e, _handle, _o, _temp);
+                            }
+                        }
+
                     }
-                       
-                  }
+                
                 
             };
         }
@@ -381,7 +385,7 @@ namespace Client_T10_B
             signalObservers(sender, error, response,user_name, 3);
         }
 
-        public void contactAddedHandle_1(object sender, EventArgs e, messageType handle, ExpandoObject o, string username)
+        public void contactAddedHandle_1(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
             int error = 0;
             int status = 0;
@@ -389,6 +393,8 @@ namespace Client_T10_B
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
             int roomNumber = 0;
+            string friend = "";
+            string username = "";
             Dictionary<string, int> mutualFriends = new Dictionary<string, int>();
             JObject rss = JObject.Parse(response);
             foreach (var pair in rss)
@@ -402,37 +408,92 @@ namespace Client_T10_B
                 {
                     status = (int)pair.Value;
                 }
-                //else if(pair.Key == "roomNumber")
-                //{
-                //    roomNumber = (int)pair.Value;
-                //}
-                //else if(pair.Key == "potentialMembers")
-                //{
-                //    mutualFriends = pair.Value.ToObject<Dictionary<string, int>>();
-                //}
+                else if (pair.Key == "roomNumber")
+                {
+                    roomNumber = (int)pair.Value;
+                }
+                else if (pair.Key == "potentialMembers")
+                {
+                    mutualFriends = pair.Value.ToObject<Dictionary<string, int>>();
+                }
+                else if(pair.Key == "usernameAdded")
+                {
+                    friend = (string)pair.Value;
+                }
+                else if(pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                }
 
             }
             if (error == 0)
             {
-                u.contactList.Add(username);
+                u.contactList.Add(friend);
                 u.contactList.Add(status.ToString());
-                signalObservers(sender, error, response, null, 7);
-                //if(mutualFriends != u.mutualMembers || u.mutualMembers == null)
-                //{
-                //    signalObservers(sender, error, response, null, 7);
+                //signalObservers(sender, error, response, null, 7);
+                if (mutualFriends == u.mutualMembers || u.mutualMembers == null)
+                {
+                    signalObservers(sender, error, response, friend, 7);
 
-                //}
-                //else 
-                //{
-                //    signalObservers(sender, error, response, null, 8);
-                //}
+                }
+                else
+                {
+                    u.mutualMembers = mutualFriends;
+                    signalObservers(sender, error, response, friend, 8);
+                }
             }
                 
             
         }
         public void contactAddedHandle_2(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
         {
+            int error = 0;
+            int status = 0;
+            List<string> current = new List<string>();
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            int roomNumber = 0;
+            string friend = "";
+            string username = "";
+            Dictionary<string, int> mutualFriends = new Dictionary<string, int>();
+            JObject rss = JObject.Parse(response);
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
 
+                else if (pair.Key == "status")
+                {
+                    status = (int)pair.Value;
+                }
+                else if (pair.Key == "roomNumber")
+                {
+                    roomNumber = (int)pair.Value;
+                }
+                else if (pair.Key == "potentialMembers")
+                {
+                    mutualFriends = pair.Value.ToObject<Dictionary<string, int>>();
+                }
+                else if (pair.Key == "usernameAdded")
+                {
+                    friend = (string)pair.Value;
+                }
+                else if (pair.Key == "username")
+                {
+                    username = (string)pair.Value;
+                }
+
+            }
+            if (error == 0)
+            {
+                u.contactList.Add(friend);
+                u.contactList.Add(status.ToString());
+                u.mutualMembers = mutualFriends;
+                signalObservers(sender, error, response, friend, 4);
+                
+            }
         }
         public void createChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string usernameo)
         {

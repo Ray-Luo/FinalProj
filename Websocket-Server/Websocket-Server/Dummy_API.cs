@@ -395,37 +395,36 @@ namespace Websocket_Server
                     status = newContact.status;
                     user.contactList.Add(friend);
                     user.contactList.Add(status.ToString());
-            
-                    //foreach(ChatRoom_m chat in chatRooms)
-                    //{
-                    //    if(chat.users.Contains(username))
-                    //    {
-                    //        List<string> users = chat.users;
-                    //        int cnt = users.Count;
-                    //        int flag = 0;
-                    //        bool i = false;
-                    //        while (cnt != 0)
-                    //        {
-                    //            foreach (string u in users)
-                    //            {
-                    //                User_m chatMember = getUser(u);
-                    //                i = chatMember.contactList.Contains(friend);
-                    //                if(i == true)
-                    //                {
-                    //                    flag++;
-                    //                }
-                    //            }
-                    //        }
-                    //        if(flag == cnt)
-                    //        {
-                    //            chat.mutualFriends.Add(friend,newContact.status);
-                    //            current = chat.users;
-                    //            roomNumber = chat.roomNumber;
-                    //            potential = chat.mutualFriends;
-                    //        }
-                    //    }  
-                      
-                    //}
+
+                    foreach (ChatRoom_m chat in chatRooms)
+                    {
+                        if (chat.users.Contains(username))
+                        {
+                            List<string> users = chat.users;
+                            int cnt = users.Count;
+                            int flag = 0;
+                            bool i = false;
+
+                            foreach (string u in users)
+                            {
+                                User_m chatMember = getUser(u);
+                                i = chatMember.contactList.Contains(friend);
+                                if (i == true)
+                                {
+                                    flag++;
+                                }
+                            }
+                            
+                            if (flag == cnt)
+                            {
+                                chat.mutualFriends.Add(friend, newContact.status);
+                                current = chat.users;
+                                roomNumber = chat.roomNumber;
+                                potential = chat.mutualFriends;
+                            }
+                        }
+
+                    }
                 }
                 else
                 {
@@ -441,6 +440,7 @@ namespace Websocket_Server
             JObject jo = JObject.FromObject(o);
             jo.Add("messageType", "contactAdded");
             jo.Add("username", username);
+            jo.Add("usernameAdded", friend);
             jo.Add("status", status);
             jo.Add("error", error);
             jo.Add("roomNumber", roomNumber);
