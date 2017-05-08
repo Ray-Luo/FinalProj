@@ -416,14 +416,14 @@ namespace Client_T10_B
             {
                 u.contactList.Add(username);
                 u.contactList.Add(status.ToString());
-                if(mutualFriends != u.mutualMembers)
+                if(mutualFriends != u.mutualMembers || u.mutualMembers == null)
                 {
                     signalObservers(sender, error, response, null, 7);
 
                 }
-                else
+                else 
                 {
-                    signalObservers(sender, error, response, null, 7);
+                    signalObservers(sender, error, response, null, 8);
                 }
             }
                 
