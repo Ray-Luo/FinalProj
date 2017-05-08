@@ -63,6 +63,7 @@ namespace Client_T10_B
                                 // MessageReceived(e.Data);
                                 // myHandler(_sender, _e, _handle, _o, _temp);
                                 chatMessageHandle(_sender, _e, _handle, _o, _temp);
+                                return;
                                 }
                             }
                         }
@@ -81,12 +82,43 @@ namespace Client_T10_B
                             if (currentMem.Contains(u.userName))
                             {
                                 createChatHandle(_sender, _e, _handle, _o, _temp);
+                                return;
                                // myHandler(_sender, _e, _handle, _o, _temp);
                             }
                         }
                     }
                 }
-                  
+                 else if (response.Contains("addChatMember"))
+                {
+                    List<string> currentMem = new List<string>();
+                    List<string> potentialMem = new List<string>();
+                    JObject r = JObject.Parse(response);
+
+                    foreach (var pair in r)
+                    {
+                        if (pair.Key == "currentMembers")
+                        {
+                            currentMem = pair.Value.ToObject<List<string>>();
+                            if (currentMem.Contains(u.userName))
+                            {
+                                addChatMemberHandle_1(_sender, _e, _handle, _o, _temp);
+                                return;
+                                // myHandler(_sender, _e, _handle, _o, _temp);
+                            }
+                        }
+                        else if(pair.Key == "PotentialMembers")
+                        {
+                            potentialMem = pair.Value.ToObject<List<string>>();
+                            if (currentMem.Contains(u.userName))
+                            {
+                                addChatMemberHandle_2(_sender, _e, _handle, _o, _temp);
+                                return;
+                                // myHandler(_sender, _e, _handle, _o, _temp);
+                            }
+                        }
+                    }
+
+                }
 
                 JObject rss = JObject.Parse(response);
                 string username = "";
@@ -194,7 +226,7 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-      //TODO              myHandler = addChatMemberHandle;
+               myHandler = addChatMemberHandle;
                     break;
                 case messageType.contactRemoved:
                     _sender = sender;
@@ -527,6 +559,125 @@ namespace Client_T10_B
             signalObservers(sender, error, response, usernameRemoved,7); // 0 is login
 
         }
+
+        public void addChatMemberHandle_1(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        {
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
+
+            /*
+             * server-side response(to target):
+                message type(addChatMember)
+                error type,
+                roomNumber(integer),
+                potentialMembers(string array),
+                currentMembers(string array),
+                messageHistory(string array)
+
+                server-side response(to chat members):
+                message type(roomStatusChange),
+                error type,
+                roomNumner(integer),
+                potentialMembers(string array),
+                currentMembers(string array)
+
+             * */
+            int error = 0;
+            int roomNumber = 0;
+            Dictionary<string, int> potentialMem = new Dictionary<string, int>();
+            List<string> currentMem = new List<string>();
+            foreach(var pair in rss)
+            {
+                if(pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
+                else if(pair.Key == "roomNumber")
+                {
+                    roomNumber = (int)pair.Value;
+                }
+                else if(pair.Key == "potentialMembers")
+                {
+                    potentialMem = pair.Value.ToObject<Dictionary<string, int>>();
+                }
+                else if(pair.Key == "currentMembers")
+                {
+                    currentMem = pair.Value.ToObject<List<string>>();
+
+                }
+            }
+            if(error == 0 && u.roomNumber == roomNumber)
+            {
+                u.mutualMembers = potentialMem;
+            }
+            signalObservers(sender, error, response, temp , 4); // 0 is login
+
+
+        }
+
+        public void addChatMemberHandle_2(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        {
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
+
+            /*
+             * server-side response(to target):
+                message type(addChatMember)
+                error type,
+                roomNumber(integer),
+                potentialMembers(string array),
+                currentMembers(string array),
+                messageHistory(string array)
+
+                server-side response(to chat members):
+                message type(roomStatusChange),
+                error type,
+                roomNumner(integer),
+                potentialMembers(string array),
+                currentMembers(string array)
+
+             * */
+            int error = 0;
+            int roomNumber = 0;
+            Dictionary<string, int> potentialMem = new Dictionary<string, int>();
+            List<string> currentMem = new List<string>();
+            List<string> history = new List<string>();
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "error")
+                {
+                    error = (int)pair.Value;
+                }
+                else if (pair.Key == "roomNumber")
+                {
+                    roomNumber = (int)pair.Value;
+                }
+                else if (pair.Key == "potentialMembers")
+                {
+                    potentialMem = pair.Value.ToObject<Dictionary<string, int>>();
+                }
+                else if (pair.Key == "currentMembers")
+                {
+                    currentMem = pair.Value.ToObject<List<string>>();
+
+                }
+                else if(pair.Key == "messageHistory")
+                {
+                    
+                }
+            }
+            if (error == 0 && u.roomNumber == roomNumber)
+            {
+                u.mutualMembers = potentialMem;
+            }
+            signalObservers(sender, error, response, temp, 4); // 0 is login
+
+
+        }
+
+
         public bool sendMessage(ExpandoObject o)
         {
 

@@ -111,7 +111,7 @@ namespace Client_T10_B
         public void refreshContactList(object sender, int e, string response, string username, int status)
         {
             Dictionary<string, int> contacts = u.getContactList();
-            if (status != 10)
+            if (status != 10 && status != 4)
             {
                 if (e == 0)
                 {
@@ -172,60 +172,34 @@ namespace Client_T10_B
                         }
 
                         //uxContactList.EndUpdate();
-                    }
-
-                    else if (status == 4)
-                    {
-                        Dictionary<string, int> mutual = new Dictionary<string, int>();
-                        mutual = u.mutualMembers;
-
-                        Invoke(new Action(() =>
-                        {
-                            uxContactList.Items.Clear();
-                            uxContactList.Update();
-                            uxContactList.Refresh();
-                        }));
-
-                        foreach (KeyValuePair<string, int> c in contacts)
-                        {
-                            ListViewItem li = new ListViewItem();
-                            li.Text = c.Key;
-
-                            foreach (KeyValuePair<string, int> m in mutual)
-                            {
-
-                                if (m.Key == c.Key)
-                                {
-                                    if (c.Value == 0) //logged in 
-                                    {
-                                        li.ForeColor = Color.BlanchedAlmond;
-                                    }
-                                    else //logged out 
-                                    {
-                                        li.ForeColor = Color.Red;
-                                    }
-                                }
-                                else
-                                {
-                                    if (c.Value == 0) //logged in 
-                                    {
-                                        li.ForeColor = Color.Green;
-                                    }
-                                    else //logged out 
-                                    {
-                                        li.ForeColor = Color.Red;
-                                    }
-                                }
-                            }
-                            Invoke(new Action(() => uxContactList.Items.Add(li)));
-                        }
-
-                    }
+                    }  
 
                 }
                 else
                 {
                     MessageBox.Show("oops! Something went wrong!");
+                }
+            }
+        }
+
+        public void refreshChatGroup(object sender, int e, string response, string username, int status)
+        {
+            if (status == 4)
+            {
+                Dictionary<string, int> mutual = u.mutualMembers;
+
+                Invoke(new Action(() =>
+                {
+                    uxChatGroup.Items.Clear();
+                    uxChatGroup.Update();
+                    uxChatGroup.Refresh();
+                }));
+
+                foreach (KeyValuePair<string, int> c in mutual)
+                {
+                    ListViewItem li = new ListViewItem();
+                    li.Text = c.Key;
+                    Invoke(new Action(() => uxChatGroup.Items.Add(li)));
                 }
             }
         }
@@ -314,6 +288,21 @@ namespace Client_T10_B
             o.usernameRemoved = uxContactList.SelectedItems[0].Text.ToString();
             o.messageType = "contactRemoved";
             messageType handle = messageType.contactRemoved;
+            f(sender, e, handle, o, uxContactList.SelectedItems[0].Text.ToString());
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            /*
+             * message type(addChatMember),
+                username(string),
+                friend(string)
+             * */
+            dynamic o = new ExpandoObject();
+            o.username = uxUsername.Text.ToString();
+            o.friend = uxContactList.SelectedItems[0].Text.ToString();
+            o.messageType = "addChatMember";
+            messageType handle = messageType.addChatMember;
             f(sender, e, handle, o, uxContactList.SelectedItems[0].Text.ToString());
         }
     }

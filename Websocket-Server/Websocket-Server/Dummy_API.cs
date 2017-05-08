@@ -225,75 +225,74 @@ namespace Websocket_Server
                 roomname(integer),
                 potentialMembers(string array),
                 currentMembers(string array),
-                messageHistory(string array)
-
-                server-side response(to chat members):
-                message type(roomStatusChange),
-                error type,
-                roomname(integer),
-                potentialMembers(string array),
-                currentMembers(string array)
+                messageHistory(string array)          
 
              * */
             JObject rss = JObject.Parse(json);
-            string username = "";
             string friend = "";
             int roomname = 0;
             int error = 0;
             List<string> currentMembers = new List<string>();
-            if (currentMembers.Contains(username))
+
+
+
+            foreach (var pair in rss)
             {
-
-                foreach (var pair in rss)
+                   
+                if (pair.Key == "friend")
                 {
-                    if (pair.Key == "username")
-                    {
-                        username = (string)pair.Value;
-                    }
-                    else if (pair.Key == "usernameAdd")
-                    {
-                        friend = (string)pair.Value;
-                    }
-                    else if (pair.Key == "roomNumber")
-                    {
-                        roomname = (int)pair.Value;
-                    }
+                    friend = (string)pair.Value;
                 }
-
-                ChatRoom_m chat = getChatRoom(roomname);
-                chat.users.Add(username);
-                currentMembers = chat.users;
-                User_m user = getUser(friend);
-                Dictionary<string, int> friendList = user.getContactList();
-                Dictionary<string, int> currentmutualFriends = chat.mutualFriends;
-
-                foreach (KeyValuePair<string, int> f1 in currentmutualFriends)
+                else if (pair.Key == "roomNumber")
                 {
-                    foreach (KeyValuePair<string, int> f2 in friendList)
+                    roomname = (int)pair.Value;
+                }
+            }
+            ChatRoom_m chat = getChatRoom(roomname);
+            if (chat != null)
+            {
+                if (!chat.users.Contains(friend))
+                {
+                    chat.users.Add(friend);
+                    User_m user = getUser(friend);
+                    Dictionary<string, int> friendList = user.getContactList();
+                    Dictionary<string, int> currentmutualFriends = chat.mutualFriends;
+
+                    foreach (KeyValuePair<string, int> f1 in currentmutualFriends)
                     {
-                        if (f2.Key != f1.Key)
+                        foreach (KeyValuePair<string, int> f2 in friendList)
                         {
-                            chat.mutualFriends.Remove(f1.Key);
+                            if (f2.Key != f1.Key)
+                            {
+                                chat.mutualFriends.Remove(f1.Key);
+                            }
                         }
                     }
+                    error = 0;
+
+                    dynamic o = new ExpandoObject();
+                    JObject jo = JObject.FromObject(o);
+                    jo.Add("messageType", "createChat");
+                    jo.Add("roomNumber", chat.roomNumber);
+                    jo.Add("potentialMembers", JToken.FromObject(chat.mutualFriends));
+                    jo.Add("currentMembers", JToken.FromObject(currentMembers));
+                    jo.Add("error", error);
+                    jo.Add("messageHistory", JToken.FromObject(chat.history));
+                    string output = jo.ToString();
+                    return output;
                 }
 
-                dynamic o = new ExpandoObject();
-                JObject jo = JObject.FromObject(o);
-                jo.Add("messageType", "createChat");
-                jo.Add("roomNumber", chat.roomNumber);
-                jo.Add("username", username);
-                jo.Add("potentialMembers", JToken.FromObject(chat.mutualFriends));
-                jo.Add("currentMembers", JToken.FromObject(currentMembers));
-                jo.Add("error", error);
-                string output = jo.ToString();
-                return output;
+                else
+                {
+                    error = 1;
+                }
             }
             else
             {
-                return null;
+                error = 2;
             }
-
+            return null;
+           
         }
 
         public string leaveChat(string json)
