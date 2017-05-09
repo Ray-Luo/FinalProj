@@ -267,16 +267,13 @@ namespace Websocket_Server
                         else
                         {
 
-                            foreach (KeyValuePair<string, int> f1 in currentmutualFriends)//cc,dd
+                            foreach (KeyValuePair<string, int> f1 in currentmutualFriends)//cc,ee
                             {
-                                foreach (KeyValuePair<string, int> f2 in friendList) //ss
+                                if(!friendList.ContainsKey(f1.Key))
                                 {
-                                    if (f2.Key != f1.Key)
-                                    {
-                                        keysToRemove.Add(f1.Key);
-
-                                    }
+                                    keysToRemove.Add(f1.Key);
                                 }
+                               
                             }
                             foreach (string key in keysToRemove)
                             {
