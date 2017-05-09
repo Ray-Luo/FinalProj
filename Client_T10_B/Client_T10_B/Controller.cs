@@ -38,7 +38,7 @@ namespace Client_T10_B
         {
             this.u = u;
             // Connects to the server
-            ws = new WebSocket("ws://127.0.0.1:8001/chat");
+            ws = new WebSocket("ws://127.0.0.1:3111/chat");
             ws.Connect();
             ws.OnMessage += (sender, e) =>
             {
@@ -619,12 +619,11 @@ namespace Client_T10_B
                     if (error == 0)
                     {
                         
-                        message = timestamp + "\n" + username + ": " + content;
+                        message = timestamp + " "+ "\n" + username + ": " + content;
                     }
 
                     if(u.roomNumber == roomName)
                         signalObservers(sender, error, response, message, 10);
-
        }
 
         public void friendLoginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)

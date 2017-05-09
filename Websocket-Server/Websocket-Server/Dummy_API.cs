@@ -255,22 +255,40 @@ namespace Websocket_Server
                 if (!chat.users.Contains(friend))
                 {
                     Dictionary<string, int> currentmutualFriends = chat.mutualFriends;
+                    List<string> keysToRemove = new List<string>();
                     if (currentmutualFriends.ContainsKey(friend))
                     {
                         User_m user = getUser(friend);
                         Dictionary<string, int> friendList = user.getContactList();
-
-                        foreach (KeyValuePair<string, int> f1 in currentmutualFriends)
+                        if (friendList.Count == 0)
                         {
-                            foreach (KeyValuePair<string, int> f2 in friendList)
+                            chat.mutualFriends.Clear();
+                        }
+                        else
+                        {
+
+                            foreach (KeyValuePair<string, int> f1 in currentmutualFriends)//cc,dd
                             {
-                                if (f2.Key != f1.Key)
+                                foreach (KeyValuePair<string, int> f2 in friendList) //ss
                                 {
-                                    chat.mutualFriends.Remove(f1.Key);
+                                    if (f2.Key != f1.Key)
+                                    {
+                                        keysToRemove.Add(f1.Key);
+
+                                    }
                                 }
                             }
+                            foreach (string key in keysToRemove)
+                            {
+                                chat.mutualFriends.Remove(key);
+                            }
                         }
+                        
                         chat.users.Add(friend);
+                        if (chat.mutualFriends.ContainsKey(friend))
+                        {
+                            chat.mutualFriends.Remove(friend);
+                        }
                         error = 0;
                     }
                     else

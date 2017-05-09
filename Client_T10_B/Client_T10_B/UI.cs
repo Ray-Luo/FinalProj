@@ -346,6 +346,7 @@ namespace Client_T10_B
             dynamic o = new ExpandoObject();
             o.username = uxUsername.Text.ToString();
             o.friend = uxChatGroup.SelectedItems[0].Text.ToString();
+            o.roomNumber = u.roomNumber;
             o.messageType = "addChatMember";
             messageType handle = messageType.addChatMember;
             f(sender, e, handle, o, uxChatGroup.SelectedItems[0].Text.ToString());

@@ -49,6 +49,7 @@ namespace Client_T10_B
             c.register(ui.refreshChatGroup);
             c.register(ui.removeContact);
             c.register(ui.leaveChat);
+            c.register(ui.chatHistory);
             Application.Run(ui);
         }
     }
