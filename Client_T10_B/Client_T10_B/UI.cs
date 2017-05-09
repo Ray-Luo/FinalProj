@@ -35,7 +35,7 @@ namespace Client_T10_B
             uxRemove.Enabled = false;
             uxChat.Enabled = true;
             uxAddtoChat.Enabled = true;
-            uxSend.Enabled = false;
+            uxSend.Enabled = true;
         }
 
         private void uxLogin_Click(object sender, EventArgs e)
@@ -72,7 +72,7 @@ namespace Client_T10_B
                         uxRemove.Enabled = true;
                         uxChat.Enabled = true;
                         uxAddtoChat.Enabled = true;
-                        uxSend.Enabled = false;
+                        uxSend.Enabled = true;
                         uxUsername.Enabled = false;
                         uxPassword.Enabled = false;
                     }
