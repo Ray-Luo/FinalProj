@@ -84,10 +84,7 @@ namespace Client_T10_B
                 {
                     MessageBox.Show("Password is incorrect");
                 }
-                else
-                {
-                    MessageBox.Show("Oops, something went wrong!");
-                }
+
 
             }
 
@@ -97,13 +94,23 @@ namespace Client_T10_B
         {
             if (response.Contains("chatMessage"))
             {
-
-                Invoke(new Action(() =>
+                if (error == 0)
                 {
-                    uxMessagebox.TopIndex = uxMessagebox.Items.Add(message);
-                    uxText.Text = "";
+                    if (u.status != 1)
+                    {
+
+                        Invoke(new Action(() =>
+                        {
+                            uxMessagebox.TopIndex = uxMessagebox.Items.Add(message);
+                            uxText.Text = "";
+                        }
+                        ));
+                    }
                 }
-                ));
+                else
+                {
+                    MessageBox.Show("YOu are no longer in the chat");
+                }
             }
         }
 
@@ -123,10 +130,16 @@ namespace Client_T10_B
 
         public void removeContact(object sender, int e, string response, string username, int status)
         {
-            
-           if(e == 1)
-            { 
-                 MessageBox.Show("No More contacts to remove");
+            if (response.Contains("removeContact"))
+            {
+                if(e == 0)
+                {
+                    MessageBox.Show("Contact is removed");
+                }
+                else if (e == 1)
+                {
+                    MessageBox.Show("No More contacts to remove");
+                }
             }
             
         }
@@ -302,26 +315,16 @@ namespace Client_T10_B
                     //    Application.Exit();
                     //    MessageBox.Show("Logged out");
                     //}
-                 
+
+                }
+                else if (error == 1)
+                {
+                    MessageBox.Show("This person does not exist");
                 }
                 else
                 {
-                    MessageBox.Show("Oops, something went wrong!");
+                    MessageBox.Show("Opps! Something went wrong");
                 }
-
-            }
-            else
-            {
-                //if (error == 0)
-                //{
-
-                //        // user clicked yes
-                //        if (username != null)
-                //        {
-                //            MessageBox.Show(username + " loggout");
-                //        }
-
-                //}
             }
 
         }
@@ -367,6 +370,20 @@ namespace Client_T10_B
             messageType handle = messageType.leaveChat;
             f(sender, e, handle, o, null);
         }
+        public void createChat(object sender, int error, string response, string username, int s)
+        {
+            if (response.Contains("addChatMember"))
+            {
+                if (error == 0)
+                {
+                    MessageBox.Show( "Chat has been created!");
+                }
+                else
+                {
+                    MessageBox.Show("This person is not in you friend list");
+                }
+                }
+            }
 
         public void addChatMember(object sender, int error, string response, string username, int s)
         {
@@ -380,7 +397,7 @@ namespace Client_T10_B
                     }
                     else
                     {
-                        MessageBox.Show("You left the chat");
+                        MessageBox.Show("You are added to the chat");
                     }
                 }
                 else if (error == 2)
@@ -400,6 +417,25 @@ namespace Client_T10_B
                 }
             }
         }
+        public void addContact(object sender, int error, string response, string username, int s)
+        {
+            if (response.Contains("addContact"))
+            {
+                if (error == 1)
+                {
+                    MessageBox.Show("User not Found");
+
+                }
+                else if (error == 2)
+                {
+                    MessageBox.Show("Person you are trying to add Does not exists");
+                }
+                else if (error == 3)
+                {
+                    MessageBox.Show("Cannot add yourself as a friend");
+                }
+            }
+       }
 
         public void leaveChat(object sender, int error, string response, string username, int s)
         {
@@ -419,7 +455,7 @@ namespace Client_T10_B
                 else
                 {
                     if(username == u.userName)
-                        MessageBox.Show("You already left the chat");
+                        MessageBox.Show("You are not part of the chat group");
                 }
             }
         }

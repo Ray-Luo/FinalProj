@@ -293,7 +293,7 @@ namespace Client_T10_B
                     _handle = handle;
                     _o = o;
                     _temp = temp;
-              // myHandler = addChatMemberHandle;
+                    myHandler = addChatMemberHandle_1;
                     break;
                 case messageType.contactRemoved:
                     _sender = sender;
@@ -619,7 +619,7 @@ namespace Client_T10_B
                     if (error == 0)
                     {
                         
-                        message = timestamp + " "+ "\n" + username + ": " + content;
+                        message = timestamp + "    "+ "\n" + username + ": " + content;
                     }
 
                     if(u.roomNumber == roomName)
@@ -830,6 +830,7 @@ namespace Client_T10_B
             int roomNumber = 0;
             Dictionary<string, int> potentialMem = new Dictionary<string, int>();
             List<string> currentMem = new List<string>();
+            string friend = "";
             foreach(var pair in rss)
             {
                 if(pair.Key == "error")
@@ -849,13 +850,17 @@ namespace Client_T10_B
                     currentMem = pair.Value.ToObject<List<string>>();
 
                 }
+                else if(pair.Key == "usernameAdded")
+                {
+                    friend = (string)pair.Value;
+                }
             }
             if(error == 0 && u.roomNumber == roomNumber)
             {
                 u.currentMembers = currentMem;
                 u.mutualMembers = potentialMem;
             }
-            signalObservers(sender, error, response, temp , 4); // 0 is login
+            signalObservers(sender, error, response, friend , 4); // 0 is login
 
 
         }
@@ -888,6 +893,8 @@ namespace Client_T10_B
             Dictionary<string, int> potentialMem = new Dictionary<string, int>();
             List<string> currentMem = new List<string>();
             List<string> history = new List<string>();
+            string friend = "";
+
             foreach (var pair in rss)
             {
                 if (pair.Key == "error")
@@ -911,6 +918,10 @@ namespace Client_T10_B
                 {
                     history = pair.Value.ToObject<List<string>>();
                 }
+                else if (pair.Key == "usernameAdded")
+                {
+                    friend = (string)pair.Value;
+                }
             }
             if (error == 0 )
             {
@@ -920,7 +931,7 @@ namespace Client_T10_B
                 u.history = history;
             }
 
-            signalObservers(sender, error, response, temp, 5); // 0 is login
+            signalObservers(sender, error, response, friend, 5); // 0 is login
         }
 
         public bool sendMessage(ExpandoObject o)

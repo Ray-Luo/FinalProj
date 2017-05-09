@@ -51,6 +51,8 @@ namespace Client_T10_B
             c.register(ui.leaveChat);
             c.register(ui.chatHistory);
             c.register(ui.addChatMember);
+            c.register(ui.addContact);
+            c.register(ui.createChat);
             Application.Run(ui);
         }
     }

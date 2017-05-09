@@ -353,7 +353,7 @@ namespace Websocket_Server
             }
             else
             {
-                error = 1;
+                error = 1; // you are not in the group chat 
             }
 
             dynamic o = new ExpandoObject();
@@ -378,6 +378,7 @@ namespace Websocket_Server
             int error = 0;
             string timestamp = "";
             string content = "";
+            ChatRoom_m chat = new ChatRoom_m();
 
             foreach (var pair in rss)
             {
@@ -399,8 +400,15 @@ namespace Websocket_Server
                 }
             }
             
-            ChatRoom_m chat = getChatRoom(roomNumber);
-            chat.history.Add(timestamp + '\n' + username + ':' + content);
+            try
+            {
+               chat = getChatRoom(roomNumber);
+                chat.history.Add(timestamp + "    " + '\n' + username + ':' + content);
+            }
+            catch
+            {
+                error = 1;
+            }
 
             dynamic o = new ExpandoObject();
             JObject jo = JObject.FromObject(o);
