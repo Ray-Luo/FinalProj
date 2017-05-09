@@ -17,6 +17,7 @@ namespace Client_T10_B
         public Dictionary<string, int> mutualMembers;
         public int roomNumber = 9999999;
         public List<string> history = new List<string>();
+        public List<string> chatMembers = new List<string>();
 
         public User_m()
         {
