@@ -32,7 +32,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.uxChatGroup = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.uxAddtoChat = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.uxRemove = new System.Windows.Forms.Button();
             this.uxContactList = new System.Windows.Forms.ListView();
             this.Freinds = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -48,7 +48,7 @@
             this.uxSend = new System.Windows.Forms.Button();
             this.uxText = new System.Windows.Forms.TextBox();
             this.uxMessagebox = new System.Windows.Forms.ListBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -64,10 +64,10 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.label4);
+            this.splitContainer1.Panel1.Controls.Add(this.button2);
             this.splitContainer1.Panel1.Controls.Add(this.label3);
             this.splitContainer1.Panel1.Controls.Add(this.uxChatGroup);
-            this.splitContainer1.Panel1.Controls.Add(this.uxAddtoChat);
+            this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.uxRemove);
             this.splitContainer1.Panel1.Controls.Add(this.uxContactList);
             this.splitContainer1.Panel1.Controls.Add(this.uxLogout);
@@ -85,8 +85,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.uxSend);
             this.splitContainer1.Panel2.Controls.Add(this.uxText);
             this.splitContainer1.Panel2.Controls.Add(this.uxMessagebox);
-            this.splitContainer1.Size = new System.Drawing.Size(829, 566);
-            this.splitContainer1.SplitterDistance = 144;
+            this.splitContainer1.Size = new System.Drawing.Size(876, 595);
+            this.splitContainer1.SplitterDistance = 152;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -94,7 +94,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(32, 364);
+            this.label3.Location = new System.Drawing.Point(32, 341);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 16);
             this.label3.TabIndex = 19;
@@ -110,9 +110,9 @@
             this.uxChatGroup.GridLines = true;
             this.uxChatGroup.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.uxChatGroup.HideSelection = false;
-            this.uxChatGroup.Location = new System.Drawing.Point(2, 383);
+            this.uxChatGroup.Location = new System.Drawing.Point(2, 362);
             this.uxChatGroup.Name = "uxChatGroup";
-            this.uxChatGroup.Size = new System.Drawing.Size(141, 148);
+            this.uxChatGroup.Size = new System.Drawing.Size(141, 169);
             this.uxChatGroup.TabIndex = 18;
             this.uxChatGroup.UseCompatibleStateImageBehavior = false;
             this.uxChatGroup.View = System.Windows.Forms.View.Details;
@@ -122,16 +122,16 @@
             this.columnHeader1.Text = "";
             this.columnHeader1.Width = 160;
             // 
-            // uxAddtoChat
+            // button1
             // 
-            this.uxAddtoChat.Location = new System.Drawing.Point(59, 536);
-            this.uxAddtoChat.Margin = new System.Windows.Forms.Padding(2);
-            this.uxAddtoChat.Name = "uxAddtoChat";
-            this.uxAddtoChat.Size = new System.Drawing.Size(83, 21);
-            this.uxAddtoChat.TabIndex = 17;
-            this.uxAddtoChat.Text = "Add To Chat";
-            this.uxAddtoChat.UseVisualStyleBackColor = true;
-            this.uxAddtoChat.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Location = new System.Drawing.Point(2, 563);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(83, 21);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Add To Chat";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // uxRemove
             // 
@@ -154,9 +154,9 @@
             this.uxContactList.GridLines = true;
             this.uxContactList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.uxContactList.HideSelection = false;
-            this.uxContactList.Location = new System.Drawing.Point(2, 176);
+            this.uxContactList.Location = new System.Drawing.Point(2, 154);
             this.uxContactList.Name = "uxContactList";
-            this.uxContactList.Size = new System.Drawing.Size(141, 176);
+            this.uxContactList.Size = new System.Drawing.Size(141, 181);
             this.uxContactList.TabIndex = 15;
             this.uxContactList.UseCompatibleStateImageBehavior = false;
             this.uxContactList.View = System.Windows.Forms.View.Details;
@@ -182,7 +182,7 @@
             this.uxChat.Location = new System.Drawing.Point(4, 536);
             this.uxChat.Margin = new System.Windows.Forms.Padding(2);
             this.uxChat.Name = "uxChat";
-            this.uxChat.Size = new System.Drawing.Size(51, 20);
+            this.uxChat.Size = new System.Drawing.Size(139, 21);
             this.uxChat.TabIndex = 12;
             this.uxChat.Text = "Chat";
             this.uxChat.UseVisualStyleBackColor = true;
@@ -256,7 +256,7 @@
             // 
             // uxSend
             // 
-            this.uxSend.Location = new System.Drawing.Point(616, 531);
+            this.uxSend.Location = new System.Drawing.Point(656, 558);
             this.uxSend.Margin = new System.Windows.Forms.Padding(2);
             this.uxSend.Name = "uxSend";
             this.uxSend.Size = new System.Drawing.Size(63, 30);
@@ -268,10 +268,10 @@
             // uxText
             // 
             this.uxText.BackColor = System.Drawing.Color.Beige;
-            this.uxText.Location = new System.Drawing.Point(3, 526);
+            this.uxText.Location = new System.Drawing.Point(3, 555);
             this.uxText.Multiline = true;
             this.uxText.Name = "uxText";
-            this.uxText.Size = new System.Drawing.Size(609, 37);
+            this.uxText.Size = new System.Drawing.Size(648, 37);
             this.uxText.TabIndex = 1;
             // 
             // uxMessagebox
@@ -280,23 +280,25 @@
             this.uxMessagebox.Location = new System.Drawing.Point(3, 2);
             this.uxMessagebox.Margin = new System.Windows.Forms.Padding(2);
             this.uxMessagebox.Name = "uxMessagebox";
-            this.uxMessagebox.Size = new System.Drawing.Size(677, 524);
+            this.uxMessagebox.Size = new System.Drawing.Size(716, 550);
             this.uxMessagebox.TabIndex = 0;
             // 
-            // label4
+            // button2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(32, 160);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(63, 13);
-            this.label4.TabIndex = 20;
-            this.label4.Text = "Contact List";
+            this.button2.Location = new System.Drawing.Point(86, 563);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(57, 21);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "Leave";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(829, 566);
+            this.ClientSize = new System.Drawing.Size(876, 595);
             this.Controls.Add(this.splitContainer1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "UI";
@@ -333,7 +335,7 @@
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.ListView uxChatGroup;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.Button uxAddtoChat;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }

@@ -63,6 +63,9 @@ namespace Websocket_Server
                 case "addChatMember":
                     response = dummy.addChatMember(msg);
                     break;
+                case "leaveChat":
+                    response = dummy.leaveChat(msg);
+                    break;
             }
             // Broadcast message to all clients
             Sessions.Broadcast(response);

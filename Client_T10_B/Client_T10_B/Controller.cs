@@ -39,7 +39,7 @@ namespace Client_T10_B
             this.u = u;
             name = u.userName;
             // Connects to the server
-            ws = new WebSocket("ws://127.0.0.1:3111/chat");
+            ws = new WebSocket("ws://127.0.0.1:8001/chat");
             ws.Connect();
             ws.OnMessage += (sender, e) =>
             {
@@ -147,16 +147,41 @@ namespace Client_T10_B
                         contactAddedHandle_1(_sender, _e, _handle, _o, _temp);
                         return;
                     }
-                    else if (current.Contains(user))
+                    else if (current.Contains(u.userName))
                     {
                         contactAddedHandle_2(_sender, _e, _handle, _o, _temp);
                         return;
                     }
                 }
+                else if(response.Contains("leaveChat"))
+                {
+                    JObject r = JObject.Parse(response);
+                    string username = "";
+                    List<string> current = new List<string>();
 
-                    //}
+                    foreach (var pair in r)
+                    {
+                        if (pair.Key == "currentMembers")
+                        {
+                            current = pair.Value.ToObject<List<string>>();
+                        }
+                        else if(pair.Key == "friend")
+                        {
+                            username = (string)pair.Value;
+                        }
+                        
+                    }
+                    if(current.Contains(u.userName) || username == u.userName)
+                    {
+                        leaveChatHandle(_sender, _e, _handle, _o, _temp);
+                        return;
+                    }
 
-                    JObject rss = JObject.Parse(response);
+                }
+
+                //}
+
+                JObject rss = JObject.Parse(response);
                     string username = "";
                     string messagetype = "";
                     foreach (var pair in rss)
@@ -281,9 +306,9 @@ namespace Client_T10_B
                     _temp = temp;
                     myHandler = createChatHandle;
                     break;
-                //case messageType.leaveChat:
-                //    leaveChatHandle(sender, e, handle, o, temp);
-                //    break;
+                case messageType.leaveChat:
+                    leaveChatHandle(sender, e, handle, o, temp);
+                    break;
                 case messageType.logout:
                     _sender = sender;
                     _e = e;
@@ -595,10 +620,6 @@ namespace Client_T10_B
                     if(u.roomNumber == roomName)
                         signalObservers(sender, error, response, message, 10);
 
-
-                
-            
-
        }
 
         public void friendLoginHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
@@ -676,6 +697,54 @@ namespace Client_T10_B
             signalObservers(sender, error, response, usernameRemoved,7); // 0 is login
 
         }
+        public void leaveChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        {
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
+            int error = 0;
+            int roomNumber = 0;
+            List<string> current = new List<string>();
+            string friend = "";
+;            /*
+          client-side request:
+          message type(leaveChat),
+          username(string),
+          roomname(integer)
+
+          server-side response(to other chatRoom members):
+          message type(roomStatusChange),
+          error type,
+          roomNumber(integer),
+          currentMembers(string array)
+           * */
+           foreach(var pair in rss)
+            {
+                if(pair.Key == "erorr")
+                {
+                    error = (int)pair.Value;
+                }
+                else if(pair.Key == "roomNumber")
+                {
+                    roomNumber = (int)pair.Value;
+                }
+                else if(pair.Key == "currentMembers")
+                {
+                    current = pair.Value.ToObject<List<string>>(); 
+                }
+                else if(pair.Key == "friend")
+                {
+                    friend = (string)pair.Value;
+                }
+            }
+           if(u.roomNumber == roomNumber)
+            {
+                u.currentMembers = current;
+            }
+            signalObservers(sender, error, response, friend, 4); // 0 is login
+
+
+        }
 
         public void addChatMemberHandle_1(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
@@ -726,6 +795,7 @@ namespace Client_T10_B
             }
             if(error == 0 && u.roomNumber == roomNumber)
             {
+                u.currentMembers = currentMem;
                 u.mutualMembers = potentialMem;
             }
             signalObservers(sender, error, response, temp , 4); // 0 is login
@@ -794,10 +864,7 @@ namespace Client_T10_B
             }
 
             signalObservers(sender, error, response, temp, 5); // 0 is login
-
-
         }
-
 
         public bool sendMessage(ExpandoObject o)
         {
