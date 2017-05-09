@@ -184,6 +184,7 @@ namespace Client_T10_B
             if (status == 4 || status == 5 || status == 8)
             {
                 Dictionary<string, int> mutual = u.mutualMembers;
+                List<string> current = u.currentMembers;
 
                 Invoke(new Action(() =>
                 {
@@ -198,22 +199,28 @@ namespace Client_T10_B
                     li.Text = c.Key;
                     Invoke(new Action(() => uxChatGroup.Items.Add(li)));
                 }
+                foreach (string c in current)
+                {
+                    ListViewItem li = new ListViewItem();
+                    li.Text = c;
+                    Invoke(new Action(() => uxChatGroup.Items.Add(li)));
+                }
             }
         }
         public void chatHistory(object sender, int e, string response, string username, int status)
         {
 
-            if(status == 5)
+            if (status == 5)
             {
-                Invoke(new Action(() =>
+                foreach (string message in u.history)
                 {
-                    foreach (string message in u.history)
+                    Invoke(new Action(() =>
                     {
                         uxMessagebox.TopIndex = uxMessagebox.Items.Add(message);
                         uxText.Text = "";
                     }
+                  ));
                 }
-              ));
             }
         }
 
@@ -317,6 +324,22 @@ namespace Client_T10_B
             o.messageType = "addChatMember";
             messageType handle = messageType.addChatMember;
             f(sender, e, handle, o, uxChatGroup.SelectedItems[0].Text.ToString());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            /*
+            client - side request:
+            message type(leaveChat),
+            username(string),
+            roomname(integer)*/
+  
+            dynamic o = new ExpandoObject();
+            o.username = u.userName;
+            o.roomNumer = u.roomNumber;
+            o.messageType = "leaveChat";
+            messageType handle = messageType.leaveChat;
+            f(sender, e, handle, o, null);
         }
     }
 }
