@@ -34,7 +34,7 @@ namespace Client_T10_B
             uxAddContactButton.Enabled = false;
             uxRemove.Enabled = false;
             uxChat.Enabled = true;
-            button1.Enabled = true;
+            uxAddtoChat.Enabled = true;
             uxSend.Enabled = false;
         }
 
@@ -71,7 +71,7 @@ namespace Client_T10_B
                         uxAddContactButton.Enabled = true;
                         uxRemove.Enabled = true;
                         uxChat.Enabled = true;
-                        button1.Enabled = true;
+                        uxAddtoChat.Enabled = true;
                         uxSend.Enabled = false;
                         uxUsername.Enabled = false;
                         uxPassword.Enabled = false;
