@@ -30,7 +30,12 @@ namespace Client_T10_B
 
         private void UI_Load(object sender, EventArgs e)
         {
-
+            uxLogout.Enabled = false;
+            uxAddContactButton.Enabled = false;
+            uxRemove.Enabled = false;
+            uxChat.Enabled = true;
+            uxAddtoChat.Enabled = true;
+            uxSend.Enabled = false;
         }
 
         private void uxLogin_Click(object sender, EventArgs e)
@@ -59,7 +64,21 @@ namespace Client_T10_B
             {
                 if (error == 0)
                 {
-                   // messagebox.show("logged in");
+                    Invoke(new Action(() =>
+                    {
+                        uxLogin.Enabled = false;
+                        uxLogout.Enabled = true;
+                        uxAddContactButton.Enabled = true;
+                        uxRemove.Enabled = true;
+                        uxChat.Enabled = true;
+                        uxAddtoChat.Enabled = true;
+                        uxSend.Enabled = false;
+                        uxUsername.Enabled = false;
+                        uxPassword.Enabled = false;
+                    }
+                    ));
+
+                    // messagebox.show("logged in");
                 }
                 else if (error == 1)
                 {
@@ -96,6 +115,10 @@ namespace Client_T10_B
             o.messageType = "contactAdded";
             messageType handle = messageType.contactAdded;
             f(sender, e, handle, o, uxAddContactBox.Text.ToString());
+            Invoke(new Action(() =>
+            {
+                uxAddContactBox.Text = "";
+            }));
         }
 
         public void removeContact(object sender, int e, string response, string username, int status)
@@ -237,6 +260,8 @@ namespace Client_T10_B
             o.messageType = "createChat";
             messageType handle = messageType.createChat;
             f(sender, e, handle, o, null);
+            Invoke(new Action(() =>
+            { uxSend.Enabled = true; }));
         }
 
         private void uxSend_Click(object sender, EventArgs e)
