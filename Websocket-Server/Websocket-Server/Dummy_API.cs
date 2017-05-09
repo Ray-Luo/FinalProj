@@ -400,8 +400,6 @@ namespace Websocket_Server
             string output = jo.ToString();
             return output;
 
-
-
         }
 
         public string contactAdded(string json)
@@ -435,11 +433,13 @@ namespace Websocket_Server
             User_m newContact = getUser(friend);
             if (user != null)
             {
-                if(newContact != null)
+                if (newContact != null)
                 {
-                    status = newContact.status;
-                    user.contactList.Add(friend);
-                    user.contactList.Add(status.ToString());
+                    if (username != friend)
+                    { 
+                        status = newContact.status;
+                        user.contactList.Add(friend);
+                        user.contactList.Add(status.ToString());
 
                     foreach (ChatRoom_m chat in chatRooms)
                     {
@@ -459,7 +459,7 @@ namespace Websocket_Server
                                     flag++;
                                 }
                             }
-                            
+
                             if (flag == cnt)
                             {
                                 chat.mutualFriends.Add(friend, newContact.status);
@@ -469,6 +469,11 @@ namespace Websocket_Server
                             }
                         }
 
+                    }
+                  }
+                    else
+                    {
+                        error = 3; // cannot add yourself as a friend 
                     }
                 }
                 else

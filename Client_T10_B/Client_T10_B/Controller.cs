@@ -39,7 +39,7 @@ namespace Client_T10_B
             this.u = u;
             name = u.userName;
             // Connects to the server
-            ws = new WebSocket("ws://127.0.0.1:3111/chat");
+            ws = new WebSocket("ws://127.0.0.1:8001/chat");
             ws.Connect();
             ws.OnMessage += (sender, e) =>
             {
@@ -147,7 +147,7 @@ namespace Client_T10_B
                         contactAddedHandle_1(_sender, _e, _handle, _o, _temp);
                         return;
                     }
-                    else if (current.Contains(user))
+                    else if (current.Contains(u.userName))
                     {
                         contactAddedHandle_2(_sender, _e, _handle, _o, _temp);
                         return;
@@ -156,6 +156,7 @@ namespace Client_T10_B
                 else if(response.Contains("leaveChat"))
                 {
                     JObject r = JObject.Parse(response);
+                    string username = "";
                     List<string> current = new List<string>();
 
                     foreach (var pair in r)
@@ -164,11 +165,16 @@ namespace Client_T10_B
                         {
                             current = pair.Value.ToObject<List<string>>();
                         }
+                        else if(pair.Key == "friend")
+                        {
+                            username = (string)pair.Value;
+                        }
                         
                     }
-                    if(current.Contains(u.userName))
+                    if(current.Contains(u.userName) || username == u.userName)
                     {
                         leaveChatHandle(_sender, _e, _handle, _o, _temp);
+                        return;
                     }
 
                 }
@@ -789,6 +795,7 @@ namespace Client_T10_B
             }
             if(error == 0 && u.roomNumber == roomNumber)
             {
+                u.currentMembers = currentMem;
                 u.mutualMembers = potentialMem;
             }
             signalObservers(sender, error, response, temp , 4); // 0 is login
