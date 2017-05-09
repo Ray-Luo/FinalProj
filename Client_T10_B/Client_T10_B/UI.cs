@@ -35,7 +35,7 @@ namespace Client_T10_B
             uxRemove.Enabled = false;
             uxChat.Enabled = true;
             button1.Enabled = true;
-            uxSend.Enabled = false;
+            uxSend.Enabled = true;
         }
 
         private void uxLogin_Click(object sender, EventArgs e)
@@ -72,7 +72,7 @@ namespace Client_T10_B
                         uxRemove.Enabled = true;
                         uxChat.Enabled = true;
                         button1.Enabled = true;
-                        uxSend.Enabled = false;
+                        uxSend.Enabled = true;
                         uxUsername.Enabled = false;
                         uxPassword.Enabled = false;
                     }
@@ -232,7 +232,6 @@ namespace Client_T10_B
         }
         public void chatHistory(object sender, int e, string response, string username, int status)
         {
-
             if (status == 5)
             {
                 foreach (string message in u.history)
