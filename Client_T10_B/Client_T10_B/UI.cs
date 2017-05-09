@@ -366,13 +366,20 @@ namespace Client_T10_B
             messageType handle = messageType.leaveChat;
             f(sender, e, handle, o, null);
         }
-        private void leaveChat(object sender, int error, string response, string username, int s)
+        public void leaveChat(object sender, int error, string response, string username, int s)
         {
             if(response.Contains("leaveChat"))
             {
                 if(error == 0)
                 {
-                    MessageBox.Show(username + "left the chat");
+                    if (username != u.userName)
+                    {
+                        MessageBox.Show(username + "left the chat");
+                    }
+                    else
+                    {
+                        MessageBox.Show("You left the chat");
+                    }
                 }
                 else
                 {

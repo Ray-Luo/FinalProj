@@ -48,6 +48,7 @@ namespace Client_T10_B
             c.register(ui.MessageReceived);
             c.register(ui.refreshChatGroup);
             c.register(ui.removeContact);
+            c.register(ui.leaveChat);
             Application.Run(ui);
         }
     }

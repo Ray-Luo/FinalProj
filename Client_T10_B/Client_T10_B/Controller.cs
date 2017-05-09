@@ -37,7 +37,6 @@ namespace Client_T10_B
         public Controller(User_m u)
         {
             this.u = u;
-            name = u.userName;
             // Connects to the server
             ws = new WebSocket("ws://127.0.0.1:8001/chat");
             ws.Connect();
@@ -156,7 +155,7 @@ namespace Client_T10_B
                 else if(response.Contains("leaveChat"))
                 {
                     JObject r = JObject.Parse(response);
-                    string username = "";
+                    string usr = "";
                     List<string> current = new List<string>();
 
                     foreach (var pair in r)
@@ -167,14 +166,20 @@ namespace Client_T10_B
                         }
                         else if(pair.Key == "friend")
                         {
-                            username = (string)pair.Value;
+                            usr = (string)pair.Value;
                         }
                         
                     }
-                    if(current.Contains(u.userName) || username == u.userName)
+                    if(current.Contains(u.userName))
                     {
-                        leaveChatHandle(_sender, _e, _handle, _o, _temp);
+                        leaveChatHandle_2(_sender, _e, _handle, _o, _temp);
                         return;
+                    }
+                    else if(usr == u.userName)
+                    {
+                        leaveChatHandle_1(_sender, _e, _handle, _o, _temp);
+                        return;
+
                     }
 
                 }
@@ -307,7 +312,7 @@ namespace Client_T10_B
                     myHandler = createChatHandle;
                     break;
                 case messageType.leaveChat:
-                    leaveChatHandle(sender, e, handle, o, temp);
+                    leaveChatHandle_1(sender, e, handle, o, temp);
                     break;
                 case messageType.logout:
                     _sender = sender;
@@ -697,7 +702,7 @@ namespace Client_T10_B
             signalObservers(sender, error, response, usernameRemoved,7); // 0 is login
 
         }
-        public void leaveChatHandle(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        public void leaveChatHandle_2(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
             JObject jo = JObject.FromObject(o);
             string json = jo.ToString();
@@ -745,6 +750,59 @@ namespace Client_T10_B
 
 
         }
+
+        public void leaveChatHandle_1(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
+        {
+            JObject jo = JObject.FromObject(o);
+            string json = jo.ToString();
+            JObject rss = JObject.Parse(response);
+            int error = 0;
+            int roomNumber = 0;
+            List<string> current = new List<string>();
+            string friend = "";
+            ;            /*
+          client-side request:
+          message type(leaveChat),
+          username(string),
+          roomname(integer)
+
+          server-side response(to other chatRoom members):
+          message type(roomStatusChange),
+          error type,
+          roomNumber(integer),
+          currentMembers(string array)
+           * */
+            foreach (var pair in rss)
+            {
+                if (pair.Key == "erorr")
+                {
+                    error = (int)pair.Value;
+                }
+                else if (pair.Key == "roomNumber")
+                {
+                    roomNumber = (int)pair.Value;
+                }
+                else if (pair.Key == "currentMembers")
+                {
+                    current = pair.Value.ToObject<List<string>>();
+                }
+                else if (pair.Key == "friend")
+                {
+                    friend = (string)pair.Value;
+                }
+            }
+            if (friend == u.userName)
+            {
+                u.currentMembers.Clear();
+                u.roomNumber = 9999999;
+                u.mutualMembers.Clear();
+                u.history.Clear();
+            }
+            signalObservers(sender, error, response, friend, 4); // 0 is login
+
+
+        }
+
 
         public void addChatMemberHandle_1(object sender, EventArgs e, messageType handle, ExpandoObject o, string temp)
         {
