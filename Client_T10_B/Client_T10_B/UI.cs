@@ -102,7 +102,7 @@ namespace Client_T10_B
                         Invoke(new Action(() =>
                         {
                             uxMessagebox.TopIndex = uxMessagebox.Items.Add(message);
-                            uxText.Text = "";
+                           // uxText.Text = "";
                         }
                         ));
                     }
@@ -253,7 +253,7 @@ namespace Client_T10_B
                     Invoke(new Action(() =>
                     {
                         uxMessagebox.TopIndex = uxMessagebox.Items.Add(message);
-                        uxText.Text = "";
+                        //uxText.Text = "";
                     }
                   ));
                 }
