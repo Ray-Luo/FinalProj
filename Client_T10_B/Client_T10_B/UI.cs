@@ -367,6 +367,40 @@ namespace Client_T10_B
             messageType handle = messageType.leaveChat;
             f(sender, e, handle, o, null);
         }
+
+        public void addChatMember(object sender, int error, string response, string username, int s)
+        {
+            if (response.Contains("addChatMember"))
+            {
+                if (error == 0)
+                {
+                    if (username != u.userName)
+                    {
+                        MessageBox.Show(username + "Added to the chat");
+                    }
+                    else
+                    {
+                        MessageBox.Show("You left the chat");
+                    }
+                }
+                else if (error == 2)
+                {
+                    if (username == u.userName)
+                        MessageBox.Show("The person is already in the chat group");
+                }
+                else if (error == 1)
+                {
+                    if (username == u.userName)
+                        MessageBox.Show("The person doesn't exist in the mutual friend list");
+                }
+                else if (error == 3)
+                {
+                    if (username == u.userName)
+                        MessageBox.Show("Chat room doesn't exist");
+                }
+            }
+        }
+
         public void leaveChat(object sender, int error, string response, string username, int s)
         {
             if(response.Contains("leaveChat"))
