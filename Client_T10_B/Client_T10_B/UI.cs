@@ -290,6 +290,7 @@ namespace Client_T10_B
             messageType handle = messageType.chatMessage;
             JObject jo = JObject.FromObject(o);
             f(sender, e, handle, o, "");
+            uxText.Text = "";
         }
 
         private void uxLogout_Click(object sender, EventArgs e)
